@@ -30,10 +30,15 @@ export const SupabaseDB = {
         } catch (error) {
             console.error("SignOut network error, forcing local clear:", error);
         } finally {
-            // Force clear local storage to guarantee sign out regardless of network blocks
-            localStorage.removeItem('supabase-auth-token');
-            window.location.href = '#/';
-            window.location.reload();
+            // Clear local storage manually as a fallback
+            const keys = Object.keys(localStorage);
+            keys.forEach(key => {
+                if (key.startsWith('sb-') && key.endsWith('-auth-token')) {
+                    localStorage.removeItem(key);
+                }
+            });
+            // Removed window.location.reload() to prevent black screen issue
+            // React state (AppContext) will handle the UI update gracefully
         }
     },
 
