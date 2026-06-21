@@ -1,0 +1,17 @@
+# Ignore heavy dependencies
+node_modules/
+.expo/
+vendor/
+
+# Ignore build outputs and artifacts
+dist/
+build/
+out/
+.next/
+
+# Ignore media, archives, and logs
+*.mp4
+*.mp3
+*.zip
+*.tar.gz
+*.log

@@ -1,0 +1,604 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────
+   NOTFLIX DESIGN TOKENS — Dark (default) & Light themes
+   ───────────────────────────────────────────────────── */
+:root {
+    --bg-color: #0D0D0D;
+    --text-color: #e5e2e1;
+    --text-secondary: rgba(229, 226, 225, 0.55);
+    --glass-bg: rgba(26, 9, 8, 0.65);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-hover-bg: rgba(45, 17, 16, 0.75);
+    --glass-hover-border: rgba(255, 255, 255, 0.18);
+    --primary-red: #E50914;
+    --primary-red-hover: #b8070f;
+    --font-family: 'Inter', 'Noto Sans Ethiopic', sans-serif;
+    --surface: #131313;
+    --on-surface-variant: #e9bcb6;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-family);
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    transition: background-color 0.45s ease, color 0.45s ease;
+}
+
+/* ─── Global element transitions for smooth theme switching ─── */
+*, *::before, *::after {
+    transition: background-color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+/* Do NOT transition font properties or transforms by default */
+.card-scale, .btn-primary, .btn-glass, .glass-surface, .glass-panel {
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   LIGHT THEME OVERRIDES
+   ═══════════════════════════════════════════════════════════ */
+body.light-theme {
+    --bg-color: #f0f0f5;
+    --text-color: #1c1c1e;
+    --text-secondary: rgba(28, 28, 30, 0.5);
+    --glass-bg: rgba(255, 255, 255, 0.72);
+    --glass-border: rgba(0, 0, 0, 0.08);
+    --glass-hover-bg: rgba(255, 255, 255, 0.88);
+    --glass-hover-border: rgba(0, 0, 0, 0.15);
+    --surface: rgba(255, 255, 255, 0.8);
+    --on-surface-variant: #636366;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+/* ── Header / Bottom Bar ── */
+body.light-theme header {
+    background-color: rgba(255, 255, 255, 0.78) !important;
+    border-bottom-color: rgba(0, 0, 0, 0.08) !important;
+}
+body.light-theme .md\:hidden.fixed.bottom-0 {
+    background-color: rgba(255, 255, 255, 0.82) !important;
+    border-top-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+/* ── Glass Components ── */
+body.light-theme .glass-surface {
+    background: var(--glass-bg) !important;
+    border-color: var(--glass-border) !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08) !important;
+    color: var(--text-color) !important;
+}
+body.light-theme .glass-surface:hover {
+    background: var(--glass-hover-bg) !important;
+    border-color: var(--glass-hover-border) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+}
+body.light-theme .glass-panel {
+    background: rgba(255, 255, 255, 0.88) !important;
+    border-color: rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+    color: var(--text-color) !important;
+}
+
+/* ── Text Color Overrides ── */
+body.light-theme .text-white { color: #1c1c1e !important; }
+body.light-theme .text-white\/80 { color: rgba(28,28,30,0.85) !important; }
+body.light-theme .text-white\/70 { color: rgba(28,28,30,0.72) !important; }
+body.light-theme .text-white\/60 { color: rgba(28,28,30,0.62) !important; }
+body.light-theme .text-white\/50 { color: rgba(28,28,30,0.5) !important; }
+body.light-theme .text-white\/40 { color: rgba(28,28,30,0.4) !important; }
+body.light-theme .text-white\/30 { color: rgba(28,28,30,0.3) !important; }
+body.light-theme .text-white\/20 { color: rgba(28,28,30,0.2) !important; }
+body.light-theme .text-on-surface-variant { color: #636366 !important; }
+body.light-theme .text-on-surface { color: #1c1c1e !important; }
+body.light-theme .text-on-background { color: #1c1c1e !important; }
+/* Keep accent red */
+body.light-theme .text-primary-container { color: var(--primary-red) !important; }
+body.light-theme .text-primary { color: var(--primary-red) !important; }
+
+/* Hover text overrides */
+body.light-theme .hover\:text-white:hover { color: #1c1c1e !important; }
+
+/* ── Background Color Overrides ── */
+body.light-theme .bg-black\/40 { background-color: rgba(255,255,255,0.8) !important; }
+body.light-theme .bg-black\/80 { background-color: rgba(0,0,0,0.5) !important; }
+body.light-theme .bg-white\/10 { background-color: rgba(0,0,0,0.06) !important; }
+body.light-theme .bg-white\/20 { background-color: rgba(0,0,0,0.09) !important; }
+body.light-theme .bg-white\/5  { background-color: rgba(0,0,0,0.03) !important; }
+body.light-theme .bg-surface\/60 { background-color: rgba(255,255,255,0.75) !important; }
+body.light-theme .bg-surface-container { background-color: rgba(0,0,0,0.05) !important; }
+body.light-theme .bg-surface { background-color: rgba(255,255,255,0.8) !important; }
+body.light-theme .bg-background { background-color: var(--bg-color) !important; }
+
+/* ── Border Color Overrides ── */
+body.light-theme .border-white\/10 { border-color: rgba(0,0,0,0.09) !important; }
+body.light-theme .border-white\/20 { border-color: rgba(0,0,0,0.13) !important; }
+body.light-theme .border-b.border-white\/10 { border-color: rgba(0,0,0,0.09) !important; }
+body.light-theme .border-t.border-white\/10 { border-color: rgba(0,0,0,0.09) !important; }
+
+/* ── Form Inputs ── */
+body.light-theme input,
+body.light-theme textarea,
+body.light-theme select {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    border-color: rgba(0, 0, 0, 0.15) !important;
+    color: #1c1c1e !important;
+}
+body.light-theme input::placeholder { color: #8e8e93 !important; }
+body.light-theme input:focus {
+    background-color: rgba(255, 255, 255, 1) !important;
+    border-color: var(--primary-red) !important;
+}
+
+/* ── Hero Gradient ── */
+body.light-theme .hero-gradient {
+    background: linear-gradient(to top, #f0f0f5 0%, rgba(240,240,245,0.3) 38%, transparent 62%, transparent 100%),
+                linear-gradient(to right, #f0f0f5 0%, rgba(240,240,245,0.5) 40%, transparent 75%) !important;
+}
+
+/* ── Vignette Gradients (Details page) ── */
+body.light-theme .vignette-bottom {
+    background: linear-gradient(to bottom, transparent 0%, #f0f0f5 100%) !important;
+}
+body.light-theme .vignette-left {
+    background: linear-gradient(to right, rgba(240,240,245,0.9) 0%, transparent 100%) !important;
+}
+
+/* ── Glass Button (secondary) ── */
+body.light-theme .btn-glass {
+    background: rgba(0,0,0,0.07) !important;
+    border-color: rgba(0,0,0,0.12) !important;
+    color: #1c1c1e !important;
+}
+body.light-theme .btn-glass:hover {
+    background: rgba(0,0,0,0.12) !important;
+    border-color: rgba(0,0,0,0.2) !important;
+}
+
+/* ── Active link ── */
+body.light-theme .active-link { color: #1c1c1e !important; }
+
+/* ── Custom scrollbar ── */
+body.light-theme .custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.06);
+}
+
+/* ── Mobile bottom nav raised tab ── */
+body.light-theme .border-\[#0D0D0D\] { border-color: #f0f0f5 !important; }
+
+/* ── Search/ForYou filter chips ── */
+body.light-theme .rounded-full.bg-white\/10 { background-color: rgba(0,0,0,0.06) !important; }
+body.light-theme .rounded-full.border-white\/10 { border-color: rgba(0,0,0,0.09) !important; }
+
+/* ── Notification panel ── */
+body.light-theme .hover\:bg-white\/5:hover { background-color: rgba(0,0,0,0.04) !important; }
+
+/* ── 404 page ── */
+body.light-theme .min-h-screen.text-white { color: #1c1c1e !important; }
+
+/* ── Auth modal overlay ── */
+body.light-theme .bg-black\/80 { background-color: rgba(0,0,0,0.55) !important; }
+
+/* ─────────────────────────────────────────────────────
+   GLASSMORPHISM — shared between themes
+   ───────────────────────────────────────────────────── */
+.glass-surface {
+    background: var(--glass-bg);
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.glass-surface:hover {
+    border-color: var(--glass-hover-border);
+    background: var(--glass-hover-bg);
+    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
+}
+
+/* Hero gradient */
+.hero-gradient {
+    background: linear-gradient(to top, var(--bg-color) 0%, rgba(13, 13, 13, 0.2) 35%, transparent 60%, transparent 100%),
+                linear-gradient(to right, var(--bg-color) 0%, rgba(13, 13, 13, 0.4) 40%, transparent 75%);
+    transition: background 0.5s ease;
+}
+
+/* ── Scrollbar ── */
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ── Card scale ── */
+.card-scale {
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+}
+.card-scale:hover {
+    transform: scale(1.04) translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+}
+
+/* ── Active nav link ── */
+.active-link {
+    color: var(--text-color) !important;
+    font-weight: 700 !important;
+    border-bottom: 2px solid var(--primary-red) !important;
+}
+.nav-links a { position: relative; padding-bottom: 4px; }
+
+/* ─────────────────────────────────────────────────────
+   BUTTONS
+   ───────────────────────────────────────────────────── */
+.btn-primary {
+    background-color: var(--primary-red);
+    color: white;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.btn-primary:hover {
+    background-color: var(--primary-red-hover);
+    box-shadow: 0 0 15px rgba(229, 9, 20, 0.4);
+    transform: translateY(-1px);
+}
+.btn-primary:active { transform: translateY(1px); }
+
+.btn-glass {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+.btn-glass:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* ─────────────────────────────────────────────────────
+   MICRO-ANIMATIONS
+   ───────────────────────────────────────────────────── */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in { animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up { animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+@keyframes glowPulse {
+    0%   { box-shadow: 0 0 5px rgba(229, 9, 20, 0.2); transform: scale(1); }
+    50%  { box-shadow: 0 0 20px rgba(229, 9, 20, 0.8), 0 0 40px rgba(229, 9, 20, 0.4); transform: scale(1.02); }
+    100% { box-shadow: 0 0 5px rgba(229, 9, 20, 0.2); transform: scale(1); }
+}
+.animate-glow-pulse { animation: glowPulse 2.5s infinite ease-in-out; }
+
+@keyframes glowPulseGlass {
+    0%   { box-shadow: 0 0 5px rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.1); }
+    50%  { box-shadow: 0 0 15px rgba(255, 255, 255, 0.4); border-color: rgba(255, 255, 255, 0.5); }
+    100% { box-shadow: 0 0 5px rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.1); }
+}
+.animate-glow-pulse-glass { animation: glowPulseGlass 3s infinite ease-in-out; }
+
+/* Star rating */
+.star-rating .star {
+    font-size: 1.75rem;
+    color: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+.star-rating .star:hover { transform: scale(1.15); }
+.star-rating .star.filled { color: #f59e0b; }
+body.light-theme .star-rating .star { color: rgba(0,0,0,0.15); }
+
+/* Material symbols */
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    user-select: none;
+}
+.material-symbols-outlined.fill {
+    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Video wrapper */
+.video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+}
+.video-wrapper iframe, .video-wrapper video {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%; border: 0;
+}
+
+/* ─────────────────────────────────────────────────────
+   DETAILS PAGE — Liquid Glass
+   ───────────────────────────────────────────────────── */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(24px) saturate(1.6);
+    -webkit-backdrop-filter: blur(24px) saturate(1.6);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    transition: all 0.4s ease;
+}
+.glass-panel:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.28);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+.vignette-bottom { background: linear-gradient(to bottom, transparent 0%, #131313 100%); }
+.vignette-left   { background: linear-gradient(to right, rgba(19, 19, 19, 0.8) 0%, transparent 100%); }
+
+.custom-scrollbar::-webkit-scrollbar { height: 4px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: #e50914; border-radius: 10px; }
+
+/* Mobile raised tab */
+.mobile-raised-active {
+    background: linear-gradient(to top, var(--primary-red) 0%, #ff525b 100%) !important;
+}
+
+/* ─────────────────────────────────────────────────────
+   BENTO GRID
+   ───────────────────────────────────────────────────── */
+.bento-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+@media (max-width: 1024px) { .bento-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px)  { .bento-grid { grid-template-columns: 1fr; } }
+
+/* ─────────────────────────────────────────────────────
+   AMHARIC / ETHIOPIC FONT SUPPORT & LAYOUT UTILITIES
+   ───────────────────────────────────────────────────── */
+
+/* ── Responsive font sizing variables ── */
+:root {
+    --font-base: clamp(0.8125rem, 0.9vw + 0.25rem, 1rem);
+    --font-lg: clamp(0.9375rem, 1vw + 0.3rem, 1.125rem);
+}
+
+/* ── Flex-wrap utility for text containers ── */
+.flex-wrap-text {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    min-width: 0;
+    gap: 0.5rem;
+}
+
+/* ── Auto-width button utility ── */
+.auto-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.25rem;
+    white-space: nowrap;
+    min-width: 0;
+    flex-shrink: 0;
+}
+
+/* ── Base Amharic font + line-height ── */
+:lang(am), .lang-am {
+    font-family: 'Noto Sans Ethiopic', 'Inter', sans-serif;
+    letter-spacing: 0;
+    line-height: 1.7;
+}
+
+/* When Amharic is active, apply Ethiopic font globally */
+body[data-lang="am"] {
+    font-family: 'Noto Sans Ethiopic', 'Inter', sans-serif;
+    line-height: 1.6;
+}
+
+body[data-lang="am"] .nav-links button,
+body[data-lang="am"] header,
+body[data-lang="am"] .btn-primary,
+body[data-lang="am"] .btn-glass,
+body[data-lang="am"] h1, body[data-lang="am"] h2,
+body[data-lang="am"] h3, body[data-lang="am"] h4 {
+    font-family: 'Noto Sans Ethiopic', 'Inter', sans-serif;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+}
+
+/* ── Restore Material Symbols font ── */
+body[data-lang="am"] .material-symbols-outlined {
+    font-family: 'Material Symbols Outlined' !important;
+}
+
+/* ── Amharic-specific layout overrides ── */
+
+/* Nav links: allow wrapping & auto-width */
+body[data-lang="am"] .nav-links {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+body[data-lang="am"] .nav-links button {
+    white-space: nowrap;
+    font-size: 0.8125rem;
+}
+
+/* Hero buttons: allow wrapping */
+body[data-lang="am"] .hero-buttons {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+body[data-lang="am"] .hero-buttons button,
+body[data-lang="am"] .hero-buttons .auto-btn {
+    white-space: nowrap;
+    min-width: fit-content;
+}
+
+/* Mobile bottom nav: flexible widths */
+body[data-lang="am"] .mobile-nav-item {
+    width: auto;
+    min-width: 3rem;
+    max-width: 4.5rem;
+    flex: 1;
+}
+body[data-lang="am"] .mobile-nav-item span:last-child {
+    font-size: 7px;
+    line-height: 1.2;
+    text-align: center;
+    word-break: keep-all;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+    display: block;
+}
+
+/* Details page: description & metadata wrapping */
+body[data-lang="am"] .detail-meta {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+body[data-lang="am"] .detail-description {
+    overflow-wrap: break-word;
+    word-break: keep-all;
+    hyphens: auto;
+}
+
+/* Settings: ensure labels don't overflow */
+body[data-lang="am"] .settings-row {
+    overflow-wrap: break-word;
+}
+
+/* Media row titles */
+body[data-lang="am"] .media-row-header {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+/* Notification panel: handle longer text */
+body[data-lang="am"] .notif-panel h5,
+body[data-lang="am"] .notif-panel p {
+    overflow-wrap: break-word;
+    word-break: keep-all;
+}
+
+/* ForYou page: action labels */
+body[data-lang="am"] .feed-action-label {
+    font-size: 7px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 3.5rem;
+}
+
+/* ─────────────────────────────────────────────────────
+   PREMIUM HOVER ANIMATION FOR MOVIE CARDS
+   ───────────────────────────────────────────────────── */
+.premium-hover {
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), 
+                box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), 
+                border-color 0.3s ease;
+    will-change: transform, box-shadow;
+}
+
+.premium-hover:hover,
+.group:hover .premium-hover {
+    transform: translateY(-6px) scale(1.04);
+    box-shadow: 0 20px 40px -5px rgba(229, 9, 20, 0.25), 
+                0 10px 15px -5px rgba(0, 0, 0, 0.5);
+    border-color: rgba(255, 255, 255, 0.3);
+    z-index: 10;
+}
+
+/* ─────────────────────────────────────────────────────
+   GLOBAL CUSTOM CURSOR HIDING
+   ───────────────────────────────────────────────────── */
+@media (pointer: fine) {
+    *, *::before, *::after {
+        cursor: none !important;
+    }
+
+    /* Restore default cursor on Details page and Video Player */
+    body[data-default-cursor="true"] *,
+    body[data-default-cursor="true"] *::before,
+    body[data-default-cursor="true"] *::after {
+        cursor: auto !important;
+    }
+
+    body[data-default-cursor="true"] button,
+    body[data-default-cursor="true"] a,
+    body[data-default-cursor="true"] input,
+    body[data-default-cursor="true"] select,
+    body[data-default-cursor="true"] [role="button"],
+    body[data-default-cursor="true"] label {
+        cursor: pointer !important;
+    }
+}
+
+/* ─────────────────────────────────────────────────────
+   FUTURISTIC FONT & NAVBAR UTILITIES
+   ───────────────────────────────────────────────────── */
+.font-pixel {
+    font-family: 'Audiowide', 'Inter', sans-serif;
+    font-weight: 400;
+}
+
+.logo-pixel {
+    font-family: 'Monoton', sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    color: #E50914;
+    text-shadow: 0 0 15px rgba(229, 9, 20, 0.4), 0 0 5px rgba(229, 9, 20, 0.6);
+    transition: text-shadow 0.6s cubic-bezier(0.22, 1, 0.36, 1), color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.logo-pixel:hover {
+    text-shadow: 0 0 25px rgba(229, 9, 20, 0.7), 0 0 10px rgba(229, 9, 20, 1);
+}
+
+.nav-pixel-link {
+    font-family: 'Audiowide', sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    position: relative;
+    transition: color 0.5s cubic-bezier(0.22, 1, 0.36, 1), text-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-pixel-link.active-link {
+    color: #fff;
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
+}
+
+.nav-pixel-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background-color: #E50914;
+    box-shadow: 0 0 10px rgba(229, 9, 20, 0.9);
+    transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-pixel-link:hover::after,
+.nav-pixel-link.active-link::after {
+    width: 80%;
+}
+
+/* Fallback for Amharic nav links (keep logo as futuristic) */
+body[data-lang="am"] .nav-pixel-link {
+    font-family: 'Noto Sans Ethiopic', 'Inter', sans-serif !important;
+    letter-spacing: normal;
+}
+
+/* ════════ LOGO GLOW ANIMATION ════════ */
+@keyframes logoGlow {
+  0% { text-shadow: 0 0 10px rgba(229, 9, 20, 0.2); transform: scale(1); }
+  50% { text-shadow: 0 0 25px rgba(229, 9, 20, 0.8), 0 0 40px rgba(229, 9, 20, 0.6); transform: scale(1.02); }
+  100% { text-shadow: 0 0 10px rgba(229, 9, 20, 0.2); transform: scale(1); }
+}
+
+.logo-glow {
+  animation: logoGlow 3s ease-in-out infinite;
+}
+
+
