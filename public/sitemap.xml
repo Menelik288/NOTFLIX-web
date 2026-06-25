@@ -3,4 +3,13 @@
   <url>
     <loc>https://www.notflix.pro.et/</loc>
   </url>
+  <url>
+    <loc>https://www.notflix.pro.et/movies</loc>
+  </url>
+  <url>
+    <loc>https://www.notflix.pro.et/tv</loc>
+  </url>
+  <url>
+    <loc>https://www.notflix.pro.et/foryou</loc>
+  </url>
 </urlset>
