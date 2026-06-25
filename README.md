@@ -5,7 +5,7 @@
 A modern, full-stack web application clone of Netflix, designed to provide a premium movie and TV show browsing experience. 
 
 ### 🌐 Live Demo
-**[https://notflix-yu1n.onrender.com/](https://notflix-yu1n.onrender.com/)**
+**[https://notflix-yu1n.onrender.com/]([https://notflix-yu1n.onrender.com/](https://www.notflix.pro.et/#/))**
 
 ---
 
