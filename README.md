@@ -69,7 +69,7 @@ A modern, full-stack web application clone of Netflix, designed to provide a pre
 
 ⸻
 
-⚙️ Settings & Extras
+⚙️ Settings & search
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/a237d193-d115-42f9-af49-69103b5601f4" width="400"/>
