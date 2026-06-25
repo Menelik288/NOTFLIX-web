@@ -31,6 +31,8 @@ export const SupabaseDB = {
             console.error("SignOut network error, forcing local clear:", error);
         } finally {
             // Clear local storage manually as a fallback
+            localStorage.removeItem('supabase-auth-token');
+            // Also check for standard sb- prefix just in case it ever changes
             const keys = Object.keys(localStorage);
             keys.forEach(key => {
                 if (key.startsWith('sb-') && key.endsWith('-auth-token')) {
