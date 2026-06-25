@@ -30,6 +30,63 @@ A modern, full-stack web application clone of Netflix, designed to provide a pre
 
 ---
 
+📸 Web App Screenshots
+
+🏠 Main Pages
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/c68e1e7f-c407-4b57-8f83-4b9ab9c01402" width="800"/>
+</p>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/e215f995-7cb5-4167-b740-3d63edcf184e" width="800"/>
+</p>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/c9c9e572-1c6b-4255-8a26-5b6c3133c239" width="800"/>
+</p>
+
+⸻
+
+🎬 Features & UI
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/74e14a7a-5bad-4a03-abad-1a2b1636f7b7" width="800"/>
+</p>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/71bbecb7-f627-4957-8697-651ba6ac9d72" width="800"/>
+</p>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/8d0714c2-a1dc-4564-bf4d-e50fd9228c3b" width="800"/>
+</p>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/cc4da9fa-6ffc-4c3c-9c20-ed15cefcaea9" width="800"/>
+</p>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/6c81a052-245c-4d85-81af-cb3799417a08" width="800"/>
+</p>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/c182641d-954d-497a-a3a5-6adb373b5de4" width="800"/>
+</p>
+
+⸻
+
+⚙️ Settings & Extras
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/a237d193-d115-42f9-af49-69103b5601f4" width="400"/>
+  <img src="https://github.com/user-attachments/assets/e67082a6-2828-4a4d-9226-3b5ac58f1265" width="400"/>
+</p>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/ba32dfe0-3923-4fb6-9d7d-da4129edc7b7" width="250"/>
+  <img src="https://github.com/user-attachments/assets/6478486b-c725-40cb-9459-85638b062246" width="400"/>
+  <img src="https://github.com/user-attachments/assets/b86473c7-e35b-4dcb-a54e-df08ca3d3193" width="400"/>
+</p>
+
+⸻
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/b9ffe498-f296-4e8c-be15-1e4c91ffdd37" width="800"/>
+</p>
+
 ## 🚀 Running Locally
 
 ### Prerequisites
