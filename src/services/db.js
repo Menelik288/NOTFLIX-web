@@ -37,8 +37,9 @@ export const SupabaseDB = {
                     localStorage.removeItem(key);
                 }
             });
-            // Removed window.location.reload() to prevent black screen issue
-            // React state (AppContext) will handle the UI update gracefully
+            // Force a clean reload to the root to ensure React state resets properly
+            // This avoids the black screen issue caused by hash-routing reload conflicts
+            window.location.replace('/');
         }
     },
 
