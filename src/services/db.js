@@ -23,6 +23,49 @@ export const SupabaseDB = {
         return data;
     },
 
+    signInWithOtp: async (email) => {
+        const { data, error } = await supabase.auth.signInWithOtp({
+            email,
+            options: {
+                shouldCreateUser: true
+            }
+        });
+        if (error) throw error;
+        return data;
+    },
+
+    verifyOtp: async (email, token) => {
+        const trimmedToken = token.trim();
+        // Try type 'signup' first, then fallback to 'email'
+        let result = await supabase.auth.verifyOtp({
+            email,
+            token: trimmedToken,
+            type: 'signup'
+        });
+        if (result.error) {
+            result = await supabase.auth.verifyOtp({
+                email,
+                token: trimmedToken,
+                type: 'email'
+            });
+        }
+        if (result.error) throw result.error;
+        return result.data;
+    },
+
+    resendOtp: async (email) => {
+        const { data, error } = await supabase.auth.resend({
+            type: 'signup',
+            email
+        });
+        if (error) {
+            const fallback = await supabase.auth.signInWithOtp({ email });
+            if (fallback.error) throw fallback.error;
+            return fallback.data;
+        }
+        return data;
+    },
+
     signOut: async () => {
         try {
             const { error } = await supabase.auth.signOut();
