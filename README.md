@@ -131,3 +131,8 @@ A modern, full-stack web application clone of Netflix, designed to provide a pre
 
 ## 📄 License
 This project is for educational purposes only. Not affiliated with Netflix. Data provided by TMDB.
+
+This project is open source and available under the [MIT License](LICENSE).
+
+
+
