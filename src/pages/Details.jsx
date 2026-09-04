@@ -558,6 +558,11 @@ export const Details = ({ id }) => {
                 </section>
             )}
 
+            {/* ═══════════════ TOP NATIVE AD BANNER ═══════════════ */}
+            <div className="px-4 md:px-edge-margin max-w-container-max mx-auto">
+                <NativeAdBanner />
+            </div>
+
             {/* ═══════════════ CAST SECTION ═══════════════ */}
             {cast.length > 0 && (
                 <section className="px-4 md:px-edge-margin py-6 md:py-10 max-w-container-max mx-auto">
@@ -745,11 +750,6 @@ export const Details = ({ id }) => {
                     </div>
                 </div>
             </section>
-
-            {/* ═══════════════ SPONSORED ADS ═══════════════ */}
-            <div className="px-4 md:px-edge-margin max-w-container-max mx-auto">
-                <NativeAdBanner />
-            </div>
 
             {/* ═══════════════ SIMILAR MEDIA ═══════════════ */}
             {similar.length > 0 && (

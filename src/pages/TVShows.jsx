@@ -43,6 +43,8 @@ export const TVShows = () => {
                 </div>
             </div>
 
+            <NativeAdBanner />
+
             {/* TV Series Grid */}
             {filteredTV.length === 0 ? (
                 <div className="text-center py-20 text-white/40 text-sm">
@@ -101,8 +103,6 @@ export const TVShows = () => {
                     })}
                 </div>
             )}
-
-            <NativeAdBanner />
         </div>
     );
 };

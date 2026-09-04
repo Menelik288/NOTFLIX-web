@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { TMDBService, normalizeListResponse } from '../services/tmdb';
 import { useApp } from '../context/AppContext';
+import { NativeAdBanner } from '../components/NativeAdBanner';
 import debounce from 'lodash/debounce';
 
 export const Search = () => {
@@ -160,6 +161,11 @@ export const Search = () => {
                         )}
                     </button>
                 </div>
+            </div>
+
+            {/* Native Sponsored Banner */}
+            <div className="max-w-7xl mx-auto mb-8">
+                <NativeAdBanner />
             </div>
 
             {/* Glassmorphism Filter Panel */}

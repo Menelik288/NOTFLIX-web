@@ -2,7 +2,7 @@ import React from 'react';
 import { useApp } from '../context/AppContext';
 import { useLanguage } from '../hooks/useLanguage';
 import { NotFlixData } from '../data/catalog';
-
+import { NativeAdBanner } from '../components/NativeAdBanner';
 
 export const Watchlist = () => {
     const { watchlist, playMedia, toggleWatchlist, navigateTo } = useApp();
@@ -19,6 +19,8 @@ export const Watchlist = () => {
                     {watchlistItems.length === 1 ? t.watchlist.subtitle_one : t.watchlist.subtitle_other}
                 </p>
             </div>
+
+            <NativeAdBanner />
 
             {/* Watchlist Grid */}
             {watchlistItems.length === 0 ? (

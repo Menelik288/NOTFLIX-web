@@ -3,6 +3,7 @@ import { useApp } from '../context/AppContext';
 import { useLanguage } from '../hooks/useLanguage';
 import { TMDBService } from '../services/tmdb';
 import { RecommendationEngine } from '../services/recommendationEngine';
+import { NativeAdBanner } from '../components/NativeAdBanner';
 
 const LOCAL_STORAGE_SUPPRESSED_KEY = 'notflix_suppressed_recommendations';
 
@@ -140,41 +141,76 @@ export const ForYou = () => {
                     <p className="text-white/50 font-bold text-sm tracking-widest uppercase">{t.forYou.buildingFeed}</p>
                 </div>
             ) : feedItems.length > 0 ? (
-                <div className="relative w-full max-w-[450px] md:max-w-4xl mx-auto flex items-center justify-center">
+                <div className="w-full max-w-[1550px] mx-auto flex flex-col xl:flex-row items-center justify-center gap-6 px-2">
                     
-                    {/* Framed Container for Desktop Balance - Intermediate height */}
-                    <div 
-                        ref={feedContainerRef}
-                        className="w-full aspect-[9/16] md:aspect-[16/10] max-h-[85vh] md:h-[82vh] overflow-y-scroll snap-y snap-mandatory no-scrollbar relative rounded-3xl shadow-[0_0_50px_rgba(0,0,0,0.8)] border border-white/10 bg-black"
-                    >
-                        {feedItems.map((item, idx) => (
-                            <FeedItem 
-                                key={`${item.id}-${idx}`} 
-                                item={item} 
-                                onWatched={() => handleWatched(item.id)}
-                                navigateTo={navigateTo}
-                                isMuted={isMuted}
-                                toggleMute={() => setIsMuted(!isMuted)}
-                            />
-                        ))}
+                    {/* Left Section Ad Widget (Large Screens) */}
+                    <aside className="hidden xl:flex flex-col w-72 shrink-0 space-y-4">
+                        <div className="glass-panel p-4 rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-xl shadow-2xl">
+                            <div className="flex items-center justify-between mb-2 text-xs text-white/40 font-bold tracking-wider uppercase">
+                                <span className="flex items-center gap-1.5">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+                                    Spotlight
+                                </span>
+                                <span className="text-[10px] bg-white/10 text-white/60 px-1.5 py-0.5 rounded font-semibold">AD</span>
+                            </div>
+                            <NativeAdBanner title="Recommended For You" compact className="my-0" />
+                        </div>
+                    </aside>
+
+                    {/* Center Framed Feed */}
+                    <div className="relative w-full max-w-[450px] md:max-w-3xl flex-1 flex items-center justify-center">
+                        <div 
+                            ref={feedContainerRef}
+                            className="w-full aspect-[9/16] md:aspect-[16/10] max-h-[85vh] md:h-[82vh] overflow-y-scroll snap-y snap-mandatory no-scrollbar relative rounded-3xl shadow-[0_0_50px_rgba(0,0,0,0.8)] border border-white/10 bg-black"
+                        >
+                            {feedItems.map((item, idx) => (
+                                <FeedItem 
+                                    key={`${item.id}-${idx}`} 
+                                    item={item} 
+                                    onWatched={() => handleWatched(item.id)}
+                                    navigateTo={navigateTo}
+                                    isMuted={isMuted}
+                                    toggleMute={() => setIsMuted(!isMuted)}
+                                />
+                            ))}
+                        </div>
+
+                        {/* Fixed Navigation Controls for Desktop */}
+                        <div className="hidden md:flex absolute -right-16 top-1/2 -translate-y-1/2 flex-col gap-4 z-50">
+                            <button 
+                                onClick={scrollPrev} 
+                                className="w-12 h-12 rounded-full bg-white/5 backdrop-blur-xl border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all hover:scale-110 shadow-lg group"
+                                title="Previous Recommendation (Arrow Up)"
+                            >
+                                <span className="material-symbols-outlined text-white text-2xl group-hover:-translate-y-1 transition-transform">keyboard_arrow_up</span>
+                            </button>
+                            <button 
+                                onClick={scrollNext} 
+                                className="w-12 h-12 rounded-full bg-white/5 backdrop-blur-xl border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all hover:scale-110 shadow-lg group"
+                                title="Next Recommendation (Arrow Down)"
+                            >
+                                <span className="material-symbols-outlined text-white text-2xl group-hover:translate-y-1 transition-transform">keyboard_arrow_down</span>
+                            </button>
+                        </div>
                     </div>
 
-                    {/* Fixed Navigation Controls for Desktop */}
-                    <div className="hidden md:flex absolute -right-20 top-1/2 -translate-y-1/2 flex-col gap-4 z-50">
-                        <button 
-                            onClick={scrollPrev} 
-                            className="w-12 h-12 rounded-full bg-white/5 backdrop-blur-xl border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all hover:scale-110 shadow-lg group"
-                            title="Previous Recommendation (Arrow Up)"
-                        >
-                            <span className="material-symbols-outlined text-white text-2xl group-hover:-translate-y-1 transition-transform">keyboard_arrow_up</span>
-                        </button>
-                        <button 
-                            onClick={scrollNext} 
-                            className="w-12 h-12 rounded-full bg-white/5 backdrop-blur-xl border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all hover:scale-110 shadow-lg group"
-                            title="Next Recommendation (Arrow Down)"
-                        >
-                            <span className="material-symbols-outlined text-white text-2xl group-hover:translate-y-1 transition-transform">keyboard_arrow_down</span>
-                        </button>
+                    {/* Right Section Ad Widget (Large Screens) */}
+                    <aside className="hidden xl:flex flex-col w-72 shrink-0 space-y-4">
+                        <div className="glass-panel p-4 rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-xl shadow-2xl">
+                            <div className="flex items-center justify-between mb-2 text-xs text-white/40 font-bold tracking-wider uppercase">
+                                <span className="flex items-center gap-1.5">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+                                    Trending Deals
+                                </span>
+                                <span className="text-[10px] bg-white/10 text-white/60 px-1.5 py-0.5 rounded font-semibold">AD</span>
+                            </div>
+                            <NativeAdBanner title="Featured Offers" compact className="my-0" />
+                        </div>
+                    </aside>
+
+                    {/* Mobile Banner (Visible on smaller screens) */}
+                    <div className="w-full max-w-[450px] xl:hidden mt-4">
+                        <NativeAdBanner compact />
                     </div>
 
                 </div>

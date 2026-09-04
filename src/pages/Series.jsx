@@ -3,6 +3,7 @@ import { useLanguage } from '../hooks/useLanguage';
 import { TMDBService, normalizeListResponse } from '../services/tmdb';
 import { HeroBanner } from '../components/HeroBanner';
 import { MediaRow } from '../components/MediaRow';
+import { NativeAdBanner } from '../components/NativeAdBanner';
 
 export const Series = () => {
     const { t } = useLanguage();
@@ -79,6 +80,8 @@ export const Series = () => {
                         type="poster" 
                     />
                 )}
+
+                <NativeAdBanner />
 
                 {/* Action and Adventure */}
                 {actionTV.length > 0 && (

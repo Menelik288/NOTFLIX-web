@@ -65,10 +65,10 @@ export const Movies = () => {
                 {trendingMovies.length > 0 && (
                     <MediaRow title={t.movies.trending} items={trendingMovies} type="poster" />
                 )}
+                <NativeAdBanner />
                 {actionMovies.length > 0 && (
                     <MediaRow title={t.movies.action} items={actionMovies} type="poster" />
                 )}
-                <NativeAdBanner />
                 {comedyMovies.length > 0 && (
                     <MediaRow title={t.movies.comedy} items={comedyMovies} type="poster" />
                 )}
