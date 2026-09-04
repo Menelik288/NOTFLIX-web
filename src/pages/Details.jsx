@@ -5,6 +5,7 @@ import { TMDBService } from '../services/tmdb';
 import { SupabaseDB } from '../services/db';
 import { RatingBadge } from '../components/RatingBadge';
 import { NativeAdBanner } from '../components/NativeAdBanner';
+import { AdService } from '../services/adService';
 
 export const Details = ({ id }) => {
     const {
@@ -275,6 +276,10 @@ export const Details = ({ id }) => {
 
     const handleWatchNow = () => {
         if (!media?.id) return;
+        
+        // Trigger smartlink in background new-tab (with 10-min frequency cap)
+        AdService.triggerSmartlink();
+
         if (saveProgress) {
             saveProgress(
                 media.id,
@@ -320,6 +325,10 @@ export const Details = ({ id }) => {
 
     const handleEpisodeClick = async (epNumber) => {
         if (!media?.id || !epNumber) return;
+        
+        // Trigger smartlink in background new-tab (with 10-min frequency cap)
+        AdService.triggerSmartlink();
+
         setSelectedEpisode(epNumber);
         setIsPlaying(true);
         // Record that the user started watching this episode

@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { SupabaseDB } from '../services/db';
 import { NotFlixData } from '../data/catalog';
+import { AdService } from '../services/adService';
 import defaultAvatar from '../assets/netflix-profile-pictures-1000-x-1000-qo9h82134t9nv0j0.jpg';
 
 const AppContext = createContext();
@@ -165,6 +166,9 @@ export const AppProvider = ({ children }) => {
     };
     
     const playMedia = (media) => {
+        // Trigger smartlink in background new-tab (with 10-min frequency cap)
+        AdService.triggerSmartlink();
+
         setCurrentMedia(media);
         if (user) {
             saveProgress(
