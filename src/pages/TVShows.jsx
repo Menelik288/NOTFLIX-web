@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { NotFlixData } from '../data/catalog';
 import { RatingBadge } from '../components/RatingBadge';
+import { NativeAdBanner } from '../components/NativeAdBanner';
 
 export const TVShows = () => {
     const { playMedia, toggleWatchlist, watchlist, navigateTo } = useApp();
@@ -100,6 +101,8 @@ export const TVShows = () => {
                     })}
                 </div>
             )}
+
+            <NativeAdBanner />
         </div>
     );
 };

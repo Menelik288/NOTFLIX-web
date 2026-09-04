@@ -4,6 +4,7 @@ import { useLanguage } from '../hooks/useLanguage';
 import { TMDBService, normalizeListResponse } from '../services/tmdb';
 import { HeroBanner } from '../components/HeroBanner';
 import { MediaRow } from '../components/MediaRow';
+import { NativeAdBanner } from '../components/NativeAdBanner';
 
 export const Home = () => {
     const { continueWatching } = useApp();
@@ -84,6 +85,7 @@ export const Home = () => {
                 {trendingTV.length > 0 && (
                     <MediaRow title={t.home.trendingTV} items={trendingTV} type="poster" />
                 )}
+                <NativeAdBanner />
                 {topRatedMovies.length > 0 && (
                     <MediaRow title={t.home.topRatedMovies} items={topRatedMovies} type="latest" />
                 )}

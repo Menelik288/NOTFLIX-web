@@ -3,6 +3,7 @@ import { useLanguage } from '../hooks/useLanguage';
 import { TMDBService, normalizeListResponse } from '../services/tmdb';
 import { HeroBanner } from '../components/HeroBanner';
 import { MediaRow } from '../components/MediaRow';
+import { NativeAdBanner } from '../components/NativeAdBanner';
 
 export const Movies = () => {
     const { t } = useLanguage();
@@ -67,6 +68,7 @@ export const Movies = () => {
                 {actionMovies.length > 0 && (
                     <MediaRow title={t.movies.action} items={actionMovies} type="poster" />
                 )}
+                <NativeAdBanner />
                 {comedyMovies.length > 0 && (
                     <MediaRow title={t.movies.comedy} items={comedyMovies} type="poster" />
                 )}

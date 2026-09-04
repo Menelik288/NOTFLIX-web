@@ -4,6 +4,7 @@ import { useLanguage } from '../hooks/useLanguage';
 import { TMDBService } from '../services/tmdb';
 import { SupabaseDB } from '../services/db';
 import { RatingBadge } from '../components/RatingBadge';
+import { NativeAdBanner } from '../components/NativeAdBanner';
 
 export const Details = ({ id }) => {
     const {
@@ -744,6 +745,11 @@ export const Details = ({ id }) => {
                     </div>
                 </div>
             </section>
+
+            {/* ═══════════════ SPONSORED ADS ═══════════════ */}
+            <div className="px-4 md:px-edge-margin max-w-container-max mx-auto">
+                <NativeAdBanner />
+            </div>
 
             {/* ═══════════════ SIMILAR MEDIA ═══════════════ */}
             {similar.length > 0 && (
