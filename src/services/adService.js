@@ -1,8 +1,8 @@
 // Adsterra Smartlink Ad Service
 const SMARTLINK_URL = 'https://paralysisfoxbullet.com/bb1w2rs69?key=648ecbff3033816c3e4806c9d2eeaca6';
 const STORAGE_KEY = 'notflix_last_smartlink_time';
-// 10 minutes frequency cap between new-tab ad triggers
-const FREQUENCY_CAP_MS = 10 * 60 * 1000;
+// 6 minutes frequency cap between new-tab ad triggers
+const FREQUENCY_CAP_MS = 6 * 60 * 1000;
 
 export const AdService = {
     /**
