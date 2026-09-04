@@ -134,12 +134,35 @@ export const VideoPlayer = () => {
     const toggleFullscreen = () => {
         const playerContainer = document.getElementById('player-video-viewport');
         if (playerContainer) {
-            if (!document.fullscreenElement) {
-                playerContainer.requestFullscreen().catch(err => {
-                    console.error("Error attempting to enable full-screen:", err.message);
-                });
+            const isFs = !!(
+                document.fullscreenElement ||
+                document.webkitFullscreenElement ||
+                document.mozFullScreenElement ||
+                document.msFullscreenElement
+            );
+
+            if (!isFs) {
+                if (playerContainer.requestFullscreen) {
+                    playerContainer.requestFullscreen().catch(err => {
+                        console.warn("Fullscreen request error:", err.message);
+                    });
+                } else if (playerContainer.webkitRequestFullscreen) {
+                    playerContainer.webkitRequestFullscreen();
+                } else if (playerContainer.mozRequestFullScreen) {
+                    playerContainer.mozRequestFullScreen();
+                } else if (playerContainer.msRequestFullscreen) {
+                    playerContainer.msRequestFullscreen();
+                }
             } else {
-                document.exitFullscreen();
+                if (document.exitFullscreen) {
+                    document.exitFullscreen().catch(err => console.warn("Exit fullscreen error:", err));
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
             }
         }
     };
@@ -177,7 +200,7 @@ export const VideoPlayer = () => {
             </button>
 
             {/* Video Viewport Wrapper */}
-            <div id="player-video-viewport" className="w-full h-full relative flex items-center justify-center">
+            <div id="player-video-viewport" className="w-full h-full relative flex items-center justify-center bg-black">
                 {currentSource === 'demo' ? (
                     <video 
                         ref={videoRef}
@@ -193,8 +216,11 @@ export const VideoPlayer = () => {
                         <iframe 
                             src={getEmbedUrl()}
                             className="w-full h-full border-0"
+                            allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock"
                             allowFullScreen
-                            allow="autoplay; encrypted-media"
+                            webkitallowfullscreen="true"
+                            mozallowfullscreen="true"
+                            referrerPolicy="origin"
                             title={currentMedia.title}
                         />
                         {/* Stream Disclaimer HUD */}

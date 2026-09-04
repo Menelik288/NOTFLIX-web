@@ -52,6 +52,77 @@ export const Details = ({ id }) => {
     const [loadingEpisodes, setLoadingEpisodes] = useState(false);
 
     const carouselRef = useRef(null);
+    const playerContainerRef = useRef(null);
+    const [isUniversalFullscreen, setIsUniversalFullscreen] = useState(false);
+
+    // ─── Universal Fullscreen synchronization & keyboard shortcuts ───
+    useEffect(() => {
+        const handleFullscreenChange = () => {
+            const isFs = !!(
+                document.fullscreenElement ||
+                document.webkitFullscreenElement ||
+                document.mozFullScreenElement ||
+                document.msFullscreenElement
+            );
+            setIsUniversalFullscreen(isFs);
+        };
+
+        const handleKeyDown = (e) => {
+            // Press 'f' or 'F' to toggle fullscreen when playing
+            if (isPlaying && (e.key === 'f' || e.key === 'F') && !['INPUT', 'TEXTAREA'].includes(e.target.tagName)) {
+                e.preventDefault();
+                toggleUniversalFullscreen();
+            }
+        };
+
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+        document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+        document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            document.removeEventListener('fullscreenchange', handleFullscreenChange);
+            document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+            document.removeEventListener('mozfullscreenchange', handleFullscreenChange);
+            document.removeEventListener('MSFullscreenChange', handleFullscreenChange);
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [isPlaying]);
+
+    const toggleUniversalFullscreen = () => {
+        const el = playerContainerRef.current;
+        if (!el) return;
+
+        const isFs = !!(
+            document.fullscreenElement ||
+            document.webkitFullscreenElement ||
+            document.mozFullScreenElement ||
+            document.msFullscreenElement
+        );
+
+        if (!isFs) {
+            if (el.requestFullscreen) {
+                el.requestFullscreen().catch(err => console.warn("Fullscreen error:", err));
+            } else if (el.webkitRequestFullscreen) {
+                el.webkitRequestFullscreen();
+            } else if (el.mozRequestFullScreen) {
+                el.mozRequestFullScreen();
+            } else if (el.msRequestFullscreen) {
+                el.msRequestFullscreen();
+            }
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen().catch(err => console.warn("Exit fullscreen error:", err));
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+            }
+        }
+    };
 
     // ─── Fetch main details ───
     useEffect(() => {
@@ -317,24 +388,45 @@ export const Details = ({ id }) => {
     return (
         <div className="w-full pb-20 text-left bg-background relative">
 
-            {/* ═══════════════ HERO SECTION ═══════════════ */}
+            {/* ═══════════════ HERO / PLAYER SECTION ═══════════════ */}
             <section className="relative w-full overflow-hidden">
                 {isPlaying ? (
-                    /* ──── Player Mode ──── */
-                    <div className="w-full bg-black">
-                        <div className="max-w-[1400px] mx-auto">
-                            <div className="relative w-full aspect-video">
+                    /* ──── Player Mode with Universal Fullscreen ──── */
+                    <div 
+                        ref={playerContainerRef}
+                        className={`w-full bg-black relative group transition-all duration-300 ${
+                            isUniversalFullscreen ? 'h-screen flex items-center justify-center p-0 m-0' : ''
+                        }`}
+                    >
+                        <div className={`w-full mx-auto ${isUniversalFullscreen ? 'h-full' : 'max-w-[1400px]'}`}>
+                            <div className={`relative w-full ${isUniversalFullscreen ? 'h-full' : 'aspect-video'}`}>
                                 <iframe
                                     key={getPlayerUrl()}
                                     src={getPlayerUrl()}
-                                    className="absolute inset-0 w-full h-full"
-                                    frameBorder="0"
+                                    className="absolute inset-0 w-full h-full border-0"
+                                    allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock"
                                     allowFullScreen
-                                    allow="autoplay; fullscreen; encrypted-media"
+                                    webkitallowfullscreen="true"
+                                    mozallowfullscreen="true"
+                                    referrerPolicy="origin"
                                     title={media.title}
                                 />
                             </div>
                         </div>
+
+                        {/* Floating Universal Fullscreen Button */}
+                        <button
+                            onClick={toggleUniversalFullscreen}
+                            className="absolute top-4 right-4 z-40 bg-black/80 hover:bg-red-600 text-white p-2.5 rounded-full backdrop-blur-md border border-white/20 shadow-2xl transition-all opacity-0 group-hover:opacity-100 flex items-center gap-1.5 cursor-pointer active:scale-90"
+                            title={isUniversalFullscreen ? "Exit Fullscreen (Esc or F)" : "Universal Fullscreen (F)"}
+                        >
+                            <span className="material-symbols-outlined text-xl">
+                                {isUniversalFullscreen ? 'fullscreen_exit' : 'fullscreen'}
+                            </span>
+                            <span className="text-xs font-bold pr-1 hidden sm:inline">
+                                {isUniversalFullscreen ? 'Exit' : 'Fullscreen'}
+                            </span>
+                        </button>
                     </div>
                 ) : (
                     /* ──── Normal Hero Backdrop ──── */
@@ -375,7 +467,7 @@ export const Details = ({ id }) => {
                                     </span>
                                     <div className="flex flex-wrap gap-2">
                                         {(media.genres || []).slice(0, 3).map(g => (
-                                            <span key={g} className="px-2 py-0.5 border border-white/20 rounded-md text-xs">
+                                             <span key={g} className="px-2 py-0.5 border border-white/20 rounded-md text-xs">
                                                 {g}
                                             </span>
                                         ))}
@@ -451,6 +543,18 @@ export const Details = ({ id }) => {
                                 </button>
                             ))}
                         </div>
+
+                        {/* Universal Fullscreen Action Button */}
+                        <button
+                            onClick={toggleUniversalFullscreen}
+                            className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-bold bg-white/10 hover:bg-red-600 text-white border border-white/15 transition-all shadow-md active:scale-95 cursor-pointer ml-auto"
+                            title="Toggle Universal Fullscreen (F)"
+                        >
+                            <span className="material-symbols-outlined text-lg">
+                                {isUniversalFullscreen ? 'fullscreen_exit' : 'fullscreen'}
+                            </span>
+                            <span>{isUniversalFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}</span>
+                        </button>
                     </div>
                 </section>
             )}
