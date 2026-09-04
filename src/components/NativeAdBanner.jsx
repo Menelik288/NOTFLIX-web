@@ -15,12 +15,12 @@ export const NativeAdBanner = ({ className = '', title = 'Sponsored Recommendati
         adDiv.id = 'container-fa5671a96b2087bde086040d5a8719fc';
         container.appendChild(adDiv);
 
-        // 2. Create the adsterra invoke script
+        // 2. Create the adsterra invoke script (Anti-Adblock enabled)
         const script = document.createElement('script');
         script.type = 'text/javascript';
         script.async = true;
         script.setAttribute('data-cfasync', 'false');
-        script.src = 'https://pl31176481.profitableratecpmnetwork.com/fa5671a96b2087bde086040d5a8719fc/invoke.js';
+        script.src = 'https://paralysisfoxbullet.com/fa5671a96b2087bde086040d5a8719fc/invoke.js';
 
         container.appendChild(script);
 
