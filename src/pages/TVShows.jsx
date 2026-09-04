@@ -103,6 +103,8 @@ export const TVShows = () => {
                     })}
                 </div>
             )}
+
+            <NativeAdBanner title="More Recommended Deals" />
         </div>
     );
 };

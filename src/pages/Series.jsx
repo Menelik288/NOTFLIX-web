@@ -92,6 +92,8 @@ export const Series = () => {
                     />
                 )}
 
+                <NativeAdBanner title="Trending Offers" />
+
                 {/* Popular Series */}
                 {popularTV.length > 0 && (
                     <MediaRow 

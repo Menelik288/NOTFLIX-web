@@ -72,6 +72,7 @@ export const Movies = () => {
                 {comedyMovies.length > 0 && (
                     <MediaRow title={t.movies.comedy} items={comedyMovies} type="poster" />
                 )}
+                <NativeAdBanner title="Recommended Deals" />
                 {popularMovies.length > 0 && (
                     <MediaRow title={t.movies.popular} items={popularMovies} type="latest" />
                 )}

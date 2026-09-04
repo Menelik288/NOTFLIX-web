@@ -1,34 +1,32 @@
 import { useEffect, useRef } from 'react';
 
 export const NativeAdBanner = ({ className = '', title = 'Sponsored Recommendations', compact = false }) => {
-    const bannerRef = useRef(null);
+    const iframeRef = useRef(null);
 
     useEffect(() => {
-        const container = bannerRef.current;
-        if (!container) return;
+        const iframe = iframeRef.current;
+        if (!iframe) return;
 
-        // Clean any existing injected DOM elements
-        container.innerHTML = '';
+        const htmlContent = `
+            <!DOCTYPE html>
+            <html style="background: transparent; margin: 0; padding: 0;">
+                <head>
+                    <meta charset="utf-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <style>
+                        * { box-sizing: border-box; }
+                        body { margin: 0; padding: 0; background: transparent; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; display: flex; justify-content: center; }
+                        #container-fa5671a96b2087bde086040d5a8719fc { width: 100%; max-width: 100%; display: flex; justify-content: center; overflow: hidden; }
+                    </style>
+                </head>
+                <body>
+                    <script async="async" data-cfasync="false" src="https://paralysisfoxbullet.com/fa5671a96b2087bde086040d5a8719fc/invoke.js"></script>
+                    <div id="container-fa5671a96b2087bde086040d5a8719fc"></div>
+                </body>
+            </html>
+        `;
 
-        // 1. Create target ad container expected by Adsterra
-        const adDiv = document.createElement('div');
-        adDiv.id = 'container-fa5671a96b2087bde086040d5a8719fc';
-        container.appendChild(adDiv);
-
-        // 2. Create the adsterra invoke script (Anti-Adblock enabled)
-        const script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.async = true;
-        script.setAttribute('data-cfasync', 'false');
-        script.src = 'https://paralysisfoxbullet.com/fa5671a96b2087bde086040d5a8719fc/invoke.js';
-
-        container.appendChild(script);
-
-        return () => {
-            if (container) {
-                container.innerHTML = '';
-            }
-        };
+        iframe.srcdoc = htmlContent;
     }, []);
 
     return (
@@ -45,11 +43,16 @@ export const NativeAdBanner = ({ className = '', title = 'Sponsored Recommendati
                     </span>
                 </div>
 
-                {/* Adsterra Mount Container */}
-                <div 
-                    ref={bannerRef}
-                    className="min-h-[120px] flex items-center justify-center w-full overflow-hidden"
-                />
+                {/* Adsterra Mount Frame (Isolated per instance to support multiple 2x ads per page) */}
+                <div className="w-full min-h-[140px] flex items-center justify-center overflow-hidden">
+                    <iframe
+                        ref={iframeRef}
+                        title="Sponsored Ad Content"
+                        className="w-full min-h-[150px] border-0 overflow-hidden"
+                        scrolling="no"
+                        sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation"
+                    />
+                </div>
             </div>
         </div>
     );

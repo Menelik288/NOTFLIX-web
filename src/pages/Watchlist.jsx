@@ -66,6 +66,10 @@ export const Watchlist = () => {
                     })}
                 </div>
             )}
+
+            {watchlistItems.length > 0 && (
+                <NativeAdBanner title="Recommended For You" />
+            )}
         </div>
     );
 };

@@ -89,6 +89,7 @@ export const Home = () => {
                 {topRatedMovies.length > 0 && (
                     <MediaRow title={t.home.topRatedMovies} items={topRatedMovies} type="latest" />
                 )}
+                <NativeAdBanner title="Trending Offers" />
                 {topRatedTV.length > 0 && (
                     <MediaRow title={t.home.topRatedTV} items={topRatedTV} type="latest" />
                 )}

@@ -295,35 +295,42 @@ export const Search = () => {
                         <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
                     </div>
                 ) : results.length > 0 ? (
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6">
-                        {results.map((item) => (
-                            <div 
-                                key={item.id} 
-                                onClick={() => navigateTo(`#/${item.type}/${item.id}`)}
-                                className="group relative rounded-xl overflow-hidden cursor-pointer aspect-[2/3] bg-white/10 border border-white/10 backdrop-blur-lg premium-hover opacity-90 hover:opacity-100"
-                            >
-                                <img 
-                                    src={item.poster} 
-                                    alt={item.title} 
-                                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                                    loading="lazy"
-                                />
-                                {/* Unified Overlay */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-4 transition-opacity duration-300">
-                                    <h3 className="text-white font-bold text-sm md:text-base leading-tight mb-2 line-clamp-2 drop-shadow-md">{item.title}</h3>
-                                    <div className="flex items-center gap-2 text-xs text-white/70">
-                                        <span className="flex items-center gap-0.5 text-yellow-500 font-bold">
-                                            <span className="material-symbols-outlined text-sm">star</span> {item.rating}
-                                        </span>
-                                        <span>•</span>
-                                        <span>{item.year}</span>
-                                        <span>•</span>
-                                        <span className="uppercase">{item.type}</span>
+                    <>
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6">
+                            {results.map((item) => (
+                                <div 
+                                    key={item.id} 
+                                    onClick={() => navigateTo(`#/${item.type}/${item.id}`)}
+                                    className="group relative rounded-xl overflow-hidden cursor-pointer aspect-[2/3] bg-white/10 border border-white/10 backdrop-blur-lg premium-hover opacity-90 hover:opacity-100"
+                                >
+                                    <img 
+                                        src={item.poster} 
+                                        alt={item.title} 
+                                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                        loading="lazy"
+                                    />
+                                    {/* Unified Overlay */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-4 transition-opacity duration-300">
+                                        <h3 className="text-white font-bold text-sm md:text-base leading-tight mb-2 line-clamp-2 drop-shadow-md">{item.title}</h3>
+                                        <div className="flex items-center gap-2 text-xs text-white/70">
+                                            <span className="flex items-center gap-0.5 text-yellow-500 font-bold">
+                                                <span className="material-symbols-outlined text-sm">star</span> {item.rating}
+                                            </span>
+                                            <span>•</span>
+                                            <span>{item.year}</span>
+                                            <span>•</span>
+                                            <span className="uppercase">{item.type}</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
-                    </div>
+                            ))}
+                        </div>
+
+                        {/* Second Ad Banner below search results */}
+                        <div className="max-w-7xl mx-auto mt-8">
+                            <NativeAdBanner title="Recommended Deals" />
+                        </div>
+                    </>
                 ) : (
                     query || filters.genres.length > 0 || filters.providers.length > 0 || filters.year || filters.rating > 0 ? (
                         <div className="flex flex-col items-center justify-center py-32 text-center">
