@@ -675,47 +675,25 @@ body.light-theme .skeleton-shimmer::after {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   ADSTERRA NATIVE BANNER HORIZONTAL TABLE ROW (TRUE SIZE)
+   ADSTERRA NATIVE BANNER FORCED HORIZONTAL 4x1 ROW
    ═══════════════════════════════════════════════════════════ */
-[id*="container-fa5671a96b2087bde086040d5a8719fc"] {
-    display: block !important;
+[id*="container-fa5671a96b2087bde086040d5a8719fc"],
+[id*="container-fa5671a96b2087bde086040d5a8719fc"] > div,
+[id*="container-fa5671a96b2087bde086040d5a8719fc"] iframe {
+    min-width: 750px !important;
     width: 100% !important;
-    max-width: 100% !important;
     box-sizing: border-box !important;
-    overflow-x: auto !important;
-    overflow-y: hidden !important;
-    -webkit-overflow-scrolling: touch !important;
 }
 
-[id*="container-fa5671a96b2087bde086040d5a8719fc"] table {
-    display: table !important;
-    width: 100% !important;
-    min-width: 720px !important;
-    table-layout: fixed !important;
-    border-collapse: separate !important;
-    border-spacing: 12px 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    border: none !important;
+@media (min-width: 768px) {
+    [id*="container-fa5671a96b2087bde086040d5a8719fc"],
+    [id*="container-fa5671a96b2087bde086040d5a8719fc"] > div,
+    [id*="container-fa5671a96b2087bde086040d5a8719fc"] iframe {
+        min-width: 0 !important;
+        width: 100% !important;
+    }
 }
 
-[id*="container-fa5671a96b2087bde086040d5a8719fc"] tbody {
-    display: table-row-group !important;
-}
-
-[id*="container-fa5671a96b2087bde086040d5a8719fc"] tr {
-    display: table-row !important;
-}
-
-[id*="container-fa5671a96b2087bde086040d5a8719fc"] td {
-    display: table-cell !important;
-    width: 25% !important;
-    min-width: 170px !important;
-    vertical-align: top !important;
-    box-sizing: border-box !important;
-    padding: 0 !important;
-    margin: 0 !important;
-}
 
 
 
