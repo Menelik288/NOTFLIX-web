@@ -33,10 +33,10 @@ export const NativeAdBanner = ({ className = '', title = 'Sponsored Recommendati
     }, []);
 
     return (
-        <div className={`w-full ${compact ? 'my-3' : 'my-6'} ${className}`}>
-            <div className={`relative rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-md ${compact ? 'p-3' : 'p-4 md:p-6'} shadow-xl transition-all duration-300 hover:border-white/20`}>
+        <div className={`w-full max-w-full overflow-hidden ${compact ? 'my-3' : 'my-4 sm:my-6'} ${className}`}>
+            <div className={`relative rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-md ${compact ? 'p-2.5 sm:p-3' : 'p-3 sm:p-4 md:p-6'} shadow-xl transition-all duration-300 hover:border-white/20 overflow-hidden`}>
                 {/* Header Badge */}
-                <div className="flex items-center justify-between mb-3 text-xs text-white/50 font-medium tracking-wider uppercase">
+                <div className="flex items-center justify-between mb-2.5 sm:mb-3 text-xs text-white/50 font-medium tracking-wider uppercase">
                     <span className="flex items-center gap-1.5 truncate pr-2">
                         <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse shrink-0"></span>
                         <span className="truncate font-bold tracking-wide text-white/70">{title}</span>
@@ -46,10 +46,10 @@ export const NativeAdBanner = ({ className = '', title = 'Sponsored Recommendati
                     </span>
                 </div>
 
-                {/* Adsterra Native Container - Naturally expands to show full image, title, and description */}
+                {/* Adsterra Native Container - Naturally expands without overflowing */}
                 <div 
                     ref={bannerRef}
-                    className="w-full flex items-center justify-center min-h-[140px]"
+                    className="w-full max-w-full flex items-center justify-center min-h-[120px] overflow-hidden"
                 />
             </div>
         </div>
