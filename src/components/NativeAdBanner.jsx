@@ -10,10 +10,9 @@ export const NativeAdBanner = ({ className = '', title = 'Sponsored Recommendati
         // Clean any existing injected DOM elements
         container.innerHTML = '';
 
-        // 1. Create target ad container expected by Adsterra with forced wide horizontal measurement
+        // 1. Create target ad container expected by Adsterra
         const adDiv = document.createElement('div');
         adDiv.id = 'container-fa5671a96b2087bde086040d5a8719fc';
-        adDiv.style.minWidth = '750px';
         adDiv.style.width = '100%';
         container.appendChild(adDiv);
 
@@ -34,7 +33,7 @@ export const NativeAdBanner = ({ className = '', title = 'Sponsored Recommendati
     }, []);
 
     return (
-        <div className={`w-full max-w-full overflow-hidden ${compact ? 'my-3' : 'my-4 sm:my-6'} ${className}`}>
+        <div className={`w-full ${compact ? 'my-3' : 'my-6'} ${className}`}>
             <div className={`relative rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-md ${compact ? 'p-3' : 'p-4 md:p-6'} shadow-xl transition-all duration-300 hover:border-white/20`}>
                 {/* Header Badge */}
                 <div className="flex items-center justify-between mb-3 text-xs text-white/50 font-medium tracking-wider uppercase">
@@ -47,13 +46,11 @@ export const NativeAdBanner = ({ className = '', title = 'Sponsored Recommendati
                     </span>
                 </div>
 
-                {/* Horizontal Scroll Wrapper - Forces Adsterra to always render 4x1 horizontal row */}
-                <div className="w-full max-w-full overflow-x-auto hide-scrollbar scroll-smooth">
-                    <div 
-                        ref={bannerRef}
-                        className="w-full min-w-[750px] md:min-w-0"
-                    />
-                </div>
+                {/* Adsterra Native Container - Naturally expands to show full image, title, and description */}
+                <div 
+                    ref={bannerRef}
+                    className="w-full flex items-center justify-center min-h-[140px]"
+                />
             </div>
         </div>
     );

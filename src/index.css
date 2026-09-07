@@ -673,28 +673,3 @@ body.light-theme .skeleton-shimmer::after {
         50% { opacity: 0.9; }
     }
 }
-
-/* ═══════════════════════════════════════════════════════════
-   ADSTERRA NATIVE BANNER FORCED HORIZONTAL 4x1 ROW
-   ═══════════════════════════════════════════════════════════ */
-[id*="container-fa5671a96b2087bde086040d5a8719fc"],
-[id*="container-fa5671a96b2087bde086040d5a8719fc"] > div,
-[id*="container-fa5671a96b2087bde086040d5a8719fc"] iframe {
-    min-width: 750px !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-}
-
-@media (min-width: 768px) {
-    [id*="container-fa5671a96b2087bde086040d5a8719fc"],
-    [id*="container-fa5671a96b2087bde086040d5a8719fc"] > div,
-    [id*="container-fa5671a96b2087bde086040d5a8719fc"] iframe {
-        min-width: 0 !important;
-        width: 100% !important;
-    }
-}
-
-
-
-
-
