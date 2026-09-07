@@ -25,7 +25,13 @@ export const NativeAdBanner = ({ className = '', title = 'Sponsored Recommendati
 
         container.appendChild(script);
 
+        // Reset scroll position again after ad loads into DOM
+        const timer = setTimeout(() => {
+            if (container) container.scrollLeft = 0;
+        }, 600);
+
         return () => {
+            clearTimeout(timer);
             if (container) {
                 container.innerHTML = '';
             }
@@ -46,10 +52,10 @@ export const NativeAdBanner = ({ className = '', title = 'Sponsored Recommendati
                     </span>
                 </div>
 
-                {/* Adsterra Native Container - Horizontal Swipeable Carousel on Mobile */}
+                {/* Adsterra Native Container - Left-aligned horizontal carousel */}
                 <div 
                     ref={bannerRef}
-                    className="w-full max-w-full overflow-x-auto overflow-y-hidden custom-scrollbar flex items-center min-h-[90px]"
+                    className="w-full max-w-full overflow-x-auto overflow-y-hidden hide-scrollbar scroll-smooth min-h-[85px] flex items-center justify-start text-left"
                 />
             </div>
         </div>
