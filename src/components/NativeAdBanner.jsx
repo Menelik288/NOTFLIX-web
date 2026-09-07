@@ -46,10 +46,10 @@ export const NativeAdBanner = ({ className = '', title = 'Sponsored Recommendati
                     </span>
                 </div>
 
-                {/* Adsterra Native Container - Naturally expands without overflowing */}
+                {/* Adsterra Native Container - Horizontal Swipeable Carousel on Mobile */}
                 <div 
                     ref={bannerRef}
-                    className="w-full max-w-full flex items-center justify-center min-h-[120px] overflow-hidden"
+                    className="w-full max-w-full overflow-x-auto overflow-y-hidden custom-scrollbar flex items-center min-h-[90px]"
                 />
             </div>
         </div>
