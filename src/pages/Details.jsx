@@ -545,7 +545,10 @@ export const Details = ({ id }) => {
                             ].map(server => (
                                 <button
                                     key={server.id}
-                                    onClick={() => setCurrentServer(server.id)}
+                                    onClick={() => {
+                                        AdService.triggerSmartlink();
+                                        setCurrentServer(server.id);
+                                    }}
                                     className={`px-4 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap ${
                                         currentServer === server.id
                                             ? 'bg-red-600 text-white shadow-lg shadow-red-600/30'
