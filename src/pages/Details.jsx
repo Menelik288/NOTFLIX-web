@@ -279,8 +279,8 @@ export const Details = ({ id }) => {
     const handleWatchNow = () => {
         if (!media?.id) return;
         
-        // Trigger smartlink in background new-tab (with 10-min frequency cap)
-        AdService.triggerSmartlink();
+        // Trigger smartlink in background new-tab (with 3.5-min watch frequency cap)
+        AdService.triggerSmartlink('watch');
 
         if (saveProgress) {
             saveProgress(
@@ -328,8 +328,8 @@ export const Details = ({ id }) => {
     const handleEpisodeClick = async (epNumber) => {
         if (!media?.id || !epNumber) return;
         
-        // Trigger smartlink in background new-tab (with 10-min frequency cap)
-        AdService.triggerSmartlink();
+        // Trigger smartlink in background new-tab (with 3.5-min watch frequency cap)
+        AdService.triggerSmartlink('watch');
 
         setSelectedEpisode(epNumber);
         setIsPlaying(true);
@@ -546,7 +546,7 @@ export const Details = ({ id }) => {
                                 <button
                                     key={server.id}
                                     onClick={() => {
-                                        AdService.triggerSmartlink();
+                                        AdService.triggerSmartlink('server');
                                         setCurrentServer(server.id);
                                     }}
                                     className={`px-4 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap ${

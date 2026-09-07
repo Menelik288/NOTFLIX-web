@@ -4,25 +4,28 @@ const SMARTLINKS = [
     { name: 'Monetag', url: 'https://omg10.com/4/11745214' }
 ];
 
-const STORAGE_TIME_KEY = 'notflix_last_smartlink_time';
+const STORAGE_PREFIX = 'notflix_last_smartlink_time_';
 const STORAGE_INDEX_KEY = 'notflix_last_smartlink_idx';
 
-// 3.5 minutes frequency cap between new-tab ad triggers
+// 3.5 minutes frequency cap per trigger category
 const FREQUENCY_CAP_MS = 3.5 * 60 * 1000;
 
 export const AdService = {
     /**
-     * Triggers a Smartlink ad in a new tab if frequency cap allows.
-     * Alternates 50/50 between Adsterra and Monetag for maximum revenue.
+     * Triggers a Smartlink ad in a new tab if frequency cap allows for the specific category.
      * Keeps user playback seamless on the current tab.
+     * Alternates 50/50 between Adsterra and Monetag.
+     * 
+     * @param {'watch' | 'server' | string} category - Independent category ('watch' for play/episodes, 'server' for server switches)
      */
-    triggerSmartlink: () => {
+    triggerSmartlink: (category = 'watch') => {
         try {
             const now = Date.now();
-            const lastTrigger = localStorage.getItem(STORAGE_TIME_KEY);
+            const storageKey = `${STORAGE_PREFIX}${category}`;
+            const lastTrigger = localStorage.getItem(storageKey);
 
             if (!lastTrigger || now - Number(lastTrigger) > FREQUENCY_CAP_MS) {
-                localStorage.setItem(STORAGE_TIME_KEY, String(now));
+                localStorage.setItem(storageKey, String(now));
 
                 // Get current rotation index and calculate next
                 const currentIndex = Number(localStorage.getItem(STORAGE_INDEX_KEY) || '0');
@@ -38,7 +41,10 @@ export const AdService = {
             console.warn('Smartlink trigger error:', e);
         }
         return false;
-    }
+    },
+
+    triggerWatchSmartlink: () => AdService.triggerSmartlink('watch'),
+    triggerServerSmartlink: () => AdService.triggerSmartlink('server')
 };
 
 export default AdService;

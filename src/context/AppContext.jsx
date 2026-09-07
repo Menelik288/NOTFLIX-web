@@ -166,8 +166,8 @@ export const AppProvider = ({ children }) => {
     };
     
     const playMedia = (media) => {
-        // Trigger smartlink in background new-tab (with 10-min frequency cap)
-        AdService.triggerSmartlink();
+        // Trigger smartlink in background new-tab (with 3.5-min watch frequency cap)
+        AdService.triggerSmartlink('watch');
 
         setCurrentMedia(media);
         if (user) {
