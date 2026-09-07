@@ -675,13 +675,67 @@ body.light-theme .skeleton-shimmer::after {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   ADSTERRA NATIVE BANNER NATURAL DISPLAY
+   ADSTERRA NATIVE BANNER HORIZONTAL ROW (FULL TRUE SIZE)
    ═══════════════════════════════════════════════════════════ */
-[id^="container-fa5671a96b2087bde086040d5a8719fc"],
 [id*="container-fa5671a96b2087bde086040d5a8719fc"] {
-    display: block !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: stretch !important;
+    width: max-content !important;
+    min-width: 100% !important;
+    gap: 16px !important;
 }
+
+/* Ensure inner table/wrapper also lays out in a horizontal row */
+[id*="container-fa5671a96b2087bde086040d5a8719fc"] table,
+[id*="container-fa5671a96b2087bde086040d5a8719fc"] tbody {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: stretch !important;
+    width: max-content !important;
+    gap: 16px !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Each ad card maintains a true generous width (270px) */
+[id*="container-fa5671a96b2087bde086040d5a8719fc"] tr,
+[id*="container-fa5671a96b2087bde086040d5a8719fc"] td,
+[id*="container-fa5671a96b2087bde086040d5a8719fc"] [class*="item"],
+[id*="container-fa5671a96b2087bde086040d5a8719fc"] [class*="teaser"],
+[id*="container-fa5671a96b2087bde086040d5a8719fc"] [class*="card"],
+[id*="container-fa5671a96b2087bde086040d5a8719fc"] [class*="block"] {
+    display: block !important;
+    flex: 0 0 270px !important;
+    width: 270px !important;
+    min-width: 270px !important;
+    max-width: 270px !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* On large screens (desktop/laptops), expand to fill 4 columns nicely if screen is wide enough */
+@media (min-width: 1200px) {
+    [id*="container-fa5671a96b2087bde086040d5a8719fc"] {
+        width: 100% !important;
+        justify-content: space-between !important;
+    }
+    [id*="container-fa5671a96b2087bde086040d5a8719fc"] tr,
+    [id*="container-fa5671a96b2087bde086040d5a8719fc"] td,
+    [id*="container-fa5671a96b2087bde086040d5a8719fc"] [class*="item"],
+    [id*="container-fa5671a96b2087bde086040d5a8719fc"] [class*="teaser"],
+    [id*="container-fa5671a96b2087bde086040d5a8719fc"] [class*="card"],
+    [id*="container-fa5671a96b2087bde086040d5a8719fc"] [class*="block"] {
+        flex: 1 1 0 !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: none !important;
+    }
+}
+
 
 

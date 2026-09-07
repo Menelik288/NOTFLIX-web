@@ -13,7 +13,6 @@ export const NativeAdBanner = ({ className = '', title = 'Sponsored Recommendati
         // 1. Create target ad container expected by Adsterra
         const adDiv = document.createElement('div');
         adDiv.id = 'container-fa5671a96b2087bde086040d5a8719fc';
-        adDiv.style.width = '100%';
         container.appendChild(adDiv);
 
         // 2. Create the adsterra invoke script (Anti-Adblock enabled)
@@ -46,13 +45,11 @@ export const NativeAdBanner = ({ className = '', title = 'Sponsored Recommendati
                     </span>
                 </div>
 
-                {/* Horizontal Scroll Wrapper - Preserves true full size of Adsterra ads without squishing */}
-                <div className="w-full max-w-full overflow-x-auto hide-scrollbar scroll-smooth">
-                    <div 
-                        ref={bannerRef}
-                        className="w-full min-w-[650px] md:min-w-0"
-                    />
-                </div>
+                {/* Horizontal Scroll Wrapper - Smooth swipe on mobile without squishing */}
+                <div 
+                    ref={bannerRef}
+                    className="w-full max-w-full overflow-x-auto hide-scrollbar scroll-smooth"
+                />
             </div>
         </div>
     );
