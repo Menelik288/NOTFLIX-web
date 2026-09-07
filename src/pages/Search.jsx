@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { TMDBService, normalizeListResponse } from '../services/tmdb';
 import { useApp } from '../context/AppContext';
 import { NativeAdBanner } from '../components/NativeAdBanner';
+import { MediaGridSkeleton } from '../components/Skeleton';
 import debounce from 'lodash/debounce';
 
 export const Search = () => {
@@ -291,8 +292,8 @@ export const Search = () => {
             {/* Results Area */}
             <div className="max-w-7xl mx-auto">
                 {loading ? (
-                    <div className="flex justify-center items-center py-20">
-                        <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+                    <div className="py-4">
+                        <MediaGridSkeleton count={12} />
                     </div>
                 ) : results.length > 0 ? (
                     <>

@@ -6,6 +6,7 @@ import { SupabaseDB } from '../services/db';
 import { RatingBadge } from '../components/RatingBadge';
 import { NativeAdBanner } from '../components/NativeAdBanner';
 import { AdService } from '../services/adService';
+import { DetailsPageSkeleton, EpisodeListSkeleton, ActorCreditsSkeleton } from '../components/Skeleton';
 
 export const Details = ({ id }) => {
     const {
@@ -53,6 +54,7 @@ export const Details = ({ id }) => {
     const [loadingEpisodes, setLoadingEpisodes] = useState(false);
 
     const carouselRef = useRef(null);
+    const episodesContainerRef = useRef(null);
     const playerContainerRef = useRef(null);
     const [isUniversalFullscreen, setIsUniversalFullscreen] = useState(false);
 
@@ -354,6 +356,13 @@ export const Details = ({ id }) => {
         }
     };
 
+    const handleScrollEpisodes = (direction) => {
+        if (episodesContainerRef.current) {
+            const scrollAmount = direction === 'left' ? -500 : 500;
+            episodesContainerRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+    };
+
     const handleActorClick = async (actor) => {
         if (!actor?.id) return;
         setSelectedActor(actor);
@@ -372,12 +381,7 @@ export const Details = ({ id }) => {
 
     // ─── Loading ───
     if (loading) {
-        return (
-            <div className="flex flex-col items-center justify-center h-screen space-y-4">
-                <div className="w-12 h-12 border-4 border-white/20 border-t-primary-container rounded-full animate-spin"></div>
-                <p className="text-white/60 font-bold tracking-widest uppercase">Loading Cinematic Experience...</p>
-            </div>
-        );
+        return <DetailsPageSkeleton />;
     }
 
     // ─── Error ───
@@ -571,101 +575,147 @@ export const Details = ({ id }) => {
             {/* ═══════════════ SEASON / EPISODE SELECTOR (TV only) ═══════════════ */}
             {type === 'tv' && media.totalSeasons > 0 && (
                 <section className="px-4 md:px-edge-margin py-6 md:py-10 max-w-container-max mx-auto">
-                    {/* Section Header + Season Dropdown */}
-                    <div className="flex flex-wrap items-center gap-4 mb-6">
-                        <h2 className="text-xl md:text-2xl font-extrabold flex items-center gap-3 text-white">
-                            <span className="w-1.5 h-8 bg-red-600 rounded-full"></span>
-                            {t.details.episodes}
-                        </h2>
-                        <div className="relative">
-                            <select
-                                value={selectedSeason}
-                                onChange={(e) => handleSeasonChange(parseInt(e.target.value))}
-                                className="glass-panel appearance-none pr-10 pl-4 py-2.5 rounded-lg text-white font-bold text-sm cursor-pointer outline-none focus:ring-1 focus:ring-red-500/50"
-                            >
-                                {Array.from({ length: media.totalSeasons }, (_, i) => i + 1).map(s => (
-                                    <option key={s} value={s} style={{ background: '#1a1a1a', color: 'white' }}>
-                                        {t.details.season} {s}
-                                    </option>
-                                ))}
-                            </select>
-                            <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-white/50 text-lg">
-                                expand_more
-                            </span>
+                    {/* Section Header + Season Dropdown + Scroll Controls (< and >) */}
+                    <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+                        <div className="flex flex-wrap items-center gap-4">
+                            <h2 className="text-xl md:text-2xl font-extrabold flex items-center gap-3 text-white">
+                                <span className="w-1.5 h-8 bg-red-600 rounded-full"></span>
+                                {t.details.episodes}
+                            </h2>
+                            <div className="relative">
+                                <select
+                                    value={selectedSeason}
+                                    onChange={(e) => handleSeasonChange(parseInt(e.target.value))}
+                                    className="glass-panel appearance-none pr-10 pl-4 py-2.5 rounded-lg text-white font-bold text-sm cursor-pointer outline-none focus:ring-1 focus:ring-red-500/50"
+                                >
+                                    {Array.from({ length: media.totalSeasons }, (_, i) => i + 1).map(s => (
+                                        <option key={s} value={s} style={{ background: '#1a1a1a', color: 'white' }}>
+                                            {t.details.season} {s}
+                                        </option>
+                                    ))}
+                                </select>
+                                <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-white/50 text-lg">
+                                    expand_more
+                                </span>
+                            </div>
                         </div>
+
+                        {/* Episode Navigation Buttons (< and >) */}
+                        {seasonData?.episodes?.length > 0 && (
+                            <div className="flex items-center gap-2">
+                                <button
+                                    onClick={() => handleScrollEpisodes('left')}
+                                    className="w-10 h-10 rounded-full glass-panel border border-white/10 flex items-center justify-center text-white hover:bg-white/20 hover:scale-105 active:scale-95 transition-all shadow-md cursor-pointer group"
+                                    title="Previous Episodes (<)"
+                                    aria-label="Previous Episodes"
+                                >
+                                    <span className="material-symbols-outlined text-xl group-hover:-translate-x-0.5 transition-transform">chevron_left</span>
+                                </button>
+                                <button
+                                    onClick={() => handleScrollEpisodes('right')}
+                                    className="w-10 h-10 rounded-full glass-panel border border-white/10 flex items-center justify-center text-white hover:bg-white/20 hover:scale-105 active:scale-95 transition-all shadow-md cursor-pointer group"
+                                    title="Next Episodes (>)"
+                                    aria-label="Next Episodes"
+                                >
+                                    <span className="material-symbols-outlined text-xl group-hover:translate-x-0.5 transition-transform">chevron_right</span>
+                                </button>
+                            </div>
+                        )}
                     </div>
 
-                    {/* Episode Cards */}
+                    {/* Episode Cards Container with Floating Side Arrows */}
                     {loadingEpisodes ? (
-                        <div className="flex items-center justify-center py-16">
-                            <div className="w-8 h-8 border-[3px] border-white/20 border-t-red-600 rounded-full animate-spin"></div>
-                        </div>
+                        <EpisodeListSkeleton count={5} />
                     ) : (
-                        <div className="flex gap-4 overflow-x-auto pb-4 custom-scrollbar scroll-smooth hide-scrollbar">
-                            {seasonData?.episodes?.map(ep => {
-                                const isActive = selectedEpisode === ep.episodeNumber && isPlaying;
-                                return (
-                                    <div
-                                        key={ep.episodeNumber}
-                                        onClick={() => handleEpisodeClick(ep.episodeNumber)}
-                                        className={`flex-shrink-0 w-[260px] md:w-[300px] rounded-xl overflow-hidden cursor-pointer group transition-all duration-300 ${
-                                            isActive
-                                                ? 'ring-2 ring-red-500 shadow-lg shadow-red-600/20 scale-[1.02]'
-                                                : 'border border-white/10 hover:border-white/25 hover:shadow-xl'
-                                        }`}
-                                    >
-                                        {/* Episode Thumbnail */}
-                                        <div className="relative aspect-video bg-white/5">
-                                            {ep.still ? (
-                                                <img
-                                                    src={ep.still}
-                                                    alt={ep.name}
-                                                    className="w-full h-full object-cover group-hover:brightness-90 transition-all duration-300"
-                                                    loading="lazy"
-                                                />
-                                            ) : (
-                                                <div className="w-full h-full flex items-center justify-center">
-                                                    <span className="material-symbols-outlined text-4xl text-white/15">movie</span>
-                                                </div>
-                                            )}
-                                            {/* Play overlay on hover */}
-                                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                                <div className="w-12 h-12 bg-red-600/90 rounded-full flex items-center justify-center shadow-xl backdrop-blur-sm">
-                                                    <span className="material-symbols-outlined text-white text-2xl fill" style={{ fontVariationSettings: "'FILL' 1" }}>
-                                                        play_arrow
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            {/* Episode number badge */}
-                                            <div className="absolute top-2 left-2 bg-black/60 backdrop-blur-sm px-2 py-0.5 rounded text-[10px] font-bold text-white/80">
-                                                E{ep.episodeNumber}
-                                            </div>
-                                            {/* Currently playing indicator */}
-                                            {isActive && (
-                                                <div className="absolute top-2 right-2 bg-red-600 px-2 py-0.5 rounded text-[10px] font-bold text-white flex items-center gap-1">
-                                                    <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span>
-                                                    Playing
-                                                </div>
-                                            )}
-                                        </div>
-                                        {/* Episode Info */}
-                                        <div className="p-3 bg-white/[0.03]">
-                                            <h4 className="font-bold text-sm text-white line-clamp-1 mb-1">{ep.name}</h4>
-                                            <div className="flex items-center gap-3 text-white/40 text-xs">
-                                                {ep.runtime > 0 && (
-                                                    <span className="flex items-center gap-1">
-                                                        <span className="material-symbols-outlined text-xs">schedule</span>
-                                                        {ep.runtime}m
-                                                    </span>
+                        <div className="relative group/episodes">
+                            {/* Floating Left Scroll Button for Desktop Hover */}
+                            <button
+                                onClick={() => handleScrollEpisodes('left')}
+                                className="hidden md:flex absolute -left-4 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-black/70 backdrop-blur-md border border-white/20 items-center justify-center text-white shadow-2xl opacity-0 group-hover/episodes:opacity-100 hover:bg-red-600 hover:border-red-500 active:scale-90 transition-all cursor-pointer"
+                                aria-label="Scroll left"
+                            >
+                                <span className="material-symbols-outlined text-2xl">chevron_left</span>
+                            </button>
+
+                            {/* Scrollable Episodes List */}
+                            <div 
+                                ref={episodesContainerRef}
+                                className="flex gap-4 overflow-x-auto pb-4 custom-scrollbar scroll-smooth hide-scrollbar"
+                            >
+                                {seasonData?.episodes?.map(ep => {
+                                    const isActive = selectedEpisode === ep.episodeNumber && isPlaying;
+                                    return (
+                                        <div
+                                            key={ep.episodeNumber}
+                                            onClick={() => handleEpisodeClick(ep.episodeNumber)}
+                                            className={`flex-shrink-0 w-[260px] md:w-[300px] rounded-xl overflow-hidden cursor-pointer group transition-all duration-300 ${
+                                                isActive
+                                                    ? 'ring-2 ring-red-500 shadow-lg shadow-red-600/20 scale-[1.02]'
+                                                    : 'border border-white/10 hover:border-white/25 hover:shadow-xl'
+                                            }`}
+                                        >
+                                            {/* Episode Thumbnail */}
+                                            <div className="relative aspect-video bg-white/5">
+                                                {ep.still ? (
+                                                    <img
+                                                        src={ep.still}
+                                                        alt={ep.name}
+                                                        className="w-full h-full object-cover group-hover:brightness-90 transition-all duration-300"
+                                                        loading="lazy"
+                                                    />
+                                                ) : (
+                                                    <div className="w-full h-full flex items-center justify-center">
+                                                        <span className="material-symbols-outlined text-4xl text-white/15">movie</span>
+                                                    </div>
                                                 )}
-                                                {ep.airDate && (
-                                                    <span>{new Date(ep.airDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                                                {/* Play overlay on hover */}
+                                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                                    <div className="w-12 h-12 bg-red-600/90 rounded-full flex items-center justify-center shadow-xl backdrop-blur-sm">
+                                                        <span className="material-symbols-outlined text-white text-2xl fill" style={{ fontVariationSettings: "'FILL' 1" }}>
+                                                            play_arrow
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                {/* Episode number badge */}
+                                                <div className="absolute top-2 left-2 bg-black/60 backdrop-blur-sm px-2 py-0.5 rounded text-[10px] font-bold text-white/80">
+                                                    E{ep.episodeNumber}
+                                                </div>
+                                                {/* Currently playing indicator */}
+                                                {isActive && (
+                                                    <div className="absolute top-2 right-2 bg-red-600 px-2 py-0.5 rounded text-[10px] font-bold text-white flex items-center gap-1">
+                                                        <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span>
+                                                        Playing
+                                                    </div>
                                                 )}
                                             </div>
+                                            {/* Episode Info */}
+                                            <div className="p-3 bg-white/[0.03]">
+                                                <h4 className="font-bold text-sm text-white line-clamp-1 mb-1">{ep.name}</h4>
+                                                <div className="flex items-center gap-3 text-white/40 text-xs">
+                                                    {ep.runtime > 0 && (
+                                                        <span className="flex items-center gap-1">
+                                                            <span className="material-symbols-outlined text-xs">schedule</span>
+                                                            {ep.runtime}m
+                                                        </span>
+                                                    )}
+                                                    {ep.airDate && (
+                                                        <span>{new Date(ep.airDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                                                    )}
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                );
-                            })}
+                                    );
+                                })}
+                            </div>
+
+                            {/* Floating Right Scroll Button for Desktop Hover */}
+                            <button
+                                onClick={() => handleScrollEpisodes('right')}
+                                className="hidden md:flex absolute -right-4 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-black/70 backdrop-blur-md border border-white/20 items-center justify-center text-white shadow-2xl opacity-0 group-hover/episodes:opacity-100 hover:bg-red-600 hover:border-red-500 active:scale-90 transition-all cursor-pointer"
+                                aria-label="Scroll right"
+                            >
+                                <span className="material-symbols-outlined text-2xl">chevron_right</span>
+                            </button>
                         </div>
                     )}
                 </section>
@@ -994,10 +1044,7 @@ export const Details = ({ id }) => {
                         {/* Modal Body - Scrollable Credits Grid */}
                         <div className="p-6 overflow-y-auto custom-scrollbar">
                             {loadingActorCredits ? (
-                                <div className="flex flex-col items-center justify-center py-20 space-y-4">
-                                    <div className="w-10 h-10 border-4 border-white/20 border-t-primary-container rounded-full animate-spin"></div>
-                                    <p className="text-white/50 font-bold">Loading filmography...</p>
-                                </div>
+                                <ActorCreditsSkeleton count={6} />
                             ) : (
                                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6 pb-8">
                                     {actorCredits.map((item, idx) => (

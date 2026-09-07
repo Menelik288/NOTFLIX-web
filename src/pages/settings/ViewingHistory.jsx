@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
 import { SupabaseDB } from '../../services/db';
+import { MediaGridSkeleton } from '../../components/Skeleton';
 
 export const ViewingHistory = () => {
     const { user, navigateTo, addNotification } = useApp();
@@ -76,8 +77,8 @@ export const ViewingHistory = () => {
             </div>
             
             {loading ? (
-                <div className="flex justify-center py-20">
-                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+                <div className="py-4">
+                    <MediaGridSkeleton count={12} />
                 </div>
             ) : history.length === 0 ? (
                 <div className="glass-surface rounded-2xl p-12 text-center flex flex-col items-center justify-center">

@@ -4,6 +4,7 @@ import { useLanguage } from '../hooks/useLanguage';
 import { TMDBService } from '../services/tmdb';
 import { RecommendationEngine } from '../services/recommendationEngine';
 import { NativeAdBanner } from '../components/NativeAdBanner';
+import { ForYouSkeleton } from '../components/Skeleton';
 
 const LOCAL_STORAGE_SUPPRESSED_KEY = 'notflix_suppressed_recommendations';
 
@@ -136,10 +137,7 @@ export const ForYou = () => {
             )}
             
             {loading ? (
-                <div className="flex-1 w-full flex flex-col items-center justify-center space-y-4">
-                    <div className="w-12 h-12 border-4 border-white/10 border-t-primary-container rounded-full animate-spin shadow-[0_0_15px_rgba(229,9,20,0.5)]"></div>
-                    <p className="text-white/50 font-bold text-sm tracking-widest uppercase">{t.forYou.buildingFeed}</p>
-                </div>
+                <ForYouSkeleton />
             ) : feedItems.length > 0 ? (
                 <div className="w-full max-w-[1550px] mx-auto flex flex-col xl:flex-row items-center justify-center gap-6 px-2">
                     

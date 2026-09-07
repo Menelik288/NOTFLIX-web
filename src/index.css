@@ -166,7 +166,7 @@ body.light-theme .custom-scrollbar::-webkit-scrollbar-track {
 }
 
 /* ── Mobile bottom nav raised tab ── */
-body.light-theme .border-\[#0D0D0D\] { border-color: #f0f0f5 !important; }
+body.light-theme [class*="border-[#0D0D0D]"] { border-color: #f0f0f5 !important; }
 
 /* ── Search/ForYou filter chips ── */
 body.light-theme .rounded-full.bg-white\/10 { background-color: rgba(0,0,0,0.06) !important; }
@@ -601,4 +601,75 @@ body[data-lang="am"] .nav-pixel-link {
   animation: logoGlow 3s ease-in-out infinite;
 }
 
+/* ─────────────────────────────────────────────────────
+   HARDWARE-ACCELERATED SKELETON SHIMMER SYSTEM
+   ───────────────────────────────────────────────────── */
+.skeleton-shimmer {
+    position: relative;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.04);
+    border-radius: 0.5rem;
+    contain: paint;
+    will-change: transform;
+}
 
+body.light-theme .skeleton-shimmer {
+    background-color: rgba(0, 0, 0, 0.06);
+}
+
+.skeleton-shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.06) 45%,
+        rgba(255, 255, 255, 0.12) 50%,
+        rgba(255, 255, 255, 0.06) 55%,
+        transparent 100%
+    );
+    animation: skeleton-shimmer-wave 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    pointer-events: none;
+    will-change: transform;
+}
+
+body.light-theme .skeleton-shimmer::after {
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(0, 0, 0, 0.04) 45%,
+        rgba(0, 0, 0, 0.09) 50%,
+        rgba(0, 0, 0, 0.04) 55%,
+        transparent 100%
+    );
+}
+
+@keyframes skeleton-shimmer-wave {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* Subtle pulse for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .skeleton-shimmer::after {
+        animation: skeleton-fade 2s ease-in-out infinite;
+        transform: none;
+        background: rgba(255, 255, 255, 0.04);
+    }
+    body.light-theme .skeleton-shimmer::after {
+        background: rgba(0, 0, 0, 0.04);
+    }
+    @keyframes skeleton-fade {
+        0%, 100% { opacity: 0.4; }
+        50% { opacity: 0.9; }
+    }
+}

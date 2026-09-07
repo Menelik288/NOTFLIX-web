@@ -4,6 +4,7 @@ import { TMDBService, normalizeListResponse } from '../services/tmdb';
 import { HeroBanner } from '../components/HeroBanner';
 import { MediaRow } from '../components/MediaRow';
 import { NativeAdBanner } from '../components/NativeAdBanner';
+import { MoviesPageSkeleton } from '../components/Skeleton';
 
 export const Movies = () => {
     const { t } = useLanguage();
@@ -50,12 +51,7 @@ export const Movies = () => {
         : null;
 
     if (loading) {
-        return (
-            <div className="w-full h-screen flex flex-col items-center justify-center space-y-4 text-white">
-                <div className="w-12 h-12 border-4 border-primary-container border-t-transparent rounded-full animate-spin"></div>
-                <h2 className="text-xl font-bold tracking-widest text-white/50">{t.movies.loading}</h2>
-            </div>
-        );
+        return <MoviesPageSkeleton />;
     }
 
     return (
