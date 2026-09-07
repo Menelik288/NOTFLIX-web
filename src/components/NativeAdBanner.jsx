@@ -25,13 +25,7 @@ export const NativeAdBanner = ({ className = '', title = 'Sponsored Recommendati
 
         container.appendChild(script);
 
-        // Reset scroll position again after ad loads into DOM
-        const timer = setTimeout(() => {
-            if (container) container.scrollLeft = 0;
-        }, 600);
-
         return () => {
-            clearTimeout(timer);
             if (container) {
                 container.innerHTML = '';
             }
@@ -40,9 +34,9 @@ export const NativeAdBanner = ({ className = '', title = 'Sponsored Recommendati
 
     return (
         <div className={`w-full max-w-full overflow-hidden ${compact ? 'my-3' : 'my-4 sm:my-6'} ${className}`}>
-            <div className={`relative rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-md ${compact ? 'p-2.5 sm:p-3' : 'p-3 sm:p-4 md:p-6'} shadow-xl transition-all duration-300 hover:border-white/20 overflow-hidden`}>
+            <div className={`relative rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-md ${compact ? 'p-3' : 'p-4 md:p-6'} shadow-xl transition-all duration-300 hover:border-white/20`}>
                 {/* Header Badge */}
-                <div className="flex items-center justify-between mb-2.5 sm:mb-3 text-xs text-white/50 font-medium tracking-wider uppercase">
+                <div className="flex items-center justify-between mb-3 text-xs text-white/50 font-medium tracking-wider uppercase">
                     <span className="flex items-center gap-1.5 truncate pr-2">
                         <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse shrink-0"></span>
                         <span className="truncate font-bold tracking-wide text-white/70">{title}</span>
@@ -52,11 +46,13 @@ export const NativeAdBanner = ({ className = '', title = 'Sponsored Recommendati
                     </span>
                 </div>
 
-                {/* Adsterra Native Container - Left-aligned horizontal carousel */}
-                <div 
-                    ref={bannerRef}
-                    className="w-full max-w-full overflow-x-auto overflow-y-hidden hide-scrollbar scroll-smooth min-h-[85px] flex items-center justify-start text-left"
-                />
+                {/* Horizontal Scroll Wrapper - Preserves true full size of Adsterra ads without squishing */}
+                <div className="w-full max-w-full overflow-x-auto hide-scrollbar scroll-smooth">
+                    <div 
+                        ref={bannerRef}
+                        className="w-full min-w-[650px] md:min-w-0"
+                    />
+                </div>
             </div>
         </div>
     );
