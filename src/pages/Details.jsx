@@ -516,23 +516,36 @@ export const Details = ({ id }) => {
             {/* ═══════════════ SERVER SELECTION (only when playing) ═══════════════ */}
             {isPlaying && (
                 <section className="px-4 md:px-edge-margin py-4 max-w-container-max mx-auto">
-                    <div className="glass-panel rounded-xl p-4 flex flex-wrap items-center gap-4">
-                        {/* Now Playing Info */}
-                        <div className="flex items-center gap-3 mr-auto min-w-0">
-                            <span className="material-symbols-outlined text-red-500 text-2xl flex-shrink-0">play_circle</span>
-                            <div className="min-w-0">
-                                <p className="font-bold text-white text-sm truncate">{media.title}</p>
-                                {type === 'tv' && currentEpisodeData && (
-                                    <p className="text-white/50 text-xs truncate">
-                                        S{selectedSeason} · E{selectedEpisode} — {currentEpisodeData.name}
-                                    </p>
-                                )}
+                    <div className="glass-panel rounded-2xl p-3 sm:p-4 flex flex-col md:flex-row md:items-center justify-between gap-3 md:gap-4 overflow-hidden w-full max-w-full">
+                        {/* Now Playing Info + Mobile Fullscreen Button */}
+                        <div className="flex items-center justify-between md:justify-start gap-3 min-w-0 w-full md:w-auto">
+                            <div className="flex items-center gap-2.5 min-w-0">
+                                <span className="material-symbols-outlined text-red-500 text-2xl flex-shrink-0">play_circle</span>
+                                <div className="min-w-0">
+                                    <p className="font-bold text-white text-xs sm:text-sm truncate">{media.title}</p>
+                                    {type === 'tv' && currentEpisodeData && (
+                                        <p className="text-white/50 text-[11px] sm:text-xs truncate">
+                                            S{selectedSeason} · E{selectedEpisode} — {currentEpisodeData.name}
+                                        </p>
+                                    )}
+                                </div>
                             </div>
+                            {/* Mobile Fullscreen Button */}
+                            <button
+                                onClick={toggleUniversalFullscreen}
+                                className="md:hidden flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold bg-white/10 hover:bg-red-600 text-white border border-white/15 transition-all shrink-0 ml-2 cursor-pointer active:scale-95"
+                                title="Toggle Universal Fullscreen"
+                            >
+                                <span className="material-symbols-outlined text-base">
+                                    {isUniversalFullscreen ? 'fullscreen_exit' : 'fullscreen'}
+                                </span>
+                                <span>{isUniversalFullscreen ? 'Exit' : 'Fullscreen'}</span>
+                            </button>
                         </div>
 
-                        {/* Server Buttons */}
-                        <div className="flex items-center gap-2 flex-shrink-0 overflow-x-auto pb-1 custom-scrollbar">
-                            <span className="text-white/40 text-xs font-bold uppercase tracking-wider mr-1 hidden sm:inline">Server</span>
+                        {/* Server Buttons (Horizontally Scrollable inside container) */}
+                        <div className="w-full md:w-auto md:flex-1 min-w-0 flex items-center gap-2 overflow-x-auto custom-scrollbar py-1">
+                            <span className="text-white/40 text-xs font-bold uppercase tracking-wider mr-1 hidden lg:inline shrink-0">Server</span>
                             {[
                                 { id: 'vidsrc', label: 'VidSrc' },
                                 { id: 'vidbing', label: 'Vidbing' },
@@ -549,7 +562,7 @@ export const Details = ({ id }) => {
                                         AdService.triggerSmartlink('server');
                                         setCurrentServer(server.id);
                                     }}
-                                    className={`px-4 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap ${
+                                    className={`shrink-0 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-bold transition-all whitespace-nowrap cursor-pointer ${
                                         currentServer === server.id
                                             ? 'bg-red-600 text-white shadow-lg shadow-red-600/30'
                                             : 'bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/10'
@@ -560,10 +573,10 @@ export const Details = ({ id }) => {
                             ))}
                         </div>
 
-                        {/* Universal Fullscreen Action Button */}
+                        {/* Universal Fullscreen Action Button (Desktop) */}
                         <button
                             onClick={toggleUniversalFullscreen}
-                            className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-bold bg-white/10 hover:bg-red-600 text-white border border-white/15 transition-all shadow-md active:scale-95 cursor-pointer ml-auto"
+                            className="hidden md:flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-bold bg-white/10 hover:bg-red-600 text-white border border-white/15 transition-all shadow-md active:scale-95 cursor-pointer shrink-0"
                             title="Toggle Universal Fullscreen (F)"
                         >
                             <span className="material-symbols-outlined text-lg">
@@ -771,11 +784,11 @@ export const Details = ({ id }) => {
 
                 <div className="flex flex-col lg:flex-row items-start gap-8 lg:gap-12">
                     
-                    {/* Left/Top Column: Summary & Input Form */}
-                    <div className="w-full lg:w-1/3 flex flex-col gap-6 sticky top-24">
+                    {/* Left/Top Column: Summary & Input Form (Sticky only on desktop) */}
+                    <div className="w-full lg:w-1/3 flex flex-col gap-6 static lg:sticky lg:top-24">
                         {/* Rating Summary Block */}
-                        <div className="glass-panel p-8 rounded-2xl flex flex-col items-center justify-center text-center">
-                            <span className="text-7xl font-extrabold text-white leading-none tracking-tighter drop-shadow-md">
+                        <div className="glass-panel p-6 sm:p-8 rounded-2xl flex flex-col items-center justify-center text-center">
+                            <span className="text-6xl sm:text-7xl font-extrabold text-white leading-none tracking-tighter drop-shadow-md">
                                 {reviews.length > 0 ? (reviews.reduce((acc, curr) => acc + curr.rating, 0) / reviews.length).toFixed(1) : '0.0'}
                             </span>
                             <div className="flex gap-1 mt-3 mb-2">
@@ -805,7 +818,7 @@ export const Details = ({ id }) => {
                         </div>
 
                         {/* Inline Review Form */}
-                        <div className="glass-panel p-6 rounded-2xl">
+                        <div className="glass-panel p-5 sm:p-6 rounded-2xl">
                             <h3 className="font-bold text-lg text-white mb-4">{t.details.leaveReview}</h3>
                             
                             {/* Star Selector */}
@@ -869,29 +882,29 @@ export const Details = ({ id }) => {
                     </div>
 
                     {/* Right/Bottom Column: Reviews List */}
-                    <div className="w-full lg:w-2/3 space-y-4">
+                    <div className="w-full lg:w-2/3 space-y-4 min-w-0">
                         {reviews.length > 0 ? (
                             <>
                                 {reviews.slice(0, 5).map((rev, idx) => (
-                                    <div key={idx} className="glass-panel p-6 rounded-2xl relative overflow-hidden group">
+                                    <div key={idx} className="glass-panel p-4 sm:p-6 rounded-2xl relative overflow-hidden group">
                                         <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-yellow-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                         
-                                        <div className="flex justify-between items-start mb-3">
-                                            <div className="flex items-center gap-3">
-                                                <div className="w-10 h-10 rounded-full bg-black/50 border border-white/10 overflow-hidden shadow-lg">
+                                        <div className="flex justify-between items-start mb-3 gap-2">
+                                            <div className="flex items-center gap-3 min-w-0">
+                                                <div className="w-10 h-10 rounded-full bg-black/50 border border-white/10 overflow-hidden shadow-lg shrink-0">
                                                     <img src={rev.avatar || 'https://via.placeholder.com/150'} alt={rev.username} className="w-full h-full object-cover" onError={(e) => { e.target.src = "https://via.placeholder.com/150"; }} />
                                                 </div>
-                                                <div>
-                                                    <p className="font-bold text-base text-white/90">{rev.username || 'Anonymous'}</p>
-                                                    <p className="text-[11px] text-white/40 uppercase tracking-wider">{new Date(rev.timestamp).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}</p>
+                                                <div className="min-w-0">
+                                                    <p className="font-bold text-sm sm:text-base text-white/90 truncate">{rev.username || 'Anonymous'}</p>
+                                                    <p className="text-[10px] sm:text-[11px] text-white/40 uppercase tracking-wider">{new Date(rev.timestamp).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}</p>
                                                 </div>
                                             </div>
-                                            <div className="flex bg-white/5 rounded-full px-2 py-1 items-center gap-1 border border-white/5">
+                                            <div className="flex bg-white/5 rounded-full px-2 py-1 items-center gap-1 border border-white/5 shrink-0">
                                                 <span className="material-symbols-outlined text-sm text-yellow-400 fill drop-shadow-[0_0_5px_rgba(250,204,21,0.5)]">star</span>
-                                                <span className="text-sm font-bold text-white">{Number(rev.rating).toFixed(1)}</span>
+                                                <span className="text-xs sm:text-sm font-bold text-white">{Number(rev.rating).toFixed(1)}</span>
                                             </div>
                                         </div>
-                                        <p className="text-white/70 text-sm md:text-base leading-relaxed pl-[52px]">
+                                        <p className="text-white/70 text-sm md:text-base leading-relaxed pl-0 sm:pl-[52px] break-words">
                                             {rev.comment}
                                         </p>
                                     </div>
@@ -900,14 +913,14 @@ export const Details = ({ id }) => {
                                 {reviews.length > 5 && (
                                     <button 
                                         onClick={() => setIsReviewsModalOpen(true)}
-                                        className="w-full py-4 mt-4 glass-panel rounded-2xl text-white/80 font-bold hover:bg-white/10 transition-colors border border-white/10 hover:border-white/20"
+                                        className="w-full py-4 mt-4 glass-panel rounded-2xl text-white/80 font-bold hover:bg-white/10 transition-colors border border-white/10 hover:border-white/20 cursor-pointer"
                                     >
                                         {t.details.seeAllReviews} {reviews.length} {t.details.reviewsWord}
                                     </button>
                                 )}
                             </>
                         ) : (
-                            <div className="glass-panel p-12 rounded-2xl flex flex-col items-center justify-center text-center border-dashed border-white/10">
+                            <div className="glass-panel p-8 sm:p-12 rounded-2xl flex flex-col items-center justify-center text-center border-dashed border-white/10">
                                 <span className="material-symbols-outlined text-5xl text-white/20 mb-4">reviews</span>
                                 <h3 className="text-xl font-bold text-white/80 mb-2">{t.details.noReviewsYet}</h3>
                                 <p className="text-white/50 text-sm max-w-md detail-description">{t.details.noReviewsBody} {media.title}. {t.details.noReviewsPrompt}</p>
@@ -974,42 +987,42 @@ export const Details = ({ id }) => {
                     <div className="relative w-full max-w-4xl max-h-full glass-panel rounded-3xl overflow-hidden shadow-2xl flex flex-col border border-white/10 animate-slide-up">
                         
                         {/* Modal Header */}
-                        <div className="p-6 border-b border-white/10 flex justify-between items-center bg-white/5 sticky top-0 z-10 backdrop-blur-md">
+                        <div className="p-4 sm:p-6 border-b border-white/10 flex justify-between items-center bg-white/5 sticky top-0 z-10 backdrop-blur-md">
                             <div>
-                                <h3 className="text-2xl font-extrabold text-white flex items-center gap-3">
+                                <h3 className="text-xl sm:text-2xl font-extrabold text-white flex items-center gap-2 sm:gap-3">
                                     <span className="material-symbols-outlined text-yellow-400">reviews</span>
                                     All Reviews
                                 </h3>
-                                <p className="text-white/50 text-sm mt-1">{reviews.length} viewer ratings for {media?.title}</p>
+                                <p className="text-white/50 text-xs sm:text-sm mt-0.5 sm:mt-1">{reviews.length} viewer ratings for {media?.title}</p>
                             </div>
                             <button 
                                 onClick={() => setIsReviewsModalOpen(false)}
-                                className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors text-white"
+                                className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors text-white cursor-pointer"
                             >
                                 <span className="material-symbols-outlined">close</span>
                             </button>
                         </div>
                         
                         {/* Modal Body - Scrollable Reviews List */}
-                        <div className="p-6 overflow-y-auto custom-scrollbar space-y-4">
+                        <div className="p-4 sm:p-6 overflow-y-auto custom-scrollbar space-y-4">
                             {reviews.map((rev, idx) => (
-                                <div key={idx} className="bg-white/5 p-6 rounded-2xl relative group">
-                                    <div className="flex justify-between items-start mb-3">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 rounded-full bg-black/50 border border-white/10 overflow-hidden shadow-lg">
+                                <div key={idx} className="bg-white/5 p-4 sm:p-6 rounded-2xl relative group">
+                                    <div className="flex justify-between items-start mb-3 gap-2">
+                                        <div className="flex items-center gap-3 min-w-0">
+                                            <div className="w-10 h-10 rounded-full bg-black/50 border border-white/10 overflow-hidden shadow-lg shrink-0">
                                                 <img src={rev.avatar || 'https://via.placeholder.com/150'} alt={rev.username} className="w-full h-full object-cover" onError={(e) => { e.target.src = "https://via.placeholder.com/150"; }} />
                                             </div>
-                                            <div>
-                                                <p className="font-bold text-base text-white/90">{rev.username || 'Anonymous'}</p>
-                                                <p className="text-[11px] text-white/40 uppercase tracking-wider">{new Date(rev.timestamp).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}</p>
+                                            <div className="min-w-0">
+                                                <p className="font-bold text-sm sm:text-base text-white/90 truncate">{rev.username || 'Anonymous'}</p>
+                                                <p className="text-[10px] sm:text-[11px] text-white/40 uppercase tracking-wider">{new Date(rev.timestamp).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}</p>
                                             </div>
                                         </div>
-                                        <div className="flex bg-white/5 rounded-full px-2 py-1 items-center gap-1 border border-white/5">
+                                        <div className="flex bg-white/5 rounded-full px-2 py-1 items-center gap-1 border border-white/5 shrink-0">
                                             <span className="material-symbols-outlined text-sm text-yellow-400 fill drop-shadow-[0_0_5px_rgba(250,204,21,0.5)]">star</span>
-                                            <span className="text-sm font-bold text-white">{Number(rev.rating).toFixed(1)}</span>
+                                            <span className="text-xs sm:text-sm font-bold text-white">{Number(rev.rating).toFixed(1)}</span>
                                         </div>
                                     </div>
-                                    <p className="text-white/70 text-sm md:text-base leading-relaxed pl-[52px]">
+                                    <p className="text-white/70 text-sm md:text-base leading-relaxed pl-0 sm:pl-[52px] break-words">
                                         {rev.comment}
                                     </p>
                                 </div>
