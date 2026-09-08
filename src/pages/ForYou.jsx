@@ -206,8 +206,8 @@ export const ForYou = () => {
                         </div>
                     </aside>
 
-                    {/* Mobile Banner (Visible on smaller screens) */}
-                    <div className="w-full max-w-[450px] xl:hidden mt-4">
+                    {/* Mobile & Tablet Banner (Visible on screens < xl) */}
+                    <div className="w-full max-w-[450px] md:max-w-3xl xl:hidden mt-4">
                         <NativeAdBanner compact />
                     </div>
 
