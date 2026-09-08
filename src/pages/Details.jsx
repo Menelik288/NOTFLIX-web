@@ -724,8 +724,8 @@ export const Details = ({ id }) => {
                 </section>
             )}
 
-            {/* ═══════════════ TOP NATIVE AD BANNER ═══════════════ */}
-            <div className="px-4 md:px-edge-margin max-w-container-max mx-auto">
+            {/* ═══════════════ TOP NATIVE AD BANNER (Desktop only) ═══════════════ */}
+            <div className="px-4 md:px-edge-margin max-w-container-max mx-auto hidden md:block">
                 <NativeAdBanner />
             </div>
 
@@ -917,11 +917,6 @@ export const Details = ({ id }) => {
                 </div>
             </section>
 
-            {/* ═══════════════ SECOND AD BANNER (Lower) ═══════════════ */}
-            <div className="px-4 md:px-edge-margin max-w-container-max mx-auto">
-                <NativeAdBanner title="Recommended Deals" />
-            </div>
-
             {/* ═══════════════ SIMILAR MEDIA ═══════════════ */}
             {similar.length > 0 && (
                 <section className="px-4 md:px-edge-margin py-6 md:py-10 max-w-container-max mx-auto overflow-hidden">
@@ -966,6 +961,11 @@ export const Details = ({ id }) => {
                     </div>
                 </section>
             )}
+
+            {/* ═══════════════ BOTTOM NATIVE AD BANNER (Visible on all devices at bottom of page) ═══════════════ */}
+            <div className="px-4 md:px-edge-margin max-w-container-max mx-auto mb-10">
+                <NativeAdBanner title="Recommended Deals" />
+            </div>
             
             {/* ═══════════════ ALL REVIEWS MODAL ═══════════════ */}
             {isReviewsModalOpen && (

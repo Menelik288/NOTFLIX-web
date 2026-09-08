@@ -77,7 +77,7 @@ export const Series = () => {
                     />
                 )}
 
-                <NativeAdBanner />
+                <NativeAdBanner className="hidden md:block" />
 
                 {/* Action and Adventure */}
                 {actionTV.length > 0 && (
@@ -88,8 +88,6 @@ export const Series = () => {
                     />
                 )}
 
-                <NativeAdBanner title="Trending Offers" />
-
                 {/* Popular Series */}
                 {popularTV.length > 0 && (
                     <MediaRow 
@@ -98,6 +96,9 @@ export const Series = () => {
                         type="latest" 
                     />
                 )}
+
+                {/* Bottom Native Ad (Visible on all devices at bottom of page) */}
+                <NativeAdBanner title="Trending Offers" />
             </div>
         </div>
     );

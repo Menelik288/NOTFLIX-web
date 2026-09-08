@@ -78,20 +78,21 @@ export const Home = () => {
                 {trendingMovies.length > 0 && (
                     <MediaRow title={t.home.trendingMovies} items={trendingMovies} type="poster" />
                 )}
-                <NativeAdBanner />
+                <NativeAdBanner className="hidden md:block" />
                 {trendingTV.length > 0 && (
                     <MediaRow title={t.home.trendingTV} items={trendingTV} type="poster" />
                 )}
                 {topRatedMovies.length > 0 && (
                     <MediaRow title={t.home.topRatedMovies} items={topRatedMovies} type="latest" />
                 )}
-                <NativeAdBanner title="Trending Offers" />
                 {topRatedTV.length > 0 && (
                     <MediaRow title={t.home.topRatedTV} items={topRatedTV} type="latest" />
                 )}
                 {nowPlaying.length > 0 && (
                     <MediaRow title={t.home.nowPlaying} items={nowPlaying} type="latest" />
                 )}
+                {/* Bottom Native Ad (Visible on all devices at bottom of page) */}
+                <NativeAdBanner title="Trending Offers" />
             </div>
         </div>
     );
