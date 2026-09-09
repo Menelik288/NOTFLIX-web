@@ -4,6 +4,7 @@ import { TMDBService, normalizeListResponse } from '../services/tmdb';
 import { HeroBanner } from '../components/HeroBanner';
 import { MediaRow } from '../components/MediaRow';
 import { NativeAdBanner } from '../components/NativeAdBanner';
+import { DisplayAdBanner } from '../components/DisplayAdBanner';
 import { SeriesPageSkeleton } from '../components/Skeleton';
 
 export const Series = () => {
@@ -97,8 +98,8 @@ export const Series = () => {
                     />
                 )}
 
-                {/* Bottom Native Ad (Visible on all devices at bottom of page) */}
-                <NativeAdBanner title="Trending Offers" />
+                {/* Bottom Display Banner (Adsterra 300x250) */}
+                <DisplayAdBanner title="Trending Offers" />
             </div>
         </div>
     );

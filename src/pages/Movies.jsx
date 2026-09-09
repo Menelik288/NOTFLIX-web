@@ -4,6 +4,7 @@ import { TMDBService, normalizeListResponse } from '../services/tmdb';
 import { HeroBanner } from '../components/HeroBanner';
 import { MediaRow } from '../components/MediaRow';
 import { NativeAdBanner } from '../components/NativeAdBanner';
+import { DisplayAdBanner } from '../components/DisplayAdBanner';
 import { MoviesPageSkeleton } from '../components/Skeleton';
 
 export const Movies = () => {
@@ -71,8 +72,8 @@ export const Movies = () => {
                 {popularMovies.length > 0 && (
                     <MediaRow title={t.movies.popular} items={popularMovies} type="latest" />
                 )}
-                {/* Bottom Native Ad (Visible on all devices at bottom of page) */}
-                <NativeAdBanner title="Recommended Deals" />
+                {/* Bottom Display Banner (Adsterra 300x250) */}
+                <DisplayAdBanner title="Recommended Deals" />
             </div>
         </div>
     );
