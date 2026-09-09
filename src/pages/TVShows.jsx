@@ -3,7 +3,6 @@ import { useApp } from '../context/AppContext';
 import { NotFlixData } from '../data/catalog';
 import { RatingBadge } from '../components/RatingBadge';
 import { NativeAdBanner } from '../components/NativeAdBanner';
-import { DisplayAdBanner } from '../components/DisplayAdBanner';
 
 export const TVShows = () => {
     const { playMedia, toggleWatchlist, watchlist, navigateTo } = useApp();
@@ -105,8 +104,8 @@ export const TVShows = () => {
                 </div>
             )}
 
-            {/* Bottom Display Banner (Adsterra 300x250) */}
-            <DisplayAdBanner title="More Recommended Deals" />
+            {/* Bottom Native Ad (Placement Unit 2) */}
+            <NativeAdBanner placement="bottom" title="More Recommended Deals" />
         </div>
     );
 };

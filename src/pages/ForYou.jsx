@@ -202,13 +202,13 @@ export const ForYou = () => {
                                 </span>
                                 <span className="text-[10px] bg-white/10 text-white/60 px-1.5 py-0.5 rounded font-semibold">AD</span>
                             </div>
-                            <NativeAdBanner title="Featured Offers" compact className="my-0" />
+                            <NativeAdBanner placement="bottom" title="Featured Offers" compact className="my-0" />
                         </div>
                     </aside>
 
                     {/* Mobile & Tablet Banner (Visible on screens < xl) */}
                     <div className="w-full max-w-[450px] md:max-w-3xl xl:hidden mt-4">
-                        <NativeAdBanner compact />
+                        <NativeAdBanner placement="bottom" compact />
                     </div>
 
                 </div>

@@ -1,7 +1,13 @@
 import { useEffect, useRef } from 'react';
 
-export const NativeAdBanner = ({ className = '', title = 'Sponsored Recommendations', compact = false }) => {
+const AD_UNITS = {
+    top: 'fa5671a96b2087bde086040d5a8719fc',
+    bottom: '03498da1519c107dee56f962a99645d2'
+};
+
+export const NativeAdBanner = ({ className = '', title = 'Sponsored Recommendations', compact = false, placement = 'top', unitId }) => {
     const bannerRef = useRef(null);
+    const activeUnitId = unitId || AD_UNITS[placement] || AD_UNITS.top;
 
     useEffect(() => {
         const container = bannerRef.current;
@@ -12,7 +18,7 @@ export const NativeAdBanner = ({ className = '', title = 'Sponsored Recommendati
 
         // 1. Create target ad container expected by Adsterra
         const adDiv = document.createElement('div');
-        adDiv.id = 'container-fa5671a96b2087bde086040d5a8719fc';
+        adDiv.id = `container-${activeUnitId}`;
         adDiv.style.width = '100%';
         container.appendChild(adDiv);
 
@@ -21,7 +27,7 @@ export const NativeAdBanner = ({ className = '', title = 'Sponsored Recommendati
         script.type = 'text/javascript';
         script.async = true;
         script.setAttribute('data-cfasync', 'false');
-        script.src = 'https://paralysisfoxbullet.com/fa5671a96b2087bde086040d5a8719fc/invoke.js';
+        script.src = `https://paralysisfoxbullet.com/${activeUnitId}/invoke.js`;
 
         container.appendChild(script);
 
@@ -30,7 +36,7 @@ export const NativeAdBanner = ({ className = '', title = 'Sponsored Recommendati
                 container.innerHTML = '';
             }
         };
-    }, []);
+    }, [activeUnitId]);
 
     return (
         <div className={`w-full ${compact ? 'my-3' : 'my-6'} ${className}`}>
