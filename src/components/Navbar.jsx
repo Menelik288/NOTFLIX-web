@@ -134,12 +134,24 @@ export const Navbar = () => {
                             NOTFLIX
                         </a>
                         {/* Desktop Links */}
-                        <div className="hidden md:flex items-center gap-6 lg:gap-8 nav-links">
+                        <div className="hidden md:flex items-center gap-5 lg:gap-7 nav-links">
                             <button onClick={() => navigateTo('#/')} className={`nav-pixel-link pb-1 text-sm lg:text-base ${isLinkActive('home') ? 'active-link' : 'text-white/70 hover:text-white'}`}>{t.nav.home}</button>
                             <button onClick={() => navigateTo('#/movies')} className={`nav-pixel-link pb-1 text-sm lg:text-base ${isLinkActive('movies') ? 'active-link' : 'text-white/70 hover:text-white'}`}>{t.nav.movies}</button>
                             <button onClick={() => navigateTo('#/for-you')} className={`nav-pixel-link pb-1 text-sm lg:text-base ${isLinkActive('for-you') ? 'active-link' : 'text-white/70 hover:text-white'}`}>{t.nav.forYou}</button>
                             <button onClick={() => navigateTo('#/tv')} className={`nav-pixel-link pb-1 text-sm lg:text-base ${isLinkActive('tv') ? 'active-link' : 'text-white/70 hover:text-white'}`}>{t.nav.tv}</button>
                             <button onClick={() => navigateTo('#/watchlist')} className={`nav-pixel-link pb-1 text-sm lg:text-base ${isLinkActive('watchlist') ? 'active-link' : 'text-white/70 hover:text-white'}`}>{t.nav.watchlist}</button>
+                            
+                            {/* Download Mobile App Button */}
+                            <a 
+                                href="/Notflix_v1.0.1.APK" 
+                                download="Notflix_v1.0.1.apk"
+                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white text-xs lg:text-sm font-bold shadow-lg shadow-red-600/30 hover:shadow-red-600/50 border border-red-500/40 transition-all hover:scale-105 active:scale-95 cursor-pointer ml-1 whitespace-nowrap"
+                                title="Download Notflix Android App v1.0.1 (12.6 MB)"
+                            >
+                                <span className="material-symbols-outlined text-[17px] text-white">android</span>
+                                <span>{t.nav.getApp || 'Get App'}</span>
+                                <span className="text-[9px] bg-black/40 text-white/90 px-1.5 py-0.5 rounded font-mono font-bold tracking-tight">APK</span>
+                            </a>
                         </div>
                     </div>
                     
@@ -255,6 +267,17 @@ export const Navbar = () => {
                             )}
                         </div>
                         
+                        {/* Mobile Download App Button */}
+                        <a 
+                            href="/Notflix_v1.0.1.APK" 
+                            download="Notflix_v1.0.1.apk"
+                            className="md:hidden flex items-center gap-1 px-2.5 py-1 rounded-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 text-white text-[11px] font-bold border border-red-500/40 shadow-md shadow-red-600/30 active:scale-95 cursor-pointer shrink-0"
+                            title="Download Notflix Android App v1.0.1 (12.6 MB)"
+                        >
+                            <span className="material-symbols-outlined text-[15px]">android</span>
+                            <span>{t.nav.getApp || 'Get App'}</span>
+                        </a>
+
                         {/* Notification Panel */}
                         <div className="relative" ref={notificationsRef}>
                             <button 

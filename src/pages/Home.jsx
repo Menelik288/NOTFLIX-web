@@ -91,6 +91,36 @@ export const Home = () => {
                 {nowPlaying.length > 0 && (
                     <MediaRow title={t.home.nowPlaying} items={nowPlaying} type="latest" />
                 )}
+                {/* ═══════════════ APP DOWNLOAD FEATURED BANNER ═══════════════ */}
+                <section className="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 relative overflow-hidden bg-gradient-to-br from-red-950/40 via-black/70 to-black shadow-2xl my-6">
+                    <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-gradient-to-l from-red-600/10 to-transparent pointer-events-none"></div>
+                    <div className="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
+                        <div className="flex items-center gap-4 sm:gap-6 text-left w-full md:w-auto">
+                            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center shrink-0 shadow-xl shadow-red-600/30 border border-red-500/40">
+                                <span className="material-symbols-outlined text-3xl sm:text-4xl text-white">android</span>
+                            </div>
+                            <div className="min-w-0">
+                                <div className="flex items-center gap-2">
+                                    <h3 className="text-lg sm:text-xl font-extrabold text-white truncate">Get the Notflix Mobile App</h3>
+                                    <span className="bg-red-600/20 text-red-400 border border-red-500/30 text-[10px] font-mono font-bold px-2 py-0.5 rounded-full shrink-0">v1.0.1</span>
+                                </div>
+                                <p className="text-white/60 text-xs sm:text-sm mt-1 max-w-xl">
+                                    Stream thousands of movies and TV shows directly on your Android phone or tablet with zero hassle.
+                                </p>
+                            </div>
+                        </div>
+                        <a 
+                            href="/Notflix_v1.0.1.APK" 
+                            download="Notflix_v1.0.1.apk"
+                            className="btn-primary flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm shadow-xl shadow-red-600/40 hover:scale-105 active:scale-95 transition-all whitespace-nowrap cursor-pointer w-full md:w-auto shrink-0"
+                            title="Download APK v1.0.1 (12.6 MB)"
+                        >
+                            <span className="material-symbols-outlined text-xl">download</span>
+                            <span>Download APK (12.6 MB)</span>
+                        </a>
+                    </div>
+                </section>
+
                 {/* Bottom Native Ad (Visible on all devices at bottom of page) */}
                 <NativeAdBanner title="Trending Offers" />
             </div>

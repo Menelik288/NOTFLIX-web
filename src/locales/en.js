@@ -12,6 +12,7 @@ const en = {
     clearAll: 'Clear all',
     noNotifications: 'No new notifications',
     signIn: 'Sign In',
+    getApp: 'Get App',
   },
   hero: {
     watchNow: 'Watch Now',

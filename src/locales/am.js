@@ -12,6 +12,7 @@ const am = {
     clearAll: 'ሁሉንም አጥፋ',
     noNotifications: 'አዲስ ማሳወቂያ የለም',
     signIn: 'ግባ',
+    getApp: 'አፕ አውርድ',
   },
   hero: {
     watchNow: 'አሁን ይመልከቱ',
