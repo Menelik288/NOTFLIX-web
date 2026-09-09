@@ -6,6 +6,7 @@ import { HeroBanner } from '../components/HeroBanner';
 import { MediaRow } from '../components/MediaRow';
 import { NativeAdBanner } from '../components/NativeAdBanner';
 import { DisplayAdBanner } from '../components/DisplayAdBanner';
+import { VPNBanner } from '../components/VPNBanner';
 import { HomePageSkeleton } from '../components/Skeleton';
 import { AdService } from '../services/adService';
 
@@ -93,6 +94,10 @@ export const Home = () => {
                 {nowPlaying.length > 0 && (
                     <MediaRow title={t.home.nowPlaying} items={nowPlaying} type="latest" />
                 )}
+
+                {/* ═══════════════ STREAMING BOOSTER AFFILIATE BANNER ═══════════════ */}
+                <VPNBanner className="my-6" />
+
                 {/* ═══════════════ APP DOWNLOAD FEATURED BANNER ═══════════════ */}
                 <section className="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 relative overflow-hidden bg-gradient-to-br from-red-950/40 via-black/70 to-black shadow-2xl my-6">
                     <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-gradient-to-l from-red-600/10 to-transparent pointer-events-none"></div>

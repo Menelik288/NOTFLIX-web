@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useApp } from '../context/AppContext';
+import { VPNBanner } from './VPNBanner';
 
 export const VideoPlayer = () => {
     const { 
@@ -224,10 +225,10 @@ export const VideoPlayer = () => {
                             referrerPolicy="origin"
                             title={currentMedia.title}
                         />
-                        {/* Stream Disclaimer & Support HUD */}
-                        <div className="absolute top-6 left-6 flex items-center gap-3 z-30">
-                            <div className="glass-surface px-4 py-2 rounded-lg border border-white/10 text-left text-xs bg-black/40">
-                                <span className="text-white/60 block">Streaming Server:</span>
+                        {/* Stream Disclaimer, Support HUD & VPN Booster */}
+                        <div className="absolute top-6 left-6 flex items-center gap-2.5 z-30 flex-wrap">
+                            <div className="glass-surface px-3 sm:px-4 py-2 rounded-lg border border-white/10 text-left text-xs bg-black/40">
+                                <span className="text-white/60 block text-[10px]">Streaming Server:</span>
                                 <span className="text-primary-container font-bold uppercase">{currentSource}</span>
                             </div>
                             <button
@@ -238,6 +239,7 @@ export const VideoPlayer = () => {
                                 <span className="material-symbols-outlined text-sm text-red-500 fill" style={{ fontVariationSettings: "'FILL' 1" }}>favorite</span>
                                 <span className="hidden sm:inline">Tip Server</span>
                             </button>
+                            <VPNBanner compact className="hidden md:flex max-w-xs" />
                         </div>
                     </div>
                 )}
