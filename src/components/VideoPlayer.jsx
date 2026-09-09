@@ -7,6 +7,7 @@ export const VideoPlayer = () => {
         closePlayer, 
         currentSource, 
         setCurrentSource, 
+        setDonationModalOpen,
         saveProgress 
     } = useApp();
 
@@ -223,10 +224,20 @@ export const VideoPlayer = () => {
                             referrerPolicy="origin"
                             title={currentMedia.title}
                         />
-                        {/* Stream Disclaimer HUD */}
-                        <div className="absolute top-6 left-6 pointer-events-none glass-surface px-4 py-2 rounded-lg border border-white/10 text-left text-xs bg-black/40">
-                            <span className="text-white/60 block">Streaming Server:</span>
-                            <span className="text-primary-container font-bold uppercase">{currentSource}</span>
+                        {/* Stream Disclaimer & Support HUD */}
+                        <div className="absolute top-6 left-6 flex items-center gap-3 z-30">
+                            <div className="glass-surface px-4 py-2 rounded-lg border border-white/10 text-left text-xs bg-black/40">
+                                <span className="text-white/60 block">Streaming Server:</span>
+                                <span className="text-primary-container font-bold uppercase">{currentSource}</span>
+                            </div>
+                            <button
+                                onClick={() => setDonationModalOpen(true)}
+                                className="glass-surface px-3 py-2 rounded-lg border border-red-500/30 text-xs font-bold text-white flex items-center gap-1.5 hover:bg-red-500/20 active:scale-95 transition-all cursor-pointer shadow-lg shadow-black/40"
+                                title="Support Server Uptime"
+                            >
+                                <span className="material-symbols-outlined text-sm text-red-500 fill" style={{ fontVariationSettings: "'FILL' 1" }}>favorite</span>
+                                <span className="hidden sm:inline">Tip Server</span>
+                            </button>
                         </div>
                     </div>
                 )}

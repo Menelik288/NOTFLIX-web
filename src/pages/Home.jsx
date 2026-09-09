@@ -10,7 +10,7 @@ import { HomePageSkeleton } from '../components/Skeleton';
 import { AdService } from '../services/adService';
 
 export const Home = () => {
-    const { continueWatching } = useApp();
+    const { continueWatching, setDonationModalOpen } = useApp();
     const { t } = useLanguage();
 
     const [loading, setLoading] = useState(true);
@@ -111,14 +111,24 @@ export const Home = () => {
                                 </p>
                             </div>
                         </div>
-                        <button 
-                            onClick={() => AdService.triggerAppDownload('/Notflix_v1.0.1.APK', 'Notflix_v1.0.1.apk')}
-                            className="btn-primary flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm shadow-xl shadow-red-600/40 hover:scale-105 active:scale-95 transition-all whitespace-nowrap cursor-pointer w-full md:w-auto shrink-0"
-                            title="Download APK v1.0.1 (12.6 MB)"
-                        >
-                            <span className="material-symbols-outlined text-xl">download</span>
-                            <span>Download APK (12.6 MB)</span>
-                        </button>
+                        <div className="flex items-center gap-3 w-full md:w-auto shrink-0 flex-wrap sm:flex-nowrap">
+                            <button
+                                onClick={() => setDonationModalOpen(true)}
+                                className="glass-surface hover:bg-red-500/20 text-white hover:text-red-400 border border-white/20 hover:border-red-500/40 flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl font-bold text-sm transition-all hover:scale-105 active:scale-95 whitespace-nowrap cursor-pointer w-full sm:w-auto"
+                                title="Donate / Support NotFlix"
+                            >
+                                <span className="material-symbols-outlined text-lg text-red-500 fill" style={{ fontVariationSettings: "'FILL' 1" }}>favorite</span>
+                                <span>Support NotFlix</span>
+                            </button>
+                            <button 
+                                onClick={() => AdService.triggerAppDownload('/Notflix_v1.0.1.APK', 'Notflix_v1.0.1.apk')}
+                                className="btn-primary flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm shadow-xl shadow-red-600/40 hover:scale-105 active:scale-95 transition-all whitespace-nowrap cursor-pointer w-full sm:w-auto"
+                                title="Download APK v1.0.1 (12.6 MB)"
+                            >
+                                <span className="material-symbols-outlined text-xl">download</span>
+                                <span>Download APK (12.6 MB)</span>
+                            </button>
+                        </div>
                     </div>
                 </section>
 

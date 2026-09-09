@@ -4,6 +4,7 @@ import { LanguageProvider } from './context/LanguageContext';
 import { Navbar } from './components/Navbar';
 import { VideoPlayer } from './components/VideoPlayer';
 import { AuthModal } from './components/AuthModal';
+import { DonationModal } from './components/DonationModal';
 import { CustomCursor } from './components/CustomCursor';
 
 // Pages
@@ -81,7 +82,7 @@ const RouterView = () => {
 };
 
 const AppShell = () => {
-    const { currentMedia, closePlayer, settings } = useApp();
+    const { currentMedia, closePlayer, settings, donationModalOpen, setDonationModalOpen } = useApp();
 
     // Apply theme class on settings change
     useEffect(() => {
@@ -103,6 +104,10 @@ const AppShell = () => {
                 <VideoPlayer media={currentMedia} onClose={closePlayer} />
             )}
             <AuthModal />
+            <DonationModal 
+                isOpen={donationModalOpen} 
+                onClose={() => setDonationModalOpen(false)} 
+            />
         </div>
     );
 };

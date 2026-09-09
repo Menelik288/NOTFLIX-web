@@ -51,34 +51,76 @@ export const About = () => {
 
                 <div className="pt-4 border-t border-white/10">
                     <h2 className="text-lg font-bold mb-4 text-primary flex items-center gap-2">
-                        Support NotFlix <span className="material-symbols-outlined text-red-500" style={{ fontVariationSettings: "'FILL' 1" }}>favorite</span>
+                        Support NotFlix <span className="material-symbols-outlined text-red-500 fill" style={{ fontVariationSettings: "'FILL' 1" }}>favorite</span>
                     </h2>
                     <p className="text-white/70 mb-6 leading-relaxed">
-                        If you enjoy using NotFlix and would like to support its development, you can donate using the option below. Your support helps improve features and future updates.
+                        If you enjoy using NotFlix and would like to support its development, you can donate using the options below. Your support helps improve features and future updates.
                     </p>
                     
-                    <div className="glass-surface p-4 md:p-6 rounded-xl border border-red-500/20 hover:border-red-500/40 transition-all flex flex-col md:flex-row items-center gap-6">
-                        <div className="flex-1 text-center md:text-left w-full">
-                            <div className="text-white/50 text-xs font-bold uppercase tracking-wider mb-1">Binance Donation UID</div>
-                            <div className="text-2xl font-black mb-4 tracking-wider text-white">908057169</div>
-                            <button
-                                onClick={handleCopy}
-                                className="w-full md:w-auto btn-primary px-6 py-2.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2"
-                            >
-                                <span className="material-symbols-outlined text-sm">
-                                    {isCopied ? 'check' : 'content_copy'}
-                                </span>
-                                {isCopied ? 'Copied' : 'Copy UID'}
-                            </button>
+                    <div className="space-y-4">
+                        {/* 1. USDT (TRC-20) Card */}
+                        <div className="glass-surface p-4 md:p-6 rounded-2xl border border-emerald-500/20 hover:border-emerald-500/40 transition-all flex flex-col md:flex-row items-center gap-6">
+                            <div className="flex-1 text-center md:text-left w-full">
+                                <div className="flex items-center gap-2 mb-1 justify-center md:justify-start">
+                                    <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                                        TRON Network (TRC-20)
+                                    </span>
+                                </div>
+                                <div className="text-white/50 text-xs font-bold uppercase tracking-wider mb-1">USDT Deposit Address</div>
+                                <div className="font-mono text-xs text-white bg-black/60 p-2.5 rounded-xl border border-white/10 break-all select-all font-bold mb-3">
+                                    TTe76gvM4VqDqw8GYUBSbzxT82VF6LdWFA
+                                </div>
+                                <button
+                                    onClick={() => {
+                                        navigator.clipboard.writeText('TTe76gvM4VqDqw8GYUBSbzxT82VF6LdWFA');
+                                        addNotification('Copied', 'USDT TRC-20 Address copied to clipboard!', 'content_copy');
+                                    }}
+                                    className="w-full md:w-auto btn-primary px-6 py-2.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-red-600/30 active:scale-95"
+                                >
+                                    <span className="material-symbols-outlined text-sm">content_copy</span>
+                                    <span>Copy USDT Address</span>
+                                </button>
+                            </div>
+                            
+                            <div className="bg-white p-2 rounded-2xl shrink-0 shadow-lg">
+                                <img 
+                                    src="/usdt_trc20_qr.jpg" 
+                                    alt="USDT TRC-20 QR Code" 
+                                    className="w-24 h-24 md:w-28 md:h-28 rounded-xl object-contain"
+                                    loading="lazy"
+                                />
+                            </div>
                         </div>
-                        
-                        <div className="bg-white p-2 rounded-xl shrink-0 shadow-lg">
-                            <img 
-                                src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=Donate%20to%20NotFlix%20(Binance%20UID:%20908057169)&margin=2" 
-                                alt="Binance QR Code"
-                                className="w-24 h-24 md:w-28 md:h-28 rounded-lg"
-                                loading="lazy"
-                            />
+
+                        {/* 2. Binance Pay UID Card */}
+                        <div className="glass-surface p-4 md:p-6 rounded-2xl border border-yellow-500/20 hover:border-yellow-500/40 transition-all flex flex-col md:flex-row items-center gap-6">
+                            <div className="flex-1 text-center md:text-left w-full">
+                                <div className="flex items-center gap-2 mb-1 justify-center md:justify-start">
+                                    <span className="text-[10px] font-extrabold uppercase tracking-wider text-yellow-400 bg-yellow-500/10 px-2 py-0.5 rounded border border-yellow-500/20">
+                                        Binance Pay • 0% Fees
+                                    </span>
+                                </div>
+                                <div className="text-white/50 text-xs font-bold uppercase tracking-wider mb-1">Binance Donation UID</div>
+                                <div className="text-2xl font-black mb-4 tracking-wider text-yellow-400">908057169</div>
+                                <button
+                                    onClick={handleCopy}
+                                    className="w-full md:w-auto btn-primary px-6 py-2.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-red-600/30 active:scale-95"
+                                >
+                                    <span className="material-symbols-outlined text-sm">
+                                        {isCopied ? 'check' : 'content_copy'}
+                                    </span>
+                                    {isCopied ? 'Copied' : 'Copy UID'}
+                                </button>
+                            </div>
+                            
+                            <div className="bg-white p-2 rounded-2xl shrink-0 shadow-lg">
+                                <img 
+                                    src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=Donate%20to%20NotFlix%20(Binance%20UID:%20908057169)&margin=2" 
+                                    alt="Binance QR Code" 
+                                    className="w-24 h-24 md:w-28 md:h-28 rounded-xl"
+                                    loading="lazy"
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>

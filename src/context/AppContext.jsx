@@ -10,6 +10,7 @@ export const AppProvider = ({ children }) => {
     // Auth & User
     const [user, setUser] = useState(null);
     const [authModalOpen, setAuthModalOpen] = useState(false);
+    const [donationModalOpen, setDonationModalOpen] = useState(false);
 
     // Data state
     const [profile, setProfile] = useState({ username: 'Guest', avatar_url: 'https://via.placeholder.com/150' });
@@ -207,6 +208,8 @@ export const AppProvider = ({ children }) => {
             currentRoute,
             authModalOpen,
             setAuthModalOpen,
+            donationModalOpen,
+            setDonationModalOpen,
             navigateTo,
             updateProfile,
             toggleWatchlist,

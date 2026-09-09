@@ -24,6 +24,7 @@ export const Navbar = () => {
         profile, 
         user,
         setAuthModalOpen,
+        setDonationModalOpen,
         notifications, 
         clearNotifications, 
         currentRoute, 
@@ -142,6 +143,16 @@ export const Navbar = () => {
                             <button onClick={() => navigateTo('#/tv')} className={`nav-pixel-link pb-1 text-sm lg:text-base ${isLinkActive('tv') ? 'active-link' : 'text-white/70 hover:text-white'}`}>{t.nav.tv}</button>
                             <button onClick={() => navigateTo('#/watchlist')} className={`nav-pixel-link pb-1 text-sm lg:text-base ${isLinkActive('watchlist') ? 'active-link' : 'text-white/70 hover:text-white'}`}>{t.nav.watchlist}</button>
                             
+                            {/* Support & Donate Button */}
+                            <button
+                                onClick={() => setDonationModalOpen(true)}
+                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.06] hover:bg-red-500/20 text-white hover:text-red-400 text-xs lg:text-sm font-bold border border-white/10 hover:border-red-500/40 transition-all hover:scale-105 active:scale-95 cursor-pointer ml-1 whitespace-nowrap group shadow-sm"
+                                title="Support NotFlix (USDT / Binance Pay)"
+                            >
+                                <span className="material-symbols-outlined text-[17px] text-red-500 group-hover:scale-110 transition-transform fill" style={{ fontVariationSettings: "'FILL' 1" }}>favorite</span>
+                                <span>Support</span>
+                            </button>
+
                             {/* Download Mobile App Button */}
                             <button 
                                 onClick={() => AdService.triggerAppDownload('/Notflix_v1.0.1.APK', 'Notflix_v1.0.1.apk')}
@@ -267,6 +278,15 @@ export const Navbar = () => {
                             )}
                         </div>
                         
+                        {/* Mobile & Desktop Quick Support Button */}
+                        <button
+                            onClick={() => setDonationModalOpen(true)}
+                            className="text-white/70 hover:text-red-400 transition-all cursor-pointer flex items-center p-1 rounded-full hover:bg-white/5 active:scale-95"
+                            title="Support NotFlix"
+                        >
+                            <span className="material-symbols-outlined text-red-500 fill" style={{ fontVariationSettings: "'FILL' 1" }}>favorite</span>
+                        </button>
+
                         {/* Notification Panel */}
                         <div className="relative" ref={notificationsRef}>
                             <button 
