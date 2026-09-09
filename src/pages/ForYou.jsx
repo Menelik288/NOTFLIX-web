@@ -4,6 +4,7 @@ import { useLanguage } from '../hooks/useLanguage';
 import { TMDBService } from '../services/tmdb';
 import { RecommendationEngine } from '../services/recommendationEngine';
 import { NativeAdBanner } from '../components/NativeAdBanner';
+import { DisplayAdBanner } from '../components/DisplayAdBanner';
 import { ForYouSkeleton } from '../components/Skeleton';
 
 const LOCAL_STORAGE_SUPPRESSED_KEY = 'notflix_suppressed_recommendations';
@@ -204,11 +205,13 @@ export const ForYou = () => {
                             </div>
                             <NativeAdBanner placement="bottom" title="Featured Offers" compact className="my-0" />
                         </div>
+                        <DisplayAdBanner title="Sponsored Deals" />
                     </aside>
 
                     {/* Mobile & Tablet Banner (Visible on screens < xl) */}
-                    <div className="w-full max-w-[450px] md:max-w-3xl xl:hidden mt-4">
+                    <div className="w-full max-w-[450px] md:max-w-3xl xl:hidden mt-4 space-y-4">
                         <NativeAdBanner placement="bottom" compact />
+                        <DisplayAdBanner title="Sponsored Deals" />
                     </div>
 
                 </div>

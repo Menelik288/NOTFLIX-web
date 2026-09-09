@@ -3,6 +3,7 @@ import { useApp } from '../context/AppContext';
 import { useLanguage } from '../hooks/useLanguage';
 import { NotFlixData } from '../data/catalog';
 import { NativeAdBanner } from '../components/NativeAdBanner';
+import { DisplayAdBanner } from '../components/DisplayAdBanner';
 
 export const Watchlist = () => {
     const { watchlist, playMedia, toggleWatchlist, navigateTo } = useApp();
@@ -69,6 +70,9 @@ export const Watchlist = () => {
 
             {/* Bottom Native Ad (Placement Unit 2) */}
             <NativeAdBanner placement="bottom" title="Recommended For You" />
+
+            {/* Bottom Display Banner (Adsterra 300x250 Unit 3) */}
+            <DisplayAdBanner title="Featured Partner Deals" />
         </div>
     );
 };

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { TMDBService, normalizeListResponse } from '../services/tmdb';
 import { useApp } from '../context/AppContext';
 import { NativeAdBanner } from '../components/NativeAdBanner';
+import { DisplayAdBanner } from '../components/DisplayAdBanner';
 import { MediaGridSkeleton } from '../components/Skeleton';
 import debounce from 'lodash/debounce';
 
@@ -349,9 +350,10 @@ export const Search = () => {
                     </div>
                 )}
 
-                {/* Bottom Native Ad (Placement Unit 2) */}
+                {/* Bottom Native Ad (Placement Unit 2) & Display Ad (Unit 3) */}
                 <div className="max-w-7xl mx-auto mt-8">
                     <NativeAdBanner placement="bottom" title="Recommended Deals" />
+                    <DisplayAdBanner title="Featured Partner Deals" />
                 </div>
             </div>
         </div>

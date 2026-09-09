@@ -5,6 +5,7 @@ import { TMDBService } from '../services/tmdb';
 import { SupabaseDB } from '../services/db';
 import { RatingBadge } from '../components/RatingBadge';
 import { NativeAdBanner } from '../components/NativeAdBanner';
+import { DisplayAdBanner } from '../components/DisplayAdBanner';
 import { AdService } from '../services/adService';
 import { DetailsPageSkeleton, EpisodeListSkeleton, ActorCreditsSkeleton } from '../components/Skeleton';
 
@@ -975,9 +976,10 @@ export const Details = ({ id }) => {
                 </section>
             )}
 
-            {/* ═══════════════ BOTTOM NATIVE AD BANNER (Placement Unit 2) ═══════════════ */}
+            {/* ═══════════════ BOTTOM NATIVE AD BANNER & DISPLAY BANNER ═══════════════ */}
             <div className="px-4 md:px-edge-margin max-w-container-max mx-auto mb-10">
                 <NativeAdBanner placement="bottom" title="Recommended Deals" />
+                <DisplayAdBanner title="Featured Partner Deals" />
             </div>
             
             {/* ═══════════════ ALL REVIEWS MODAL ═══════════════ */}

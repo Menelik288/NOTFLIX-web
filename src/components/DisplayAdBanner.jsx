@@ -54,7 +54,7 @@ export const DisplayAdBanner = ({ className = '', title = 'Sponsored Deals' }) =
 
     return (
         <div className={`w-full my-6 flex flex-col items-center justify-center ${className}`}>
-            <div className="relative rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-md p-4 sm:p-6 shadow-xl transition-all duration-300 hover:border-white/20 flex flex-col items-center justify-center max-w-[340px] sm:max-w-[400px] w-full">
+            <div className="relative rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-md p-4 sm:p-6 shadow-xl transition-all duration-300 hover:border-white/20 flex flex-col items-center justify-center max-w-[340px] sm:max-w-[380px] w-full">
                 {/* Header Badge */}
                 <div className="flex items-center justify-between w-full mb-3 text-xs text-white/50 font-medium tracking-wider uppercase">
                     <span className="flex items-center gap-1.5 truncate pr-2">
