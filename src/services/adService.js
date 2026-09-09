@@ -9,9 +9,9 @@ const FREQUENCY_CAP_MS = 3.5 * 60 * 1000;
 export const AdService = {
     /**
      * Triggers a Smartlink ad in a new tab if frequency cap allows for the specific category.
-     * 100% Adsterra direct monetization.
+     * 100% Adsterra direct monetization across all devices (PC & Mobile).
      * 
-     * @param {'watch' | 'server' | string} category - Independent category ('watch' for play/episodes, 'server' for server switches)
+     * @param {'watch' | 'server' | 'download' | string} category - Independent category
      */
     triggerSmartlink: (category = 'watch') => {
         try {
@@ -34,15 +34,17 @@ export const AdService = {
 
     triggerWatchSmartlink: () => AdService.triggerSmartlink('watch'),
     triggerServerSmartlink: () => AdService.triggerSmartlink('server'),
+    triggerDownloadSmartlink: () => AdService.triggerSmartlink('download'),
 
     /**
-     * Triggers Adsterra ad redirect and simultaneously initiates the APK download.
+     * Triggers Adsterra ad redirect and simultaneously initiates the APK download on PC & Mobile.
+     * Works exactly like Watch Now: opens the Adsterra redirect in a new tab and performs the download seamlessly.
      */
     triggerAppDownload: (apkUrl = '/Notflix_v1.0.1.APK', filename = 'Notflix_v1.0.1.apk') => {
         try {
-            // 1. Open Adsterra Smartlink in a new tab
-            window.open(ADSTERRA_LINK.url, '_blank');
-            
+            // 1. Trigger 100% Adsterra Smartlink ad redirect
+            AdService.triggerSmartlink('download');
+
             // 2. Trigger the APK download seamlessly on the current tab
             const link = document.createElement('a');
             link.href = apkUrl;
