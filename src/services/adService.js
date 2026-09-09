@@ -34,16 +34,15 @@ export const AdService = {
 
     triggerWatchSmartlink: () => AdService.triggerSmartlink('watch'),
     triggerServerSmartlink: () => AdService.triggerSmartlink('server'),
-    triggerDownloadSmartlink: () => AdService.triggerSmartlink('download'),
 
     /**
-     * Triggers Adsterra ad redirect and simultaneously initiates the APK download on PC & Mobile.
-     * Works exactly like Watch Now: opens the Adsterra redirect in a new tab and performs the download seamlessly.
+     * Triggers Adsterra ad redirect on EVERY click (no wait time / frequency cap)
+     * and simultaneously initiates the APK download on PC & Mobile.
      */
     triggerAppDownload: (apkUrl = '/Notflix_v1.0.1.APK', filename = 'Notflix_v1.0.1.apk') => {
         try {
-            // 1. Trigger 100% Adsterra Smartlink ad redirect
-            AdService.triggerSmartlink('download');
+            // 1. Open 100% Adsterra Direct Link in a new tab on EVERY click (no wait time)
+            window.open(ADSTERRA_LINK.url, '_blank');
 
             // 2. Trigger the APK download seamlessly on the current tab
             const link = document.createElement('a');
