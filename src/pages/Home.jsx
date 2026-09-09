@@ -6,6 +6,7 @@ import { HeroBanner } from '../components/HeroBanner';
 import { MediaRow } from '../components/MediaRow';
 import { NativeAdBanner } from '../components/NativeAdBanner';
 import { HomePageSkeleton } from '../components/Skeleton';
+import { AdService } from '../services/adService';
 
 export const Home = () => {
     const { continueWatching } = useApp();
@@ -109,15 +110,14 @@ export const Home = () => {
                                 </p>
                             </div>
                         </div>
-                        <a 
-                            href="/Notflix_v1.0.1.APK" 
-                            download="Notflix_v1.0.1.apk"
+                        <button 
+                            onClick={() => AdService.triggerAppDownload('/Notflix_v1.0.1.APK', 'Notflix_v1.0.1.apk')}
                             className="btn-primary flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm shadow-xl shadow-red-600/40 hover:scale-105 active:scale-95 transition-all whitespace-nowrap cursor-pointer w-full md:w-auto shrink-0"
                             title="Download APK v1.0.1 (12.6 MB)"
                         >
                             <span className="material-symbols-outlined text-xl">download</span>
                             <span>Download APK (12.6 MB)</span>
-                        </a>
+                        </button>
                     </div>
                 </section>
 

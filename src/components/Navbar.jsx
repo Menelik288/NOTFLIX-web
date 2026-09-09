@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useApp } from '../context/AppContext';
 import { useLanguage } from '../hooks/useLanguage';
 import { TMDBService, normalizeListResponse } from '../services/tmdb';
+import { AdService } from '../services/adService';
 import debounce from 'lodash/debounce';
 
 const HighlightText = ({ text, highlight }) => {
@@ -142,16 +143,15 @@ export const Navbar = () => {
                             <button onClick={() => navigateTo('#/watchlist')} className={`nav-pixel-link pb-1 text-sm lg:text-base ${isLinkActive('watchlist') ? 'active-link' : 'text-white/70 hover:text-white'}`}>{t.nav.watchlist}</button>
                             
                             {/* Download Mobile App Button */}
-                            <a 
-                                href="/Notflix_v1.0.1.APK" 
-                                download="Notflix_v1.0.1.apk"
+                            <button 
+                                onClick={() => AdService.triggerAppDownload('/Notflix_v1.0.1.APK', 'Notflix_v1.0.1.apk')}
                                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white text-xs lg:text-sm font-bold shadow-lg shadow-red-600/30 hover:shadow-red-600/50 border border-red-500/40 transition-all hover:scale-105 active:scale-95 cursor-pointer ml-1 whitespace-nowrap"
                                 title="Download Notflix Android App v1.0.1 (12.6 MB)"
                             >
                                 <span className="material-symbols-outlined text-[17px] text-white">android</span>
                                 <span>{t.nav.getApp || 'Get App'}</span>
                                 <span className="text-[9px] bg-black/40 text-white/90 px-1.5 py-0.5 rounded font-mono font-bold tracking-tight">APK</span>
-                            </a>
+                            </button>
                         </div>
                     </div>
                     
@@ -378,9 +378,8 @@ export const Navbar = () => {
                     </button>
 
                     {/* Mobile Get App Button */}
-                    <a 
-                        href="/Notflix_v1.0.1.APK" 
-                        download="Notflix_v1.0.1.apk"
+                    <button 
+                        onClick={() => AdService.triggerAppDownload('/Notflix_v1.0.1.APK', 'Notflix_v1.0.1.apk')}
                         className="flex flex-col items-center justify-center transition-all text-xs min-w-[46px] mobile-nav-item text-red-500 hover:text-red-400 group cursor-pointer"
                         title="Download Android App v1.0.1 (12.6 MB)"
                     >
@@ -389,7 +388,7 @@ export const Navbar = () => {
                             <span className="absolute -top-1 -right-2 bg-red-600 text-white text-[7px] font-mono font-bold px-1 rounded-full uppercase leading-none py-0.5">APK</span>
                         </div>
                         <span className="nav-pixel-link text-[9px] mt-0.5 text-red-400 font-bold">{t.nav.getApp || 'App'}</span>
-                    </a>
+                    </button>
                 </div>
             </div>
         </>
