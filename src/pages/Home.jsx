@@ -79,7 +79,7 @@ export const Home = () => {
                 {trendingMovies.length > 0 && (
                     <MediaRow title={t.home.trendingMovies} items={trendingMovies} type="poster" />
                 )}
-                <NativeAdBanner className="hidden md:block" />
+                <NativeAdBanner />
                 {trendingTV.length > 0 && (
                     <MediaRow title={t.home.trendingTV} items={trendingTV} type="poster" />
                 )}

@@ -43,7 +43,7 @@ export const TVShows = () => {
                 </div>
             </div>
 
-            <NativeAdBanner className="hidden md:block" />
+            <NativeAdBanner />
 
             {/* TV Series Grid */}
             {filteredTV.length === 0 ? (

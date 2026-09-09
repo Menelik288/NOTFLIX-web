@@ -20,7 +20,7 @@ export const Watchlist = () => {
                 </p>
             </div>
 
-            <NativeAdBanner className="hidden md:block" />
+            <NativeAdBanner />
 
             {/* Watchlist Grid */}
             {watchlistItems.length === 0 ? (

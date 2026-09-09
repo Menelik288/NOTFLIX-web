@@ -737,8 +737,8 @@ export const Details = ({ id }) => {
                 </section>
             )}
 
-            {/* ═══════════════ TOP NATIVE AD BANNER (Desktop only) ═══════════════ */}
-            <div className="px-4 md:px-edge-margin max-w-container-max mx-auto hidden md:block">
+            {/* ═══════════════ TOP NATIVE AD BANNER ═══════════════ */}
+            <div className="px-4 md:px-edge-margin max-w-container-max mx-auto">
                 <NativeAdBanner />
             </div>
 

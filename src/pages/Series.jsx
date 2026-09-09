@@ -77,7 +77,7 @@ export const Series = () => {
                     />
                 )}
 
-                <NativeAdBanner className="hidden md:block" />
+                <NativeAdBanner />
 
                 {/* Action and Adventure */}
                 {actionTV.length > 0 && (

@@ -164,8 +164,8 @@ export const Search = () => {
                 </div>
             </div>
 
-            {/* Native Sponsored Banner (Desktop only) */}
-            <div className="max-w-7xl mx-auto mb-8 hidden md:block">
+            {/* Native Sponsored Banner */}
+            <div className="max-w-7xl mx-auto mb-8">
                 <NativeAdBanner />
             </div>
 
