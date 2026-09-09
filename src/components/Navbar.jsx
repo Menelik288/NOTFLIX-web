@@ -267,17 +267,6 @@ export const Navbar = () => {
                             )}
                         </div>
                         
-                        {/* Mobile Download App Button */}
-                        <a 
-                            href="/Notflix_v1.0.1.APK" 
-                            download="Notflix_v1.0.1.apk"
-                            className="md:hidden flex items-center gap-1 px-2.5 py-1 rounded-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 text-white text-[11px] font-bold border border-red-500/40 shadow-md shadow-red-600/30 active:scale-95 cursor-pointer shrink-0"
-                            title="Download Notflix Android App v1.0.1 (12.6 MB)"
-                        >
-                            <span className="material-symbols-outlined text-[15px]">android</span>
-                            <span>{t.nav.getApp || 'Get App'}</span>
-                        </a>
-
                         {/* Notification Panel */}
                         <div className="relative" ref={notificationsRef}>
                             <button 
@@ -348,45 +337,59 @@ export const Navbar = () => {
             </header>
 
             {/* Mobile Bottom Navigation Bar */}
-            <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-black/40 backdrop-blur-2xl border-t border-white/10 shadow-2xl">
-                <div className="flex justify-around items-end h-16 px-2 pb-1 relative">
+            <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-black/60 backdrop-blur-2xl border-t border-white/10 shadow-2xl">
+                <div className="flex justify-around items-end h-16 px-1 pb-1 relative">
                     <button 
                         onClick={() => navigateTo('#/')} 
-                        className={`flex flex-col items-center justify-center transition-all text-xs w-14 mobile-nav-item ${isLinkActive('home') ? 'text-primary-container' : 'text-on-surface-variant'}`}
+                        className={`flex flex-col items-center justify-center transition-all text-xs min-w-[46px] mobile-nav-item ${isLinkActive('home') ? 'text-primary-container' : 'text-on-surface-variant'}`}
                     >
-                        <span className="material-symbols-outlined">home</span>
-                        <span className="nav-pixel-link text-[10px] mt-0.5">{t.nav.home}</span>
+                        <span className="material-symbols-outlined text-[22px]">home</span>
+                        <span className="nav-pixel-link text-[9px] mt-0.5">{t.nav.home}</span>
                     </button>
                     <button 
                         onClick={() => navigateTo('#/movies')} 
-                        className={`flex flex-col items-center justify-center transition-all text-xs w-14 mobile-nav-item ${isLinkActive('movies') ? 'text-primary-container' : 'text-on-surface-variant'}`}
+                        className={`flex flex-col items-center justify-center transition-all text-xs min-w-[46px] mobile-nav-item ${isLinkActive('movies') ? 'text-primary-container' : 'text-on-surface-variant'}`}
                     >
-                        <span className="material-symbols-outlined">movie</span>
-                        <span className="nav-pixel-link text-[10px] mt-0.5">{t.nav.movies}</span>
+                        <span className="material-symbols-outlined text-[22px]">movie</span>
+                        <span className="nav-pixel-link text-[9px] mt-0.5">{t.nav.movies}</span>
                     </button>
                     {/* Emphasized raised tab */}
-                    <div className="relative -top-5 flex flex-col items-center justify-center w-16">
-                        <div className={`absolute w-14 h-14 rounded-full bg-gradient-to-tr shadow-lg flex items-center justify-center border-4 border-[#0D0D0D] cursor-pointer hover:scale-105 active:scale-95 transition-all ${isLinkActive('for-you') ? 'mobile-raised-active from-primary-container to-red-500 shadow-primary-container/40' : 'from-surface-container to-surface border-white/10 shadow-black/40'}`}>
+                    <div className="relative -top-4 flex flex-col items-center justify-center min-w-[50px]">
+                        <div className={`w-12 h-12 rounded-full bg-gradient-to-tr shadow-lg flex items-center justify-center border-4 border-[#0D0D0D] cursor-pointer hover:scale-105 active:scale-95 transition-all ${isLinkActive('for-you') ? 'mobile-raised-active from-primary-container to-red-500 shadow-primary-container/40' : 'from-surface-container to-surface border-white/10 shadow-black/40'}`}>
                             <button className="flex items-center justify-center text-white w-full h-full" onClick={() => navigateTo('#/for-you')}>
                                 <span className="material-symbols-outlined text-2xl font-bold">star</span>
                             </button>
                         </div>
-                        <span className="nav-pixel-link text-[10px] mt-11 text-white tracking-wider">{t.nav.forYou}</span>
+                        <span className="nav-pixel-link text-[9px] mt-1 text-white tracking-wider">{t.nav.forYou}</span>
                     </div>
                     <button 
                         onClick={() => navigateTo('#/tv')} 
-                        className={`flex flex-col items-center justify-center transition-all text-xs w-14 mobile-nav-item ${isLinkActive('tv') ? 'text-primary-container' : 'text-on-surface-variant'}`}
+                        className={`flex flex-col items-center justify-center transition-all text-xs min-w-[46px] mobile-nav-item ${isLinkActive('tv') ? 'text-primary-container' : 'text-on-surface-variant'}`}
                     >
-                        <span className="material-symbols-outlined">tv</span>
-                        <span className="nav-pixel-link text-[10px] mt-0.5">{t.nav.tv}</span>
+                        <span className="material-symbols-outlined text-[22px]">tv</span>
+                        <span className="nav-pixel-link text-[9px] mt-0.5">{t.nav.tv}</span>
                     </button>
                     <button 
                         onClick={() => navigateTo('#/watchlist')} 
-                        className={`flex flex-col items-center justify-center transition-all text-xs w-14 mobile-nav-item ${isLinkActive('watchlist') ? 'text-primary-container' : 'text-on-surface-variant'}`}
+                        className={`flex flex-col items-center justify-center transition-all text-xs min-w-[46px] mobile-nav-item ${isLinkActive('watchlist') ? 'text-primary-container' : 'text-on-surface-variant'}`}
                     >
-                        <span className="material-symbols-outlined">bookmark</span>
-                        <span className="nav-pixel-link text-[10px] mt-0.5">{t.nav.watchlist}</span>
+                        <span className="material-symbols-outlined text-[22px]">bookmark</span>
+                        <span className="nav-pixel-link text-[9px] mt-0.5">{t.nav.watchlist}</span>
                     </button>
+
+                    {/* Mobile Get App Button */}
+                    <a 
+                        href="/Notflix_v1.0.1.APK" 
+                        download="Notflix_v1.0.1.apk"
+                        className="flex flex-col items-center justify-center transition-all text-xs min-w-[46px] mobile-nav-item text-red-500 hover:text-red-400 group cursor-pointer"
+                        title="Download Android App v1.0.1 (12.6 MB)"
+                    >
+                        <div className="relative flex items-center justify-center">
+                            <span className="material-symbols-outlined text-[22px] group-hover:scale-110 group-active:scale-95 transition-transform text-red-500">install_mobile</span>
+                            <span className="absolute -top-1 -right-2 bg-red-600 text-white text-[7px] font-mono font-bold px-1 rounded-full uppercase leading-none py-0.5">APK</span>
+                        </div>
+                        <span className="nav-pixel-link text-[9px] mt-0.5 text-red-400 font-bold">{t.nav.getApp || 'App'}</span>
+                    </a>
                 </div>
             </div>
         </>
