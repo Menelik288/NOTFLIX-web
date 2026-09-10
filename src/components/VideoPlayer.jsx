@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useApp } from '../context/AppContext';
 import { AdService } from '../services/adService';
+import { ShareModal } from './ShareModal';
 
 export const VideoPlayer = () => {
     const { 
@@ -19,6 +20,7 @@ export const VideoPlayer = () => {
     const [volume, setVolume] = useState(0.8);
     const [isMuted, setIsMuted] = useState(false);
     const [showSourceDropdown, setShowSourceDropdown] = useState(false);
+    const [isShareModalOpen, setIsShareModalOpen] = useState(false);
     
     const videoRef = useRef(null);
     const progressRef = useRef(null);
@@ -242,6 +244,14 @@ export const VideoPlayer = () => {
                                 <span className="material-symbols-outlined text-sm text-red-500 fill" style={{ fontVariationSettings: "'FILL' 1" }}>favorite</span>
                                 <span className="hidden sm:inline">Tip Server</span>
                             </button>
+                            <button
+                                onClick={() => setIsShareModalOpen(true)}
+                                className="glass-surface px-3 py-2 rounded-lg border border-emerald-500/30 text-xs font-bold text-white flex items-center gap-1.5 hover:bg-emerald-500/20 active:scale-95 transition-all cursor-pointer shadow-lg shadow-black/40"
+                                title="Share with Friends"
+                            >
+                                <span className="material-symbols-outlined text-sm text-emerald-400">share</span>
+                                <span className="hidden sm:inline">Share</span>
+                            </button>
                         </div>
                     </div>
                 )}
@@ -311,6 +321,16 @@ export const VideoPlayer = () => {
                     >
                         <span className="material-symbols-outlined text-sm text-cyan-400">subtitles</span>
                         <span className="hidden sm:inline">Subtitles</span>
+                    </button>
+
+                    {/* Share Button */}
+                    <button
+                        onClick={() => setIsShareModalOpen(true)}
+                        className="glass-surface px-2.5 py-1 rounded-md text-[10px] md:text-xs font-bold text-white/80 hover:text-emerald-400 hover:border-emerald-500/40 flex items-center gap-1 border border-white/20 cursor-pointer transition-all active:scale-95"
+                        title="Share with Friends"
+                    >
+                        <span className="material-symbols-outlined text-sm text-emerald-400">share</span>
+                        <span className="hidden sm:inline">Share</span>
                     </button>
 
                     {/* Source Selector Dropdown */}
@@ -408,6 +428,14 @@ export const VideoPlayer = () => {
                     </button>
                 </div>
             </div>
+
+            {/* Share Modal */}
+            <ShareModal
+                isOpen={isShareModalOpen}
+                onClose={() => setIsShareModalOpen(false)}
+                media={currentMedia}
+                type={currentMedia?.type || 'movie'}
+            />
         </div>
     );
 };

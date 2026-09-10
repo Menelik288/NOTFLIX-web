@@ -7,6 +7,7 @@ import { RatingBadge } from '../components/RatingBadge';
 import { NativeAdBanner } from '../components/NativeAdBanner';
 import { DisplayAdBanner } from '../components/DisplayAdBanner';
 import { AdService } from '../services/adService';
+import { ShareModal } from '../components/ShareModal';
 import { DetailsPageSkeleton, EpisodeListSkeleton, ActorCreditsSkeleton } from '../components/Skeleton';
 
 export const Details = ({ id }) => {
@@ -43,6 +44,9 @@ export const Details = ({ id }) => {
     const [actorCredits, setActorCredits] = useState([]);
     const [isActorModalOpen, setIsActorModalOpen] = useState(false);
     const [loadingActorCredits, setLoadingActorCredits] = useState(false);
+
+    // Share Modal State
+    const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
     // Player state
     const [isPlaying, setIsPlaying] = useState(false);
@@ -532,6 +536,16 @@ export const Details = ({ id }) => {
                                         <span className="hidden sm:inline">Subtitles</span>
                                     </button>
 
+                                    {/* Share Button */}
+                                    <button
+                                        onClick={() => setIsShareModalOpen(true)}
+                                        className="glass-surface hover:bg-white/10 text-white/80 hover:text-emerald-300 border border-white/20 hover:border-emerald-500/40 px-4 py-3 rounded-xl font-bold flex items-center gap-2 transition-all active:scale-95 cursor-pointer shadow-md"
+                                        title="Share movie with friends"
+                                    >
+                                        <span className="material-symbols-outlined text-emerald-400">share</span>
+                                        <span>Share</span>
+                                    </button>
+
                                     <button
                                         onClick={() => toggleWatchlist(media.id, type, media.poster, media.title)}
                                         className="glass-panel px-5 py-3 rounded-xl font-bold flex items-center gap-2 transition-all hover:bg-white/10 active:scale-95 text-white cursor-pointer"
@@ -635,6 +649,16 @@ export const Details = ({ id }) => {
                             >
                                 <span className="material-symbols-outlined text-sm text-cyan-400">subtitles</span>
                                 <span>Subtitles</span>
+                            </button>
+
+                            {/* Share Button */}
+                            <button
+                                onClick={() => setIsShareModalOpen(true)}
+                                className="shrink-0 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-bold transition-all whitespace-nowrap cursor-pointer bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 hover:bg-emerald-500/25 flex items-center gap-1.5"
+                                title="Share movie with friends"
+                            >
+                                <span className="material-symbols-outlined text-sm text-emerald-400">share</span>
+                                <span>Share</span>
                             </button>
                         </div>
 
@@ -1166,6 +1190,14 @@ export const Details = ({ id }) => {
                     </div>
                 </div>
             )}
+
+            {/* ═══════════════ SHARE MODAL ═══════════════ */}
+            <ShareModal
+                isOpen={isShareModalOpen}
+                onClose={() => setIsShareModalOpen(false)}
+                media={media}
+                type={type}
+            />
         </div>
     );
 };
