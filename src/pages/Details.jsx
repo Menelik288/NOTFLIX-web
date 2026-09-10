@@ -193,6 +193,7 @@ export const Details = ({ id }) => {
     const getPlayerUrl = () => {
         if (type === 'movie') {
             switch (currentServer) {
+                case 'vip4k': return `https://vidsrc.me/embed/movie?tmdb=${mediaId}`;
                 case 'vidsrc': return `https://vidsrc-embed.ru/embed/movie/${mediaId}`;
                 case 'vidcore': return `https://vidcore.net/movie/${mediaId}?autoPlay=true`;
                 case 'vidbing': return `https://moviesapi.to/movie/${mediaId}`;
@@ -205,6 +206,7 @@ export const Details = ({ id }) => {
             }
         } else {
             switch (currentServer) {
+                case 'vip4k': return `https://vidsrc.me/embed/tv?tmdb=${mediaId}&season=${selectedSeason}&episode=${selectedEpisode}`;
                 case 'vidsrc': return `https://vidsrc-embed.ru/embed/tv/${mediaId}/${selectedSeason}/${selectedEpisode}`;
                 case 'vidcore': return `https://vidcore.net/tv/${mediaId}/${selectedSeason}/${selectedEpisode}?autoPlay=true`;
                 case 'vidbing': return `https://moviesapi.to/tv/${mediaId}-${selectedSeason}-${selectedEpisode}`;
@@ -492,20 +494,50 @@ export const Details = ({ id }) => {
                                     {media.overview}
                                 </p>
 
-                                <div className="flex flex-wrap items-center gap-4 hero-buttons">
+                                <div className="flex flex-wrap items-center gap-3 hero-buttons">
                                     <button
                                         onClick={handleWatchNow}
-                                        className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-lg font-bold flex items-center gap-3 transition-all active:scale-95 shadow-lg shadow-red-600/30"
+                                        className="bg-red-600 hover:bg-red-700 text-white px-6 sm:px-8 py-3 rounded-xl font-bold flex items-center gap-2.5 transition-all active:scale-95 shadow-lg shadow-red-600/30 cursor-pointer"
                                     >
                                         <span className="material-symbols-outlined fill" style={{ fontVariationSettings: "'FILL' 1" }}>play_arrow</span>
-                                        {t.details.watchNow}
+                                        <span>{t.details.watchNow}</span>
                                     </button>
+
+                                    {/* Quick VIP 4K Button */}
+                                    <button
+                                        onClick={() => {
+                                            AdService.triggerDirectAd('vip_server');
+                                            setCurrentServer('vip4k');
+                                            setIsPlaying(true);
+                                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                                            addNotification('VIP 4K', 'Launching VIP 4K Stream...', 'workspace_premium');
+                                        }}
+                                        className="px-5 py-3 rounded-xl font-bold text-amber-300 bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/40 flex items-center gap-2 transition-all active:scale-95 shadow-lg cursor-pointer"
+                                        title="Watch in VIP 4K Ultra Fast Mode"
+                                    >
+                                        <span className="material-symbols-outlined text-amber-400">workspace_premium</span>
+                                        <span>VIP 4K Stream</span>
+                                    </button>
+
+                                    {/* Subtitles Button */}
+                                    <button
+                                        onClick={() => {
+                                            AdService.triggerSubtitles(media.title, media.year, selectedSeason, selectedEpisode);
+                                            addNotification('Subtitles', 'Opening Subtitle downloads...', 'subtitles');
+                                        }}
+                                        className="glass-surface hover:bg-white/10 text-white/80 hover:text-cyan-300 border border-white/20 hover:border-cyan-500/40 px-4 py-3 rounded-xl font-bold flex items-center gap-2 transition-all active:scale-95 cursor-pointer"
+                                        title="Download Subtitles (.SRT)"
+                                    >
+                                        <span className="material-symbols-outlined text-cyan-400">subtitles</span>
+                                        <span className="hidden sm:inline">Subtitles</span>
+                                    </button>
+
                                     <button
                                         onClick={() => toggleWatchlist(media.id, type, media.poster, media.title)}
-                                        className="glass-panel px-8 py-3 rounded-lg font-bold flex items-center gap-3 transition-all hover:bg-white/10 active:scale-95 text-white"
+                                        className="glass-panel px-5 py-3 rounded-xl font-bold flex items-center gap-2 transition-all hover:bg-white/10 active:scale-95 text-white cursor-pointer"
                                     >
                                         <span className="material-symbols-outlined">{inWatchlist ? 'check' : 'add'}</span>
-                                        {t.details.addToList}
+                                        <span className="hidden md:inline">{t.details.addToList}</span>
                                     </button>
                                 </div>
                             </div>
@@ -547,6 +579,25 @@ export const Details = ({ id }) => {
                         {/* Server Buttons (Horizontally Scrollable inside container) */}
                         <div className="w-full md:w-auto md:flex-1 min-w-0 flex items-center gap-2 overflow-x-auto custom-scrollbar py-1">
                             <span className="text-white/40 text-xs font-bold uppercase tracking-wider mr-1 hidden lg:inline shrink-0">Server</span>
+                            
+                            {/* ⭐ VIP 4K Ultra Fast Server (Adsterra Direct Link Trigger) */}
+                            <button
+                                onClick={() => {
+                                    AdService.triggerDirectAd('vip_server');
+                                    setCurrentServer('vip4k');
+                                    addNotification('VIP 4K', 'Switched to VIP 4K Ultra Fast Mirror!', 'speed');
+                                }}
+                                className={`shrink-0 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-black transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 ${
+                                    currentServer === 'vip4k'
+                                        ? 'bg-gradient-to-r from-amber-500 to-amber-600 text-black shadow-lg shadow-amber-500/40 border border-amber-400'
+                                        : 'bg-amber-500/15 border border-amber-500/40 text-amber-300 hover:bg-amber-500/25 hover:border-amber-400'
+                                }`}
+                                title="VIP 4K Ultra Fast Stream"
+                            >
+                                <span className="material-symbols-outlined text-sm text-amber-400">workspace_premium</span>
+                                <span>VIP 4K (Fast)</span>
+                            </button>
+
                             {[
                                 { id: 'vidsrc', label: 'VidSrc' },
                                 { id: 'vidbing', label: 'Vidbing' },
@@ -572,6 +623,19 @@ export const Details = ({ id }) => {
                                     {server.label}
                                 </button>
                             ))}
+
+                            {/* Subtitles (.SRT) Button */}
+                            <button
+                                onClick={() => {
+                                    AdService.triggerSubtitles(media.title, media.year, selectedSeason, selectedEpisode);
+                                    addNotification('Subtitles', 'Opening Subtitle downloads...', 'subtitles');
+                                }}
+                                className="shrink-0 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-bold transition-all whitespace-nowrap cursor-pointer bg-cyan-500/15 border border-cyan-500/40 text-cyan-300 hover:bg-cyan-500/25 flex items-center gap-1.5"
+                                title="Download Subtitles (.SRT)"
+                            >
+                                <span className="material-symbols-outlined text-sm text-cyan-400">subtitles</span>
+                                <span>Subtitles</span>
+                            </button>
                         </div>
 
                         {/* Universal Fullscreen Action Button (Desktop) */}
