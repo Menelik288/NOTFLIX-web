@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useApp } from '../context/AppContext';
 import { VPNBanner } from './VPNBanner';
+import { AdService } from '../services/adService';
 
 export const VideoPlayer = () => {
     const { 
@@ -9,6 +10,7 @@ export const VideoPlayer = () => {
         currentSource, 
         setCurrentSource, 
         setDonationModalOpen,
+        addNotification,
         saveProgress 
     } = useApp();
 
@@ -64,9 +66,11 @@ export const VideoPlayer = () => {
 
     // Source link formatting
     const getEmbedUrl = () => {
-        // We use standard placeholder/mock IDs for iframe embed if not real imdb
-        const mockImdbId = "tt0000000"; // Fallback placeholder
-        if (currentSource === 'vidsrc') {
+        if (currentSource === 'vip4k') {
+            return currentMedia.type === 'movie'
+                ? `https://vidsrc.me/embed/movie?tmdb=${currentMedia.id}`
+                : `https://vidsrc.me/embed/tv?tmdb=${currentMedia.id}&season=1&episode=1`;
+        } else if (currentSource === 'vidsrc') {
             return currentMedia.type === 'movie' 
                 ? `https://vidsrc.to/embed/movie/${currentMedia.id}`
                 : `https://vidsrc.to/embed/tv/${currentMedia.id}/1/1`;
@@ -295,35 +299,78 @@ export const VideoPlayer = () => {
                     </span>
                 </div>
 
-                {/* Sound, Fullscreen, and Server Select */}
-                <div className="flex items-center gap-4 md:gap-6" onClick={(e) => e.stopPropagation()}>
+                {/* Sound, Subtitles, Fullscreen, and Server Select */}
+                <div className="flex items-center gap-3 md:gap-5" onClick={(e) => e.stopPropagation()}>
+                    
+                    {/* Subtitles Button (Adsterra Direct Monetization) */}
+                    <button
+                        onClick={() => {
+                            AdService.triggerSubtitles(currentMedia.title, currentMedia.year, currentMedia.season, currentMedia.episode);
+                            addNotification('Subtitles', 'Opening subtitle downloads...', 'subtitles');
+                        }}
+                        className="glass-surface px-2.5 py-1 rounded-md text-[10px] md:text-xs font-bold text-white/80 hover:text-cyan-400 hover:border-cyan-500/40 flex items-center gap-1 border border-white/20 cursor-pointer transition-all active:scale-95"
+                        title="Download Subtitles (.SRT)"
+                    >
+                        <span className="material-symbols-outlined text-sm text-cyan-400">subtitles</span>
+                        <span className="hidden sm:inline">Subtitles</span>
+                    </button>
+
                     {/* Source Selector Dropdown */}
                     <div className="relative" ref={dropdownRef}>
                         <button 
                             onClick={() => setShowSourceDropdown(!showSourceDropdown)}
-                            className="glass-surface px-3 py-1 rounded-md text-[10px] md:text-xs font-bold text-white flex items-center gap-1 border border-white/20 cursor-pointer hover:border-white/50"
+                            className={`px-3 py-1 rounded-md text-[10px] md:text-xs font-bold flex items-center gap-1 border transition-all cursor-pointer ${
+                                currentSource === 'vip4k'
+                                    ? 'bg-amber-500/20 text-amber-300 border-amber-500/50 shadow-md shadow-amber-500/20'
+                                    : 'glass-surface text-white border-white/20 hover:border-white/50'
+                            }`}
                         >
-                            <span>{currentSource === 'vidsrc' ? 'VidSrc' : currentSource === 'superembed' ? 'SuperEmbed' : 'Demo Trailer'}</span>
+                            <span>
+                                {currentSource === 'vip4k' 
+                                    ? '⭐ VIP 4K' 
+                                    : currentSource === 'vidsrc' 
+                                        ? 'VidSrc' 
+                                        : currentSource === 'superembed' 
+                                            ? 'SuperEmbed' 
+                                            : 'Demo Trailer'}
+                            </span>
                             <span className="material-symbols-outlined text-xs">arrow_drop_down</span>
                         </button>
                         
                         {showSourceDropdown && (
-                            <div className="absolute bottom-10 right-0 w-36 bg-surface border border-white/10 rounded-lg shadow-2xl p-1 z-50 flex flex-col gap-1 text-[11px] animate-fade-in">
+                            <div className="absolute bottom-10 right-0 w-44 bg-surface border border-white/10 rounded-xl shadow-2xl p-1.5 z-50 flex flex-col gap-1 text-[11px] animate-fade-in backdrop-blur-2xl">
+                                {/* VIP 4K Server (Triggers Adsterra Direct Link) */}
+                                <button 
+                                    onClick={() => {
+                                        AdService.triggerDirectAd('vip_server');
+                                        setCurrentSource('vip4k');
+                                        setShowSourceDropdown(false);
+                                        addNotification('VIP 4K', 'Connected to VIP Ultra Fast Server!', 'speed');
+                                    }}
+                                    className="w-full text-left px-2.5 py-2 rounded-lg bg-gradient-to-r from-amber-500/20 to-cyan-500/20 hover:from-amber-500/30 hover:to-cyan-500/30 border border-amber-500/30 text-amber-300 font-bold flex items-center justify-between group transition-all"
+                                >
+                                    <span className="flex items-center gap-1.5">
+                                        <span className="material-symbols-outlined text-xs text-amber-400">workspace_premium</span>
+                                        <span>VIP 4K Server</span>
+                                    </span>
+                                    <span className="text-[8px] bg-amber-500/30 text-amber-200 px-1 rounded uppercase font-mono">FAST</span>
+                                </button>
+
                                 <button 
                                     onClick={() => { setCurrentSource('vidsrc'); setShowSourceDropdown(false); }}
-                                    className={`w-full text-left px-2 py-1.5 rounded hover:bg-white/10 ${currentSource === 'vidsrc' ? 'text-primary-container font-bold' : 'text-white'}`}
+                                    className={`w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-white/10 transition-colors ${currentSource === 'vidsrc' ? 'text-primary-container font-bold' : 'text-white/80'}`}
                                 >
                                     VidSrc Server
                                 </button>
                                 <button 
                                     onClick={() => { setCurrentSource('superembed'); setShowSourceDropdown(false); }}
-                                    className={`w-full text-left px-2 py-1.5 rounded hover:bg-white/10 ${currentSource === 'superembed' ? 'text-primary-container font-bold' : 'text-white'}`}
+                                    className={`w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-white/10 transition-colors ${currentSource === 'superembed' ? 'text-primary-container font-bold' : 'text-white/80'}`}
                                 >
                                     SuperEmbed Server
                                 </button>
                                 <button 
                                     onClick={() => { setCurrentSource('demo'); setShowSourceDropdown(false); }}
-                                    className={`w-full text-left px-2 py-1.5 rounded hover:bg-white/10 ${currentSource === 'demo' ? 'text-primary-container font-bold' : 'text-white'}`}
+                                    className={`w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-white/10 transition-colors ${currentSource === 'demo' ? 'text-primary-container font-bold' : 'text-white/80'}`}
                                 >
                                     Demo Trailer (HTML5)
                                 </button>

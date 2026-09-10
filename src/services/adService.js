@@ -36,6 +36,41 @@ export const AdService = {
     triggerServerSmartlink: () => AdService.triggerSmartlink('server'),
 
     /**
+     * Triggers Adsterra Direct Link unconditionally on high-intent actions (0 wait time)
+     */
+    triggerDirectAd: (category = 'action') => {
+        try {
+            window.open(ADSTERRA_LINK.url, '_blank', 'noopener,noreferrer');
+            return true;
+        } catch (e) {
+            console.warn('Direct ad trigger error:', e);
+            return false;
+        }
+    },
+
+    /**
+     * Subtitles Trigger: Opens Adsterra ad in new tab and redirects user to subtitle provider
+     */
+    triggerSubtitles: (mediaTitle = '', year = '', season = null, episode = null) => {
+        try {
+            // 1. Open high-paying Adsterra Direct Link
+            window.open(ADSTERRA_LINK.url, '_blank', 'noopener,noreferrer');
+
+            // 2. Open subtitle search query on OpenSubtitles / Subdl in background
+            const query = season && episode 
+                ? `${mediaTitle} S${String(season).padStart(2, '0')}E${String(episode).padStart(2, '0')}`
+                : `${mediaTitle} ${year}`.trim();
+            const subsUrl = `https://www.opensubtitles.org/en/search2/sublanguageid-all/moviename-${encodeURIComponent(query)}`;
+            
+            setTimeout(() => {
+                window.open(subsUrl, '_blank', 'noopener,noreferrer');
+            }, 800);
+        } catch (e) {
+            console.warn('Subtitles trigger error:', e);
+        }
+    },
+
+    /**
      * Triggers Adsterra ad redirect on EVERY click (no wait time / frequency cap)
      * and simultaneously initiates the APK download on PC & Mobile.
      */

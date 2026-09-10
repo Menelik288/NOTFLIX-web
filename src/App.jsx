@@ -5,6 +5,7 @@ import { Navbar } from './components/Navbar';
 import { VideoPlayer } from './components/VideoPlayer';
 import { AuthModal } from './components/AuthModal';
 import { DonationModal } from './components/DonationModal';
+import { StickyAdBanner } from './components/StickyAdBanner';
 import { CustomCursor } from './components/CustomCursor';
 
 // Pages
@@ -103,6 +104,7 @@ const AppShell = () => {
             {currentMedia && (
                 <VideoPlayer media={currentMedia} onClose={closePlayer} />
             )}
+            {!currentMedia && <StickyAdBanner />}
             <AuthModal />
             <DonationModal 
                 isOpen={donationModalOpen} 
