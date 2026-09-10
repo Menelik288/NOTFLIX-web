@@ -94,12 +94,13 @@ export const DonationModal = ({ isOpen, onClose }) => {
                 {activeTab === 'usdt' && (
                     <div className="space-y-4 animate-fade-in text-center">
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-5 p-4 rounded-2xl bg-white/[0.03] border border-white/10">
-                            <div className="bg-white p-2 rounded-2xl shadow-xl shrink-0">
+                            <div className="bg-white p-2.5 rounded-2xl shadow-xl shrink-0 flex flex-col items-center">
                                 <img 
-                                    src="/usdt_trc20_qr.jpg" 
+                                    src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=tron%3ATTe76gvM4VqDqw8GYUBSbzxT82VF6LdWFA%3Ftoken%3DUSDT&margin=2" 
                                     alt="USDT TRC20 QR Code" 
                                     className="w-32 h-32 sm:w-36 sm:h-36 rounded-xl object-contain"
                                 />
+                                <span className="text-[9px] font-bold text-black/60 mt-1 uppercase tracking-tight">Scan with Crypto App</span>
                             </div>
                             <div className="flex-1 text-left w-full">
                                 <div className="flex items-center gap-2 mb-1">
@@ -111,20 +112,29 @@ export const DonationModal = ({ isOpen, onClose }) => {
                                 <div className="font-mono text-xs text-white bg-black/60 p-2.5 rounded-xl border border-white/10 break-all select-all font-bold mb-3">
                                     {USDT_TRC20_ADDRESS}
                                 </div>
-                                <button
-                                    onClick={() => handleCopy(USDT_TRC20_ADDRESS, 'usdt', 'USDT TRC-20 Address')}
-                                    className="w-full btn-primary py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-red-600/30 active:scale-95"
-                                >
-                                    <span className="material-symbols-outlined text-sm">
-                                        {copiedField === 'usdt' ? 'check' : 'content_copy'}
-                                    </span>
-                                    {copiedField === 'usdt' ? 'Address Copied!' : 'Copy USDT Address'}
-                                </button>
+                                <div className="flex flex-col sm:flex-row gap-2">
+                                    <button
+                                        onClick={() => handleCopy(USDT_TRC20_ADDRESS, 'usdt', 'USDT TRC-20 Address')}
+                                        className="flex-1 btn-primary py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-red-600/30 active:scale-95"
+                                    >
+                                        <span className="material-symbols-outlined text-sm">
+                                            {copiedField === 'usdt' ? 'check' : 'content_copy'}
+                                        </span>
+                                        {copiedField === 'usdt' ? 'Address Copied!' : 'Copy Address'}
+                                    </button>
+                                    <a
+                                        href={`tron:${USDT_TRC20_ADDRESS}?token=USDT`}
+                                        className="py-2.5 px-3 rounded-xl text-xs font-bold bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 text-emerald-300 flex items-center justify-center gap-1.5 transition-all active:scale-95"
+                                    >
+                                        <span className="material-symbols-outlined text-sm">account_balance_wallet</span>
+                                        <span>Open Wallet</span>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                         <p className="text-[11px] text-white/40 flex items-center justify-center gap-1">
-                            <span className="material-symbols-outlined text-xs text-yellow-500">warning</span>
-                            Send only Tether (USDT) on the Tron TRC-20 blockchain.
+                            <span className="material-symbols-outlined text-xs text-yellow-500">qr_code_scanner</span>
+                            Scanning directly opens Trust Wallet, TronLink, or any TRC-20 app.
                         </p>
                     </div>
                 )}
@@ -133,12 +143,13 @@ export const DonationModal = ({ isOpen, onClose }) => {
                 {activeTab === 'binance' && (
                     <div className="space-y-4 animate-fade-in text-center">
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-5 p-4 rounded-2xl bg-white/[0.03] border border-white/10">
-                            <div className="bg-white p-2 rounded-2xl shadow-xl shrink-0">
+                            <div className="bg-white p-2.5 rounded-2xl shadow-xl shrink-0 flex flex-col items-center">
                                 <img 
-                                    src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Donate%20to%20NotFlix%20(Binance%20UID:%20908057169)&margin=2" 
+                                    src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https%3A%2F%2Fpay.binance.com%2Fen%2Fsend%3Fuid%3D908057169&margin=2" 
                                     alt="Binance Pay QR Code" 
                                     className="w-32 h-32 sm:w-36 sm:h-36 rounded-xl"
                                 />
+                                <span className="text-[9px] font-bold text-black/60 mt-1 uppercase tracking-tight">Scan with Camera or Binance</span>
                             </div>
                             <div className="flex-1 text-left w-full">
                                 <div className="flex items-center gap-2 mb-1">
@@ -150,19 +161,31 @@ export const DonationModal = ({ isOpen, onClose }) => {
                                 <div className="font-mono text-xl text-yellow-400 font-extrabold bg-black/60 p-2.5 rounded-xl border border-white/10 tracking-widest text-center mb-3">
                                     {BINANCE_UID}
                                 </div>
-                                <button
-                                    onClick={() => handleCopy(BINANCE_UID, 'binance', 'Binance UID')}
-                                    className="w-full btn-primary py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-red-600/30 active:scale-95"
-                                >
-                                    <span className="material-symbols-outlined text-sm">
-                                        {copiedField === 'binance' ? 'check' : 'content_copy'}
-                                    </span>
-                                    {copiedField === 'binance' ? 'UID Copied!' : 'Copy Binance UID'}
-                                </button>
+                                <div className="flex flex-col sm:flex-row gap-2">
+                                    <button
+                                        onClick={() => handleCopy(BINANCE_UID, 'binance', 'Binance UID')}
+                                        className="flex-1 btn-primary py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-red-600/30 active:scale-95"
+                                    >
+                                        <span className="material-symbols-outlined text-sm">
+                                            {copiedField === 'binance' ? 'check' : 'content_copy'}
+                                        </span>
+                                        {copiedField === 'binance' ? 'UID Copied!' : 'Copy UID'}
+                                    </button>
+                                    <a
+                                        href={`https://pay.binance.com/en/send?uid=${BINANCE_UID}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="py-2.5 px-3 rounded-xl text-xs font-bold bg-yellow-500/20 hover:bg-yellow-500/30 border border-yellow-500/40 text-yellow-300 flex items-center justify-center gap-1.5 transition-all active:scale-95"
+                                    >
+                                        <span className="material-symbols-outlined text-sm">open_in_new</span>
+                                        <span>Open Binance</span>
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                        <p className="text-[11px] text-white/40">
-                            Open Binance App → Tap <strong>Pay</strong> → Enter UID <strong>{BINANCE_UID}</strong> (Instant & Zero Fees).
+                        <p className="text-[11px] text-white/40 flex items-center justify-center gap-1">
+                            <span className="material-symbols-outlined text-xs text-yellow-500">bolt</span>
+                            Scanning with phone camera or Binance instantly opens Binance Pay.
                         </p>
                     </div>
                 )}

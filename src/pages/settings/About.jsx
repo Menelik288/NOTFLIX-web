@@ -70,25 +70,35 @@ export const About = () => {
                                 <div className="font-mono text-xs text-white bg-black/60 p-2.5 rounded-xl border border-white/10 break-all select-all font-bold mb-3">
                                     TTe76gvM4VqDqw8GYUBSbzxT82VF6LdWFA
                                 </div>
-                                <button
-                                    onClick={() => {
-                                        navigator.clipboard.writeText('TTe76gvM4VqDqw8GYUBSbzxT82VF6LdWFA');
-                                        addNotification('Copied', 'USDT TRC-20 Address copied to clipboard!', 'content_copy');
-                                    }}
-                                    className="w-full md:w-auto btn-primary px-6 py-2.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-red-600/30 active:scale-95"
-                                >
-                                    <span className="material-symbols-outlined text-sm">content_copy</span>
-                                    <span>Copy USDT Address</span>
-                                </button>
+                                <div className="flex flex-col sm:flex-row gap-2 justify-center md:justify-start">
+                                    <button
+                                        onClick={() => {
+                                            navigator.clipboard.writeText('TTe76gvM4VqDqw8GYUBSbzxT82VF6LdWFA');
+                                            addNotification('Copied', 'USDT TRC-20 Address copied to clipboard!', 'content_copy');
+                                        }}
+                                        className="btn-primary px-5 py-2.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-red-600/30 active:scale-95"
+                                    >
+                                        <span className="material-symbols-outlined text-sm">content_copy</span>
+                                        <span>Copy Address</span>
+                                    </button>
+                                    <a
+                                        href="tron:TTe76gvM4VqDqw8GYUBSbzxT82VF6LdWFA?token=USDT"
+                                        className="py-2.5 px-4 rounded-xl text-sm font-bold bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 text-emerald-300 flex items-center justify-center gap-1.5 transition-all active:scale-95"
+                                    >
+                                        <span className="material-symbols-outlined text-sm">account_balance_wallet</span>
+                                        <span>Open Wallet</span>
+                                    </a>
+                                </div>
                             </div>
                             
-                            <div className="bg-white p-2 rounded-2xl shrink-0 shadow-lg">
+                            <div className="bg-white p-2.5 rounded-2xl shrink-0 shadow-lg flex flex-col items-center">
                                 <img 
-                                    src="/usdt_trc20_qr.jpg" 
+                                    src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=tron%3ATTe76gvM4VqDqw8GYUBSbzxT82VF6LdWFA%3Ftoken%3DUSDT&margin=2" 
                                     alt="USDT TRC-20 QR Code" 
                                     className="w-24 h-24 md:w-28 md:h-28 rounded-xl object-contain"
                                     loading="lazy"
                                 />
+                                <span className="text-[8px] font-bold text-black/60 mt-1 uppercase">Scan with Crypto App</span>
                             </div>
                         </div>
 
@@ -102,24 +112,36 @@ export const About = () => {
                                 </div>
                                 <div className="text-white/50 text-xs font-bold uppercase tracking-wider mb-1">Binance Donation UID</div>
                                 <div className="text-2xl font-black mb-4 tracking-wider text-yellow-400">908057169</div>
-                                <button
-                                    onClick={handleCopy}
-                                    className="w-full md:w-auto btn-primary px-6 py-2.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-red-600/30 active:scale-95"
-                                >
-                                    <span className="material-symbols-outlined text-sm">
-                                        {isCopied ? 'check' : 'content_copy'}
-                                    </span>
-                                    {isCopied ? 'Copied' : 'Copy UID'}
-                                </button>
+                                <div className="flex flex-col sm:flex-row gap-2 justify-center md:justify-start">
+                                    <button
+                                        onClick={handleCopy}
+                                        className="btn-primary px-5 py-2.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-red-600/30 active:scale-95"
+                                    >
+                                        <span className="material-symbols-outlined text-sm">
+                                            {isCopied ? 'check' : 'content_copy'}
+                                        </span>
+                                        {isCopied ? 'Copied' : 'Copy UID'}
+                                    </button>
+                                    <a
+                                        href="https://pay.binance.com/en/send?uid=908057169"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="py-2.5 px-4 rounded-xl text-sm font-bold bg-yellow-500/20 hover:bg-yellow-500/30 border border-yellow-500/40 text-yellow-300 flex items-center justify-center gap-1.5 transition-all active:scale-95"
+                                    >
+                                        <span className="material-symbols-outlined text-sm">open_in_new</span>
+                                        <span>Open Binance</span>
+                                    </a>
+                                </div>
                             </div>
                             
-                            <div className="bg-white p-2 rounded-2xl shrink-0 shadow-lg">
+                            <div className="bg-white p-2.5 rounded-2xl shrink-0 shadow-lg flex flex-col items-center">
                                 <img 
-                                    src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=Donate%20to%20NotFlix%20(Binance%20UID:%20908057169)&margin=2" 
+                                    src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https%3A%2F%2Fpay.binance.com%2Fen%2Fsend%3Fuid%3D908057169&margin=2" 
                                     alt="Binance QR Code" 
                                     className="w-24 h-24 md:w-28 md:h-28 rounded-xl"
                                     loading="lazy"
                                 />
+                                <span className="text-[8px] font-bold text-black/60 mt-1 uppercase">Scan with Binance / Cam</span>
                             </div>
                         </div>
                     </div>

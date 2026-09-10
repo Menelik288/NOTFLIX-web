@@ -6,7 +6,6 @@ import { SupabaseDB } from '../services/db';
 import { RatingBadge } from '../components/RatingBadge';
 import { NativeAdBanner } from '../components/NativeAdBanner';
 import { DisplayAdBanner } from '../components/DisplayAdBanner';
-import { VPNBanner } from '../components/VPNBanner';
 import { AdService } from '../services/adService';
 import { DetailsPageSkeleton, EpisodeListSkeleton, ActorCreditsSkeleton } from '../components/Skeleton';
 
@@ -976,11 +975,6 @@ export const Details = ({ id }) => {
                     </div>
                 </section>
             )}
-
-            {/* ═══════════════ STREAMING BOOSTER AFFILIATE BANNER ═══════════════ */}
-            <div className="px-4 md:px-edge-margin max-w-container-max mx-auto my-8">
-                <VPNBanner />
-            </div>
 
             {/* ═══════════════ BOTTOM NATIVE AD BANNER & DISPLAY BANNER ═══════════════ */}
             <div className="px-4 md:px-edge-margin max-w-container-max mx-auto mb-10">
