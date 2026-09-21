@@ -1,4 +1,8 @@
-const API_BASE = (import.meta.env?.VITE_API_BASE || 'http://localhost:3001').replace(/\/api$/, '');
+const API_BASE = (
+    typeof import.meta.env?.VITE_API_BASE === 'string'
+        ? import.meta.env.VITE_API_BASE
+        : (import.meta.env?.DEV ? 'http://localhost:3001' : '')
+).replace(/\/api\/?$/, '');
 
 class APIError extends Error {
     constructor(message, status) {

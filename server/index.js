@@ -1,13 +1,25 @@
 import express from 'express';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
 import { TMDBService } from './tmdbProxy.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const distPath = path.resolve(__dirname, '../dist');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
+
+// Health check endpoint for uptime monitors and Railway
+app.get(['/health', '/api/health'], (req, res) => {
+    res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
 
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000,
@@ -328,6 +340,23 @@ app.get('/api/tmdb/actor/:id/credits', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch actor credits' });
     }
 });
+
+// Serve static frontend build if dist folder exists (e.g. on Railway / Fullstack deploy)
+if (fs.existsSync(distPath)) {
+    app.use(express.static(distPath));
+
+    app.get('*', (req, res) => {
+        if (req.path.startsWith('/api')) {
+            return res.status(404).json({ error: 'API route not found' });
+        }
+        const indexPath = path.join(distPath, 'index.html');
+        if (fs.existsSync(indexPath)) {
+            res.sendFile(indexPath);
+        } else {
+            res.status(404).send('NotFlix frontend index not found.');
+        }
+    });
+}
 
 app.listen(PORT, () => {
     console.log(`NotFlix API server running on port ${PORT}`);
