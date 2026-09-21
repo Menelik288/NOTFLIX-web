@@ -1,6 +1,7 @@
+const rawApiBase = import.meta.env?.VITE_API_BASE;
 const API_BASE = (
-    typeof import.meta.env?.VITE_API_BASE === 'string'
-        ? import.meta.env.VITE_API_BASE
+    typeof rawApiBase === 'string' && (!rawApiBase.includes('localhost') || import.meta.env?.DEV)
+        ? rawApiBase
         : (import.meta.env?.DEV ? 'http://localhost:3001' : '')
 ).replace(/\/api\/?$/, '');
 
