@@ -1,9 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { AdService } from '../services/adService';
 
 export const StickyAdBanner = () => {
+    // On mobile (<768px), default to minimized pill so it never blocks movie cards or bottom nav
+    const [isMinimized, setIsMinimized] = useState(() => {
+        if (typeof window !== 'undefined') {
+            return window.innerWidth < 768;
+        }
+        return false;
+    });
     const [isVisible, setIsVisible] = useState(true);
-    const [isMinimized, setIsMinimized] = useState(false);
     const iframeRef = useRef(null);
 
     useEffect(() => {
@@ -64,7 +69,7 @@ export const StickyAdBanner = () => {
             <div className="fixed bottom-20 md:bottom-4 right-4 z-40 animate-fade-in">
                 <button
                     onClick={() => setIsMinimized(false)}
-                    className="glass-surface px-3 py-1.5 rounded-full border border-white/20 text-[11px] font-bold text-white flex items-center gap-1.5 shadow-2xl hover:border-white/40 active:scale-95 transition-all bg-black/80 cursor-pointer"
+                    className="glass-surface px-3 py-1.5 rounded-full border border-white/20 text-[11px] font-bold text-white flex items-center gap-1.5 shadow-2xl hover:border-white/40 active:scale-95 transition-all bg-black/85 cursor-pointer"
                     title="Show Sponsor Deals"
                 >
                     <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
@@ -76,8 +81,8 @@ export const StickyAdBanner = () => {
     }
 
     return (
-        <div className="fixed bottom-20 md:bottom-4 left-1/2 -translate-x-1/2 z-40 animate-slide-up max-w-[340px] w-full px-2">
-            <div className="relative rounded-2xl border border-white/15 bg-black/90 backdrop-blur-2xl p-2 sm:p-3 shadow-[0_10px_40px_rgba(0,0,0,0.8)] flex flex-col items-center">
+        <div className="fixed bottom-20 md:bottom-4 right-4 z-40 animate-slide-up max-w-[324px] w-full px-2">
+            <div className="relative rounded-2xl border border-white/15 bg-black/95 backdrop-blur-2xl p-2 sm:p-2.5 shadow-[0_10px_40px_rgba(0,0,0,0.85)] flex flex-col items-center">
                 
                 {/* Header Bar with Minimize & Close */}
                 <div className="flex items-center justify-between w-full mb-1.5 px-1 text-[10px] text-white/50 font-bold tracking-wider uppercase">

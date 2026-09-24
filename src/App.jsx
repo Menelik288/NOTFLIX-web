@@ -7,6 +7,7 @@ import { AuthModal } from './components/AuthModal';
 import { DonationModal } from './components/DonationModal';
 import { StickyAdBanner } from './components/StickyAdBanner';
 import { CustomCursor } from './components/CustomCursor';
+import { AdService } from './services/adService';
 
 // Pages
 import Home from './pages/Home';
@@ -85,8 +86,10 @@ const RouterView = () => {
 const AppShell = () => {
     const { currentMedia, closePlayer, settings, donationModalOpen, setDonationModalOpen } = useApp();
 
-    // Apply theme class on settings change
+    // Initialize frequency-capped Popunder and apply theme class on settings change
     useEffect(() => {
+        AdService.initPopunder();
+
         if (settings.lightMode) {
             document.documentElement.classList.add('light-theme');
         } else {
