@@ -23,8 +23,15 @@ const loadServerEnv = () => {
 
 loadServerEnv();
 
-const getTMDBApiKey = () => process.env.TMDB_API_KEY || process.env.VITE_TMDB_API_KEY;
-const getTMDBBaseUrl = () => process.env.TMDB_BASE_URL || 'https://api.themoviedb.org/3';
+const getTMDBApiKey = () => {
+    const raw = process.env.TMDB_API_KEY || process.env.VITE_TMDB_API_KEY || '';
+    if (typeof raw !== 'string') return '';
+    return raw.trim().replace(/^["']|["']$/g, '');
+};
+const getTMDBBaseUrl = () => {
+    const raw = process.env.TMDB_BASE_URL || 'https://api.themoviedb.org/3';
+    return raw.trim().replace(/^["']|["']$/g, '');
+};
 
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/original';
 
