@@ -18,11 +18,13 @@ app.use(express.json());
 
 // Health check endpoint for uptime monitors and Vercel/Railway
 app.get(['/health', '/api/health'], (req, res) => {
+    const availableEnvKeys = Object.keys(process.env);
     res.json({
         status: 'ok',
         timestamp: new Date().toISOString(),
         hasTmdbKey: Boolean(process.env.TMDB_API_KEY || process.env.VITE_TMDB_API_KEY),
-        nodeEnv: process.env.NODE_ENV || 'production'
+        nodeEnv: process.env.NODE_ENV || 'production',
+        matchingKeys: availableEnvKeys.filter(k => k.includes('TMDB') || k.includes('API') || k.includes('VITE'))
     });
 });
 
