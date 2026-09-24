@@ -23,12 +23,8 @@ const loadServerEnv = () => {
 
 loadServerEnv();
 
-const TMDB_API_KEY = process.env.TMDB_API_KEY;
-const TMDB_BASE_URL = process.env.TMDB_BASE_URL || 'https://api.themoviedb.org/3';
-
-if (!TMDB_API_KEY) {
-    throw new Error('TMDB_API_KEY environment variable is required');
-}
+const getTMDBApiKey = () => process.env.TMDB_API_KEY || process.env.VITE_TMDB_API_KEY;
+const getTMDBBaseUrl = () => process.env.TMDB_BASE_URL || 'https://api.themoviedb.org/3';
 
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/original';
 
@@ -56,8 +52,13 @@ const mapTMDBToNotFlix = (item, defaultType = 'movie') => {
 };
 
 const fetchTMDB = async (endpoint) => {
+    const apiKey = getTMDBApiKey();
+    if (!apiKey) {
+        throw new Error('TMDB_API_KEY environment variable is required');
+    }
+    const baseUrl = getTMDBBaseUrl();
     const separator = endpoint.includes('?') ? '&' : '?';
-    const url = `${TMDB_BASE_URL}${endpoint}${separator}api_key=${TMDB_API_KEY}`;
+    const url = `${baseUrl}${endpoint}${separator}api_key=${apiKey}`;
 
     console.log('Fetching TMDB:', endpoint);
 
@@ -71,8 +72,13 @@ const fetchTMDB = async (endpoint) => {
 };
 
 const fetchTMDBItem = async (endpoint) => {
+    const apiKey = getTMDBApiKey();
+    if (!apiKey) {
+        throw new Error('TMDB_API_KEY environment variable is required');
+    }
+    const baseUrl = getTMDBBaseUrl();
     const separator = endpoint.includes('?') ? '&' : '?';
-    const url = `${TMDB_BASE_URL}${endpoint}${separator}api_key=${TMDB_API_KEY}`;
+    const url = `${baseUrl}${endpoint}${separator}api_key=${apiKey}`;
 
     console.log('Fetching TMDB:', endpoint);
 

@@ -341,8 +341,8 @@ app.get('/api/tmdb/actor/:id/credits', async (req, res) => {
     }
 });
 
-// Serve static frontend build if dist folder exists (e.g. on Railway / Fullstack deploy)
-if (fs.existsSync(distPath)) {
+// Serve static frontend build if dist folder exists (when running standalone outside Vercel)
+if (!process.env.VERCEL && fs.existsSync(distPath)) {
     app.use(express.static(distPath));
 
     app.get('*', (req, res) => {
@@ -358,8 +358,11 @@ if (fs.existsSync(distPath)) {
     });
 }
 
-app.listen(PORT, () => {
-    console.log(`NotFlix API server running on port ${PORT}`);
-});
+// Only listen on port when running as a standalone server, not as a serverless function
+if (!process.env.VERCEL) {
+    app.listen(PORT, () => {
+        console.log(`NotFlix API server running on port ${PORT}`);
+    });
+}
 
 export default app;
