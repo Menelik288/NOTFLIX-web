@@ -16,9 +16,14 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-// Health check endpoint for uptime monitors and Railway
+// Health check endpoint for uptime monitors and Vercel/Railway
 app.get(['/health', '/api/health'], (req, res) => {
-    res.json({ status: 'ok', timestamp: new Date().toISOString() });
+    res.json({
+        status: 'ok',
+        timestamp: new Date().toISOString(),
+        hasTmdbKey: Boolean(process.env.TMDB_API_KEY || process.env.VITE_TMDB_API_KEY),
+        nodeEnv: process.env.NODE_ENV || 'production'
+    });
 });
 
 const limiter = rateLimit({
@@ -57,7 +62,7 @@ app.get('/api/tmdb/trending', async (req, res) => {
         res.json(data);
     } catch (error) {
         console.error('TMDB error:', error.message);
-        res.status(500).json({ error: 'Failed to fetch trending movies' });
+        res.status(500).json({ error: error.message || 'Failed to fetch trending movies' });
     }
 });
 
@@ -67,7 +72,7 @@ app.get('/api/tmdb/trending/movies', async (req, res) => {
         res.json(data);
     } catch (error) {
         console.error('TMDB error:', error.message);
-        res.status(500).json({ error: 'Failed to fetch trending movies' });
+        res.status(500).json({ error: error.message || 'Failed to fetch trending movies' });
     }
 });
 
