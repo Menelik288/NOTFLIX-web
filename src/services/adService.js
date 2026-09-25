@@ -30,11 +30,11 @@ export const AdService = {
                     localStorage.setItem('notflix_last_popunder_time', String(Date.now()));
                     const script = document.createElement('script');
                     script.id = 'adsterra-popunder';
-                    script.src = 'https://paralysisfoxbullet.com/a5/24/7a/a5247ac583674e6bb4ff14678909ce1a.js';
+                    script.src = 'https://paralysisfoxbullet.com/35/48/df/3548df5f3aa0403656507fcd1628306f.js';
                     script.async = true;
                     script.setAttribute('data-cfasync', 'false');
                     document.body.appendChild(script);
-                    console.log('[NotFlix Ads] Frequency-capped Popunder initialized (5m cooldown).');
+                    console.log('[NotFlix Ads] Frequency-capped Adult Popunder initialized (5m cooldown).');
                 }, 3000);
             } else {
                 const minsLeft = Math.round((POPUNDER_CAP_MS - (now - Number(lastLoaded))) / 60000);
