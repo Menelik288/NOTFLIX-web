@@ -1,5 +1,5 @@
-// 100% Adsterra High-Yield Smartlink & Ad Management Service
-const ADSTERRA_LINK = { name: 'Adsterra', url: 'https://paralysisfoxbullet.com/bb1w2rs69?key=648ecbff3033816c3e4806c9d2eeaca6' };
+// 100% Adsterra High-Yield Adult Smartlink & Ad Management Service
+const ADSTERRA_LINK = { name: 'Adsterra Adult Smartlink', url: 'https://paralysisfoxbullet.com/vaykva9kan?key=d08bbd1a9d41aaba8be0aeb468e7fe0a' };
 
 const STORAGE_PREFIX = 'notflix_last_smartlink_time_';
 
