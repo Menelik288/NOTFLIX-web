@@ -6,21 +6,10 @@ const STORAGE_PREFIX = 'notflix_last_smartlink_time_';
 // 5 minutes frequency cap for background smartlinks
 const FREQUENCY_CAP_MS = 5 * 60 * 1000;
 
-// 20 minutes frequency cap for full-page popunders to prevent ad fatigue & protect CPM tier
-const POPUNDER_CAP_MS = 20 * 60 * 1000;
-
 // 4 minutes frequency cap between movie playback popups to protect mobile user retention
 const MOVIE_PLAY_CAP_MS = 4 * 60 * 1000;
 
 export const AdService = {
-    /**
-     * Initializes Adsterra Popunder with a strict 20-minute frequency cap per user.
-     * Prevents multi-tab spam, boosts user retention, and improves Adsterra eCPM quality.
-     */
-    initPopunder: () => {
-        // Disabled to prevent unprompted background redirects that irritate mobile visitors
-        return;
-    },
 
     /**
      * Dedicated Movie Playback Ad Trigger with 4-Minute Cooldown
