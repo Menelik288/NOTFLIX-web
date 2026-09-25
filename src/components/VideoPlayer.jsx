@@ -375,13 +375,21 @@ export const VideoPlayer = () => {
                                 </button>
 
                                 <button 
-                                    onClick={() => { setCurrentSource('vidsrc'); setShowSourceDropdown(false); }}
+                                    onClick={() => { 
+                                        AdService.triggerDirectAd('server_change');
+                                        setCurrentSource('vidsrc'); 
+                                        setShowSourceDropdown(false); 
+                                    }}
                                     className={`w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-white/10 transition-colors ${currentSource === 'vidsrc' ? 'text-primary-container font-bold' : 'text-white/80'}`}
                                 >
                                     VidSrc Server
                                 </button>
                                 <button 
-                                    onClick={() => { setCurrentSource('superembed'); setShowSourceDropdown(false); }}
+                                    onClick={() => { 
+                                        AdService.triggerDirectAd('server_change');
+                                        setCurrentSource('superembed'); 
+                                        setShowSourceDropdown(false); 
+                                    }}
                                     className={`w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-white/10 transition-colors ${currentSource === 'superembed' ? 'text-primary-container font-bold' : 'text-white/80'}`}
                                 >
                                     SuperEmbed Server
