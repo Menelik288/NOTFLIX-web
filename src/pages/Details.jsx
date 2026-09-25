@@ -63,6 +63,9 @@ export const Details = ({ id }) => {
     const playerContainerRef = useRef(null);
     const [isUniversalFullscreen, setIsUniversalFullscreen] = useState(false);
 
+    // ─── Play Button / Ad-Shield Interceptor State ───
+    const [showAdInterceptor, setShowAdInterceptor] = useState(true);
+
     // ─── Universal Fullscreen synchronization & keyboard shortcuts ───
     useEffect(() => {
         const handleFullscreenChange = () => {
@@ -286,8 +289,11 @@ export const Details = ({ id }) => {
     const handleWatchNow = () => {
         if (!media?.id) return;
         
-        // Trigger smartlink in background new-tab (with 3.5-min watch frequency cap)
-        AdService.triggerSmartlink('watch');
+        // Trigger dedicated movie play ad
+        const triggered = AdService.triggerMoviePlayAd('watch_now_button');
+        if (triggered) {
+            addNotification('Movie Stream', 'Opening ad & launching player...', 'play_circle');
+        }
 
         if (saveProgress) {
             saveProgress(
@@ -305,6 +311,7 @@ export const Details = ({ id }) => {
         }
         // Start playback in the hero section
         setIsPlaying(true);
+        setShowAdInterceptor(true);
         // For TV shows, ensure a season/episode is selected (default to 1 if not set)
         if (type === 'tv') {
             setSelectedSeason(selectedSeason || 1);
@@ -335,11 +342,9 @@ export const Details = ({ id }) => {
     const handleEpisodeClick = async (epNumber) => {
         if (!media?.id || !epNumber) return;
         
-        // Trigger smartlink in background new-tab (with 3.5-min watch frequency cap)
-        AdService.triggerSmartlink('watch');
-
         setSelectedEpisode(epNumber);
         setIsPlaying(true);
+        setShowAdInterceptor(true);
         // Record that the user started watching this episode
         if (user && saveProgress) {
             await saveProgress(
@@ -431,6 +436,31 @@ export const Details = ({ id }) => {
                                     referrerPolicy="origin"
                                     title={media.title}
                                 />
+
+                                {/* In-Player First-Click Interceptor Shield */}
+                                {showAdInterceptor && (
+                                    <div 
+                                        onClick={() => {
+                                            const triggered = AdService.triggerMoviePlayAd('first_click_shield');
+                                            if (triggered) {
+                                                addNotification('Adsterra Ad', 'Opening ad in new tab – Movie unlocked!', 'campaign');
+                                            }
+                                            setShowAdInterceptor(false);
+                                        }}
+                                        className="absolute inset-0 z-30 cursor-pointer bg-black/40 hover:bg-black/25 flex flex-col items-center justify-center transition-all backdrop-blur-[2px]"
+                                        title="Click to activate player and start watching"
+                                    >
+                                        <div className="bg-black/85 border border-white/20 px-6 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 backdrop-blur-md transform hover:scale-105 transition-transform">
+                                            <div className="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center text-white shadow-lg shadow-red-600/50 animate-pulse">
+                                                <span className="material-symbols-outlined text-2xl">play_arrow</span>
+                                            </div>
+                                            <div className="text-left">
+                                                <p className="text-sm font-bold text-white">Click to Start Stream</p>
+                                                <p className="text-[11px] text-white/60">HD Stream Ready • Tap to Play</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
 
@@ -597,8 +627,9 @@ export const Details = ({ id }) => {
                             {/* ⭐ VIP 4K Ultra Fast Server (Adsterra Direct Link Trigger) */}
                             <button
                                 onClick={() => {
-                                    AdService.triggerDirectAd('vip_server');
+                                    AdService.triggerMoviePlayAd('vip_server');
                                     setCurrentServer('vip4k');
+                                    setShowAdInterceptor(true);
                                     addNotification('VIP 4K', 'Switched to VIP 4K Ultra Fast Mirror!', 'speed');
                                 }}
                                 className={`shrink-0 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-black transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 ${
@@ -625,8 +656,8 @@ export const Details = ({ id }) => {
                                 <button
                                     key={server.id}
                                     onClick={() => {
-                                        AdService.triggerSmartlink('server');
                                         setCurrentServer(server.id);
+                                        setShowAdInterceptor(true);
                                     }}
                                     className={`shrink-0 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-bold transition-all whitespace-nowrap cursor-pointer ${
                                         currentServer === server.id

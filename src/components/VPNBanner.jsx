@@ -11,8 +11,7 @@ export const VPNBanner = ({ compact = false, className = '' }) => {
         window.open(config.link, '_blank', 'noopener,noreferrer');
         // Smartlink monetization fallback
         AdService.triggerSmartlink('vpn_affiliate');
-    };
-
+    }; 
     if (compact) {
         return (
             <div 

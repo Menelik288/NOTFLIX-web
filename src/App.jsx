@@ -88,7 +88,8 @@ const AppShell = () => {
 
     // Initialize frequency-capped Popunder and apply theme class on settings change
     useEffect(() => {
-        AdService.initPopunder();
+        // Disabled for local testing of movie playback ads
+        // AdService.initPopunder();
 
         if (settings.lightMode) {
             document.documentElement.classList.add('light-theme');

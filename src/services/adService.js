@@ -9,27 +9,43 @@ const FREQUENCY_CAP_MS = 5 * 60 * 1000;
 // 20 minutes frequency cap for full-page popunders to prevent ad fatigue & protect CPM tier
 const POPUNDER_CAP_MS = 20 * 60 * 1000;
 
+// 4 minutes frequency cap between movie playback popups to protect mobile user retention
+const MOVIE_PLAY_CAP_MS = 4 * 60 * 1000;
+
 export const AdService = {
     /**
      * Initializes Adsterra Popunder with a strict 20-minute frequency cap per user.
      * Prevents multi-tab spam, boosts user retention, and improves Adsterra eCPM quality.
      */
     initPopunder: () => {
-        try {
-            if (typeof window === 'undefined') return;
-            const lastLoaded = localStorage.getItem('notflix_last_popunder_time');
-            const now = Date.now();
+        // Disabled to prevent unprompted background redirects that irritate mobile visitors
+        return;
+    },
 
-            if (!lastLoaded || now - Number(lastLoaded) > POPUNDER_CAP_MS) {
-                localStorage.setItem('notflix_last_popunder_time', String(now));
-                const script = document.createElement('script');
-                script.src = 'https://paralysisfoxbullet.com/a5/24/7a/a5247ac583674e6bb4ff14678909ce1a.js';
-                script.async = true;
-                script.setAttribute('data-cfasync', 'false');
-                document.body.appendChild(script);
+    /**
+     * Dedicated Movie Playback Ad Trigger with 4-Minute Cooldown
+     * Prevents multi-tab popup spam on mobile while ensuring strong monetization.
+     * Fires on "Watch Now" or initial in-player play button click, then enforces cooldown.
+     */
+    triggerMoviePlayAd: (source = 'playback') => {
+        try {
+            if (typeof window === 'undefined') return false;
+            const now = Date.now();
+            const lastTime = localStorage.getItem('notflix_last_movie_play_ad');
+            
+            if (lastTime && now - Number(lastTime) < MOVIE_PLAY_CAP_MS) {
+                const secondsLeft = Math.round((MOVIE_PLAY_CAP_MS - (now - Number(lastTime))) / 1000);
+                console.log(`[NotFlix Ads] Movie ad cooldown active (${secondsLeft}s remaining). Skipping popup to protect mobile UX.`);
+                return false;
             }
+
+            localStorage.setItem('notflix_last_movie_play_ad', String(now));
+            console.log(`[NotFlix Ads] Triggering movie playback ad (${source}) -> ${ADSTERRA_LINK.url}`);
+            window.open(ADSTERRA_LINK.url, '_blank', 'noopener,noreferrer');
+            return true;
         } catch (e) {
-            console.warn('Popunder init error:', e);
+            console.warn('[NotFlix Ads] Movie ad trigger error:', e);
+            return false;
         }
     },
 
