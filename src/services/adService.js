@@ -6,8 +6,8 @@ const STORAGE_PREFIX = 'notflix_last_smartlink_time_';
 // 5 minutes frequency cap for background smartlinks
 const FREQUENCY_CAP_MS = 5 * 60 * 1000;
 
-// 15 minutes frequency cap for full-page popunders to prevent ad fatigue & protect mobile retention
-const POPUNDER_CAP_MS = 15 * 60 * 1000;
+// 5 minutes frequency cap for full-page popunders to balance monetization & retention
+const POPUNDER_CAP_MS = 5 * 60 * 1000;
 
 // 4 minutes frequency cap between movie playback popups to protect mobile user retention
 const MOVIE_PLAY_CAP_MS = 4 * 60 * 1000;
@@ -15,7 +15,7 @@ const MOVIE_PLAY_CAP_MS = 4 * 60 * 1000;
 export const AdService = {
 
     /**
-     * Initializes Adsterra Popunder with a 15-minute frequency cap.
+     * Initializes Adsterra Popunder with a 5-minute frequency cap.
      * Prevents multi-tab spam, boosts user retention, and keeps ads non-intrusive.
      */
     initPopunder: () => {
@@ -34,7 +34,7 @@ export const AdService = {
                     script.async = true;
                     script.setAttribute('data-cfasync', 'false');
                     document.body.appendChild(script);
-                    console.log('[NotFlix Ads] Frequency-capped Popunder initialized (15m cooldown).');
+                    console.log('[NotFlix Ads] Frequency-capped Popunder initialized (5m cooldown).');
                 }, 3000);
             } else {
                 const minsLeft = Math.round((POPUNDER_CAP_MS - (now - Number(lastLoaded))) / 60000);
