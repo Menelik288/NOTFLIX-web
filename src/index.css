@@ -675,66 +675,145 @@ body.light-theme .skeleton-shimmer::after {
 }
 
 /* ─────────────────────────────────────────────────────
-   3D CARTOON RAINBOW ANIME NAV STYLES
-   Matches the horizontal rainbow bands and 3D depth
+   3D CARTOON RAINBOW ARCH & WAVY ANIME NAV STYLES
+   Matches the Rainbow reference image with arch curve,
+   thick cartoon typography, and undulating wave motion.
    ───────────────────────────────────────────────────── */
-.rainbow-anime-text {
+.wavy-rainbow-container {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Titan One', 'Fredoka', 'Audiowide', sans-serif;
     font-weight: 900;
-    letter-spacing: 0.05em;
+    line-height: 1;
+    position: relative;
+    user-select: none;
+    padding: 2px 4px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.7));
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.wavy-rainbow-container:not(.wavy-rainbow-sm) {
+    font-size: 1.15rem;
+    letter-spacing: 0.02em;
+}
+
+.wavy-rainbow-container.wavy-rainbow-sm {
+    font-size: 0.72rem;
+    letter-spacing: 0.01em;
+    padding: 1px 2px;
+}
+
+.wavy-rainbow-letter {
+    display: inline-block;
+    position: relative;
+    /* 6 vibrant horizontal cartoon rainbow bands */
+    background: linear-gradient(
+        180deg,
+        #ff0022 0%,
+        #ff0022 16.6%,
+        #ff6a00 16.6%,
+        #ff6a00 33.3%,
+        #ffe600 33.3%,
+        #ffe600 50%,
+        #00d426 50%,
+        #00d426 66.6%,
+        #00b4ff 66.6%,
+        #00b4ff 83.3%,
+        #9c00ff 83.3%,
+        #9c00ff 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+
+    /* 3D dimensional extrusion matching the cartoon image */
+    filter: 
+        drop-shadow(0 1.5px 0 #520085)
+        drop-shadow(0 2.5px 0 #330055)
+        drop-shadow(0 3.5px 1px rgba(0, 0, 0, 0.85))
+        drop-shadow(0 0 8px rgba(255, 120, 0, 0.5));
+
+    /* Dynamic Arch & Wavy Animation */
+    transform: translateY(var(--char-y, 0px)) rotate(var(--char-rot, 0deg));
+    animation: rainbowWaveMotion 2.4s ease-in-out infinite;
+    animation-delay: var(--char-delay, 0s);
+    will-change: transform;
+}
+
+@keyframes rainbowWaveMotion {
+    0%, 100% {
+        transform: translateY(var(--char-y, 0px)) rotate(var(--char-rot, 0deg)) scale(1);
+    }
+    50% {
+        transform: translateY(calc(var(--char-y, 0px) - 3.5px)) rotate(calc(var(--char-rot, 0deg) * 0.8)) scale(1.08);
+    }
+}
+
+/* Hover effect on desktop */
+.rainbow-anime-nav-btn:hover .wavy-rainbow-container {
+    transform: scale(1.1);
+}
+
+.rainbow-anime-nav-btn:hover .wavy-rainbow-letter {
+    animation-duration: 1.2s;
+    filter: 
+        drop-shadow(0 2px 0 #520085)
+        drop-shadow(0 3.5px 0 #330055)
+        drop-shadow(0 4.5px 2px rgba(0, 0, 0, 0.95))
+        drop-shadow(0 0 16px rgba(255, 200, 0, 0.9));
+}
+
+/* Fallback simple text class */
+.rainbow-anime-text {
+    font-family: 'Titan One', 'Fredoka', 'Audiowide', sans-serif;
+    font-weight: 900;
+    letter-spacing: 0.04em;
     display: inline-block;
     background: linear-gradient(
         180deg,
-        #ff1818 0%,
-        #ff1818 16.6%,
-        #ff7300 16.6%,
-        #ff7300 33.3%,
-        #ffd800 33.3%,
-        #ffd800 50%,
-        #00d026 50%,
-        #00d026 66.6%,
-        #00b0ff 66.6%,
-        #00b0ff 83.3%,
-        #9d00ff 83.3%,
-        #9d00ff 100%
+        #ff0022 0%,
+        #ff0022 16.6%,
+        #ff6a00 16.6%,
+        #ff6a00 33.3%,
+        #ffe600 33.3%,
+        #ffe600 50%,
+        #00d426 50%,
+        #00d426 66.6%,
+        #00b4ff 66.6%,
+        #00b4ff 83.3%,
+        #9c00ff 83.3%,
+        #9c00ff 100%
     );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     filter: 
         drop-shadow(0 1.5px 0 #520085)
-        drop-shadow(0 2.5px 1.5px rgba(0, 0, 0, 0.75))
+        drop-shadow(0 2.5px 1px rgba(0, 0, 0, 0.75))
         drop-shadow(0 0 8px rgba(255, 120, 0, 0.45));
-    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.25s ease;
-}
-
-.rainbow-anime-nav-btn:hover .rainbow-anime-text,
-.rainbow-anime-text:hover {
-    transform: scale(1.08) translateY(-1px);
-    filter: 
-        drop-shadow(0 2px 0 #520085)
-        drop-shadow(0 3.5px 2px rgba(0, 0, 0, 0.85))
-        drop-shadow(0 0 14px rgba(255, 200, 0, 0.8));
 }
 
 .active-anime-link {
     border-bottom: 2px solid transparent !important;
-    border-image: linear-gradient(90deg, #ff1818, #ff7300, #ffd800, #00d026, #00b0ff, #9d00ff) 1 !important;
-    filter: drop-shadow(0 2px 8px rgba(255, 115, 0, 0.5));
+    border-image: linear-gradient(90deg, #ff0022, #ff6a00, #ffe600, #00d426, #00b4ff, #9c00ff) 1 !important;
+    filter: drop-shadow(0 2px 8px rgba(255, 115, 0, 0.6));
 }
 
 .rainbow-anime-icon {
     background: linear-gradient(
         180deg,
-        #ff1818 0%,
-        #ff7300 25%,
-        #ffd800 45%,
-        #00d026 65%,
-        #00b0ff 85%,
-        #9d00ff 100%
+        #ff0022 0%,
+        #ff6a00 25%,
+        #ffe600 45%,
+        #00d426 65%,
+        #00b4ff 85%,
+        #9c00ff 100%
     );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     filter: drop-shadow(0 1px 1px #520085);
 }
+
 

@@ -20,6 +20,38 @@ const HighlightText = ({ text, highlight }) => {
     );
 };
 
+// 3D Cartoon Wavy Rainbow Text Component matching the reference rainbow image
+const WavyRainbowText = ({ text = 'Anime', size = 'default' }) => {
+    const letters = String(text).split('');
+    const mid = (letters.length - 1) / 2;
+
+    return (
+        <span className={`wavy-rainbow-container ${size === 'sm' ? 'wavy-rainbow-sm' : ''}`}>
+            {letters.map((char, i) => {
+                const norm = mid === 0 ? 0 : (i - mid) / mid; // -1 to +1
+                const rot = (norm * 11).toFixed(1); // -11deg to +11deg arch
+                // Inverted parabola for arch curve: center is raised (-2px), edges are lower (+1px)
+                const translateY = ((Math.abs(norm) * 3) - 2).toFixed(1);
+                const delay = (i * 0.12).toFixed(2);
+
+                return (
+                    <span
+                        key={i}
+                        className="wavy-rainbow-letter"
+                        style={{
+                            '--char-rot': `${rot}deg`,
+                            '--char-y': `${translateY}px`,
+                            '--char-delay': `${delay}s`,
+                        }}
+                    >
+                        {char}
+                    </span>
+                );
+            })}
+        </span>
+    );
+};
+
 export const Navbar = () => {
     const { 
         profile, 
@@ -147,7 +179,7 @@ export const Navbar = () => {
                             <button onClick={() => navigateTo('#/movies')} className={`nav-pixel-link pb-1 text-sm lg:text-base ${isLinkActive('movies') ? 'active-link' : 'text-white/70 hover:text-white'}`}>{t.nav.movies}</button>
                             <button onClick={() => navigateTo('#/tv')} className={`nav-pixel-link pb-1 text-sm lg:text-base ${isLinkActive('tv') ? 'active-link' : 'text-white/70 hover:text-white'}`}>{t.nav.tv}</button>
                             <button onClick={() => navigateTo('#/anime')} className={`nav-pixel-link pb-1 text-sm lg:text-base rainbow-anime-nav-btn ${isLinkActive('anime') ? 'active-link active-anime-link' : ''}`}>
-                                <span className="rainbow-anime-text">{t.nav.anime || 'Anime'}</span>
+                                <WavyRainbowText text={t.nav.anime || 'Anime'} />
                             </button>
                             <button onClick={() => navigateTo('#/for-you')} className={`nav-pixel-link pb-1 text-sm lg:text-base ${isLinkActive('for-you') ? 'active-link' : 'text-white/70 hover:text-white'}`}>{t.nav.forYou}</button>
                             <button onClick={() => navigateTo('#/watchlist')} className={`nav-pixel-link pb-1 text-sm lg:text-base ${isLinkActive('watchlist') ? 'active-link' : 'text-white/70 hover:text-white'}`}>{t.nav.watchlist}</button>
@@ -403,8 +435,8 @@ export const Navbar = () => {
                         onClick={() => navigateTo('#/anime')} 
                         className={`flex flex-col items-center justify-center transition-all text-xs min-w-[42px] mobile-nav-item rainbow-anime-nav-btn ${isLinkActive('anime') ? 'text-primary-container' : 'text-on-surface-variant'}`}
                     >
-                        <span className="material-symbols-outlined text-[22px] rainbow-anime-icon">animation</span>
-                        <span className="nav-pixel-link text-[9px] mt-0.5"><span className="rainbow-anime-text">{t.nav.anime || 'Anime'}</span></span>
+                        <span className="material-symbols-outlined text-[20px] rainbow-anime-icon">animation</span>
+                        <span className="nav-pixel-link mt-0.5"><WavyRainbowText text={t.nav.anime || 'Anime'} size="sm" /></span>
                     </button>
                     <button 
                         onClick={() => navigateTo('#/watchlist')} 
