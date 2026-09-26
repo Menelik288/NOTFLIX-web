@@ -3,6 +3,36 @@ import { useApp } from '../context/AppContext';
 import { AdService } from '../services/adService';
 import { ShareModal } from './ShareModal';
 
+const ANIME_TMDB_MAP = {
+    '113415': { tmdbId: 95479 },
+    '145064': { tmdbId: 95479 },
+    '131573': { tmdbId: 810693 },
+    '85937': { tmdbId: 85937 },
+    '101922': { tmdbId: 85937 },
+    '129874': { tmdbId: 85937 },
+    '145139': { tmdbId: 85937 },
+    '166240': { tmdbId: 85937 },
+    '16498': { tmdbId: 1429 },
+    '20958': { tmdbId: 1429 },
+    '99147': { tmdbId: 1429 },
+    '110277': { tmdbId: 1429 },
+    '21': { tmdbId: 37854 },
+    '151807': { tmdbId: 127532 },
+    '173778': { tmdbId: 127532 },
+    '127230': { tmdbId: 114410 },
+    '20': { tmdbId: 46260 },
+    '1735': { tmdbId: 31910 },
+    '269': { tmdbId: 30984 },
+    '1535': { tmdbId: 13916 },
+    '140960': { tmdbId: 120089 },
+    '158871': { tmdbId: 120089 },
+    '21459': { tmdbId: 65930 },
+    '171018': { tmdbId: 251504 },
+    '154587': { tmdbId: 209867 },
+    '146065': { tmdbId: 138502 },
+    '137822': { tmdbId: 137822 }
+};
+
 export const VideoPlayer = () => {
     const { 
         currentMedia, 
@@ -11,7 +41,8 @@ export const VideoPlayer = () => {
         setCurrentSource, 
         setDonationModalOpen,
         addNotification,
-        saveProgress 
+        saveProgress,
+        navigateTo
     } = useApp();
 
     const [isPlaying, setIsPlaying] = useState(false);
@@ -26,9 +57,14 @@ export const VideoPlayer = () => {
     const progressRef = useRef(null);
     const dropdownRef = useRef(null);
 
-    // Auto-play when media changes
+    // Auto-play when media changes (or route to dedicated anime player)
     useEffect(() => {
         if (currentMedia) {
+            if (currentMedia.type === 'anime') {
+                closePlayer();
+                navigateTo(`#/anime/${currentMedia.id}`);
+                return;
+            }
             setIsPlaying(true);
             setCurrentTime(0);
             setDuration(0);
@@ -63,10 +99,32 @@ export const VideoPlayer = () => {
         return () => clearInterval(interval);
     }, [currentMedia, currentSource]);
 
-    if (!currentMedia) return null;
+    if (!currentMedia || currentMedia.type === 'anime') return null;
 
     // Source link formatting
     const getEmbedUrl = () => {
+        if (currentMedia.type === 'anime') {
+            const season = currentMedia.season || 1;
+            const episode = currentMedia.episode || 1;
+            const mediaIdStr = String(currentMedia.id);
+            const resolvedId = currentMedia.tmdbId || ANIME_TMDB_MAP[mediaIdStr]?.tmdbId || currentMedia.id;
+            const isMovie = currentMedia.isMovie || currentMedia.format === 'MOVIE';
+
+            if (isMovie) {
+                if (currentSource === 'vidsrc') {
+                    return `https://vidsrc.pm/embed/movie/${resolvedId}`;
+                }
+                return `https://vidlink.pro/movie/${resolvedId}`;
+            }
+
+            if (currentSource === 'vidsrc') {
+                return `https://vidsrc.pm/embed/tv/${resolvedId}/${season}/${episode}`;
+            }
+            if (currentSource === 'vip4k') {
+                return `https://vidsrc.me/embed/tv?tmdb=${resolvedId}&season=${season}&episode=${episode}`;
+            }
+            return `https://vidlink.pro/tv/${resolvedId}/${season}/${episode}`;
+        }
         if (currentSource === 'vip4k') {
             return currentMedia.type === 'movie'
                 ? `https://vidsrc.me/embed/movie?tmdb=${currentMedia.id}`
@@ -344,62 +402,119 @@ export const VideoPlayer = () => {
                             }`}
                         >
                             <span>
-                                {currentSource === 'vip4k' 
-                                    ? '⭐ VIP 4K' 
-                                    : currentSource === 'vidsrc' 
-                                        ? 'VidSrc' 
-                                        : currentSource === 'superembed' 
-                                            ? 'SuperEmbed' 
-                                            : 'Demo Trailer'}
+                                {currentMedia.type === 'anime'
+                                    ? (currentSource === 'vip4k' ? '⭐ VIP 4K' : currentSource === 'vidsrc' ? 'VidSrc (Mirror)' : 'VidLink (Stream)')
+                                    : (currentSource === 'vip4k' ? '⭐ VIP 4K' : currentSource === 'vidsrc' ? 'VidSrc' : currentSource === 'superembed' ? 'SuperEmbed' : 'Demo Trailer')
+                                }
                             </span>
                             <span className="material-symbols-outlined text-xs">arrow_drop_down</span>
                         </button>
                         
                         {showSourceDropdown && (
-                            <div className="absolute bottom-10 right-0 w-44 bg-surface border border-white/10 rounded-xl shadow-2xl p-1.5 z-50 flex flex-col gap-1 text-[11px] animate-fade-in backdrop-blur-2xl">
-                                {/* VIP 4K Server (Triggers Adsterra Direct Link) */}
-                                <button 
-                                    onClick={() => {
-                                        AdService.triggerDirectAd('vip_server');
-                                        setCurrentSource('vip4k');
-                                        setShowSourceDropdown(false);
-                                        addNotification('VIP 4K', 'Connected to VIP Ultra Fast Server!', 'speed');
-                                    }}
-                                    className="w-full text-left px-2.5 py-2 rounded-lg bg-gradient-to-r from-amber-500/20 to-cyan-500/20 hover:from-amber-500/30 hover:to-cyan-500/30 border border-amber-500/30 text-amber-300 font-bold flex items-center justify-between group transition-all"
-                                >
-                                    <span className="flex items-center gap-1.5">
-                                        <span className="material-symbols-outlined text-xs text-amber-400">workspace_premium</span>
-                                        <span>VIP 4K Server</span>
-                                    </span>
-                                    <span className="text-[8px] bg-amber-500/30 text-amber-200 px-1 rounded uppercase font-mono">FAST</span>
-                                </button>
+                            <div className="absolute bottom-10 right-0 w-48 bg-surface border border-white/10 rounded-xl shadow-2xl p-1.5 z-50 flex flex-col gap-1 text-[11px] animate-fade-in backdrop-blur-2xl">
+                                {currentMedia.type === 'anime' ? (
+                                    <>
+                                        {/* Anime Open in Dedicated Player */}
+                                        <button 
+                                            onClick={() => {
+                                                setShowSourceDropdown(false);
+                                                handleClose();
+                                                navigateTo(`#/anime/${currentMedia.id}`);
+                                            }}
+                                            className="w-full text-left px-2.5 py-2 rounded-lg bg-red-600/20 hover:bg-red-600/30 border border-red-500/40 text-red-400 font-bold flex items-center justify-between group transition-all"
+                                        >
+                                            <span className="flex items-center gap-1.5">
+                                                <span className="material-symbols-outlined text-xs text-red-400">movie</span>
+                                                <span>Full Anime Player</span>
+                                            </span>
+                                            <span className="text-[8px] bg-red-500/30 text-red-200 px-1 rounded uppercase font-mono">SEASONS</span>
+                                        </button>
 
-                                <button 
-                                    onClick={() => { 
-                                        AdService.triggerDirectAd('server_change');
-                                        setCurrentSource('vidsrc'); 
-                                        setShowSourceDropdown(false); 
-                                    }}
-                                    className={`w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-white/10 transition-colors ${currentSource === 'vidsrc' ? 'text-primary-container font-bold' : 'text-white/80'}`}
-                                >
-                                    VidSrc Server
-                                </button>
-                                <button 
-                                    onClick={() => { 
-                                        AdService.triggerDirectAd('server_change');
-                                        setCurrentSource('superembed'); 
-                                        setShowSourceDropdown(false); 
-                                    }}
-                                    className={`w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-white/10 transition-colors ${currentSource === 'superembed' ? 'text-primary-container font-bold' : 'text-white/80'}`}
-                                >
-                                    SuperEmbed Server
-                                </button>
-                                <button 
-                                    onClick={() => { setCurrentSource('demo'); setShowSourceDropdown(false); }}
-                                    className={`w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-white/10 transition-colors ${currentSource === 'demo' ? 'text-primary-container font-bold' : 'text-white/80'}`}
-                                >
-                                    Demo Trailer (HTML5)
-                                </button>
+                                        <button 
+                                            onClick={() => { 
+                                                AdService.triggerDirectAd('server_change');
+                                                setCurrentSource('vidlink'); 
+                                                setShowSourceDropdown(false); 
+                                            }}
+                                            className={`w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-white/10 transition-colors ${currentSource === 'vidlink' ? 'text-primary-container font-bold' : 'text-white/80'}`}
+                                        >
+                                            VidLink Stream (Anime)
+                                        </button>
+
+                                        <button 
+                                            onClick={() => { 
+                                                AdService.triggerDirectAd('server_change');
+                                                setCurrentSource('vidsrc'); 
+                                                setShowSourceDropdown(false); 
+                                            }}
+                                            className={`w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-white/10 transition-colors ${currentSource === 'vidsrc' ? 'text-primary-container font-bold' : 'text-white/80'}`}
+                                        >
+                                            VidSrc Mirror (Anime)
+                                        </button>
+
+                                        <button 
+                                            onClick={() => {
+                                                AdService.triggerDirectAd('vip_server');
+                                                setCurrentSource('vip4k');
+                                                setShowSourceDropdown(false);
+                                                addNotification('VIP 4K', 'Connected to VIP Ultra Fast Server!', 'speed');
+                                            }}
+                                            className="w-full text-left px-2.5 py-2 rounded-lg bg-gradient-to-r from-amber-500/20 to-cyan-500/20 hover:from-amber-500/30 hover:to-cyan-500/30 border border-amber-500/30 text-amber-300 font-bold flex items-center justify-between group transition-all"
+                                        >
+                                            <span className="flex items-center gap-1.5">
+                                                <span className="material-symbols-outlined text-xs text-amber-400">workspace_premium</span>
+                                                <span>VIP 4K Server</span>
+                                            </span>
+                                            <span className="text-[8px] bg-amber-500/30 text-amber-200 px-1 rounded uppercase font-mono">FAST</span>
+                                        </button>
+                                    </>
+                                ) : (
+                                    <>
+                                        {/* Standard Movies/TV Sources */}
+                                        <button 
+                                            onClick={() => {
+                                                AdService.triggerDirectAd('vip_server');
+                                                setCurrentSource('vip4k');
+                                                setShowSourceDropdown(false);
+                                                addNotification('VIP 4K', 'Connected to VIP Ultra Fast Server!', 'speed');
+                                            }}
+                                            className="w-full text-left px-2.5 py-2 rounded-lg bg-gradient-to-r from-amber-500/20 to-cyan-500/20 hover:from-amber-500/30 hover:to-cyan-500/30 border border-amber-500/30 text-amber-300 font-bold flex items-center justify-between group transition-all"
+                                        >
+                                            <span className="flex items-center gap-1.5">
+                                                <span className="material-symbols-outlined text-xs text-amber-400">workspace_premium</span>
+                                                <span>VIP 4K Server</span>
+                                            </span>
+                                            <span className="text-[8px] bg-amber-500/30 text-amber-200 px-1 rounded uppercase font-mono">FAST</span>
+                                        </button>
+
+                                        <button 
+                                            onClick={() => { 
+                                                AdService.triggerDirectAd('server_change');
+                                                setCurrentSource('vidsrc'); 
+                                                setShowSourceDropdown(false); 
+                                            }}
+                                            className={`w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-white/10 transition-colors ${currentSource === 'vidsrc' ? 'text-primary-container font-bold' : 'text-white/80'}`}
+                                        >
+                                            VidSrc Server
+                                        </button>
+                                        <button 
+                                            onClick={() => { 
+                                                AdService.triggerDirectAd('server_change');
+                                                setCurrentSource('superembed'); 
+                                                setShowSourceDropdown(false); 
+                                            }}
+                                            className={`w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-white/10 transition-colors ${currentSource === 'superembed' ? 'text-primary-container font-bold' : 'text-white/80'}`}
+                                        >
+                                            SuperEmbed Server
+                                        </button>
+                                        <button 
+                                            onClick={() => { setCurrentSource('demo'); setShowSourceDropdown(false); }}
+                                            className={`w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-white/10 transition-colors ${currentSource === 'demo' ? 'text-primary-container font-bold' : 'text-white/80'}`}
+                                        >
+                                            Demo Trailer (HTML5)
+                                        </button>
+                                    </>
+                                )}
                             </div>
                         )}
                     </div>

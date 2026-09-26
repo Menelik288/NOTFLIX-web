@@ -14,11 +14,12 @@ export const CustomCursor = () => {
     const [isHovering, setIsHovering] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
 
-    // Determine if we should hide the custom cursor entirely
     const isDetailsPage = currentRoute && (
         currentRoute.includes('#/details/') || 
         currentRoute.includes('#/movie/') || 
-        currentRoute.includes('#/tv/')
+        currentRoute.includes('#/tv/') ||
+        currentRoute.includes('#/anime/') ||
+        (currentRoute.startsWith('#/anime') && currentRoute !== '#/anime')
     );
     const isPlayerOpen = !!currentMedia;
     const shouldHide = isDetailsPage || isPlayerOpen;

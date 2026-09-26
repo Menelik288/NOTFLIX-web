@@ -11,10 +11,13 @@ A modern, full-stack web application clone of Netflix, designed to provide a pre
 
 ## ✨ Features
 * **Extensive Catalog:** Browse Trending, Top Rated, Now Playing, and Action/Comedy movies and TV shows.
+* **Anime Experience (NEW):** Dedicated Anime hub (`#/anime`) with spotlight carousel, Top Airing, Most Popular, Trending, and Top Rated rows.
+* **Season Selector:** Full season selector for multi-season anime (e.g. Jujutsu Kaisen S1/S2, Demon Slayer S1-S4, Attack on Titan S1-S4) with episode listings and arc titles.
+* **Multi-Server Streaming:** High-availability playback across VIP 4K Ultra Fast, VidBing, VidSrc, VidCore, VidFast, PrimeSrc, SuperEmbed, and HiAnime HLS.
 * **Smart Search:** Dynamic search bar with autocomplete suggestions across all titles, genres, and cast members.
 * **Authentication:** Secure user sign-up and login powered by Supabase Auth.
 * **User Profiles:** Customize your public identity and profile avatar.
-* **Watchlist:** Add your favorite shows and movies to your personalized Watchlist.
+* **Watchlist:** Add your favorite shows, movies, and anime to your personalized Watchlist.
 * **Continue Watching:** Automatically tracks your viewing progress for easy resumption.
 * **Responsive Design:** A beautiful, fully responsive UI built with Tailwind CSS, featuring glassmorphism and modern micro-animations.
 * **Localization:** Supports English and Amharic translations.
@@ -22,11 +25,14 @@ A modern, full-stack web application clone of Netflix, designed to provide a pre
 ---
 
 ## 🛠️ Tech Stack
-* **Frontend:** React 19, Vite, Tailwind CSS
-* **Backend:** Express.js (Node.js) proxy server
+* **Frontend:** React 19, Vite, Tailwind CSS, Hls.js
+* **Backend:** Express.js (Node.js) proxy server with in-memory caching
 * **Database & Auth:** Supabase (PostgreSQL)
-* **Data Provider:** [TMDB (The Movie Database) API](https://www.themoviedb.org/)
-* **Hosting:** Render (Web Service & Static Site)
+* **Data Providers:**
+  * [TMDB (The Movie Database) API](https://www.themoviedb.org/) for Movies and TV shows
+  * [AniList GraphQL API](https://graphql.anilist.co) for rich Anime metadata and relations
+  * [HiAnime API](https://github.com/animaplexyz/hianime-api) for anime streaming sources (`HIANIME_API_URL`)
+* **Hosting:** Render / Railway / Vercel
 
 ---
 
@@ -113,12 +119,14 @@ A modern, full-stack web application clone of Netflix, designed to provide a pre
    VITE_SUPABASE_URL=your_supabase_url
    VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
    VITE_API_BASE=http://localhost:3001
+   VITE_HIANIME_API_URL=http://localhost:3030
    ```
    Create a `.env` file in the `server/` directory for the backend:
    ```env
    PORT=3001
    TMDB_API_KEY=your_tmdb_api_key
    TMDB_BASE_URL=https://api.themoviedb.org/3
+   HIANIME_API_URL=http://localhost:3030
    ```
 
 4. **Run the development servers:**

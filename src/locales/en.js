@@ -4,6 +4,7 @@ const en = {
     home: 'Home',
     movies: 'Movies',
     tv: 'TV',
+    anime: 'Anime',
     forYou: 'For You',
     watchlist: 'Watchlist',
     search: 'Search',

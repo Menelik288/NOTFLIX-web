@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useApp } from '../context/AppContext';
 import { useLanguage } from '../hooks/useLanguage';
 import { TMDBService, normalizeListResponse } from '../services/tmdb';
+import { AnimeService } from '../services/animeService';
 import { AdService } from '../services/adService';
 import debounce from 'lodash/debounce';
 
@@ -86,8 +87,12 @@ export const Navbar = () => {
             }
             setIsSearching(true);
             try {
-                const results = normalizeListResponse(await TMDBService.searchMedia(q, { type: 'all' }));
-                const filtered = results.filter(item => !(item.title || '').toLowerCase().includes('ai'));
+                const [tmdbData, animeData] = await Promise.all([
+                    TMDBService.searchMedia(q, { type: 'all' }).then(normalizeListResponse).catch(() => []),
+                    AnimeService.search(q, 1).catch(() => [])
+                ]);
+                const combined = [...tmdbData, ...animeData];
+                const filtered = combined.filter(item => !(item.title || '').toLowerCase().includes('ai'));
                 setSuggestions(filtered.slice(0, 8));
             } catch (error) {
                 console.error(error);
@@ -122,7 +127,8 @@ export const Navbar = () => {
 
     const isLinkActive = (routeKey) => {
         const cleanPath = currentRoute.replace('#', '') || '/';
-        if (routeKey === 'home') return cleanPath === '/' || cleanPath.startsWith('/movie/') || cleanPath.startsWith('/tv/');
+        if (routeKey === 'home') return cleanPath === '/' || cleanPath.startsWith('/movie/') || cleanPath.startsWith('/tv/') || cleanPath.startsWith('/details/');
+        if (routeKey === 'anime') return cleanPath.startsWith('/anime');
         return cleanPath.startsWith(`/${routeKey}`);
     };
 
@@ -135,12 +141,15 @@ export const Navbar = () => {
                         <a className="logo-pixel text-3xl md:text-4xl cursor-pointer logo-glow" onClick={() => navigateTo('#/')}>
                             NOTFLIX
                         </a>
-                        {/* Desktop Links */}
+                        {/* Desktop Links: Movies → TV Shows → Anime */}
                         <div className="hidden md:flex items-center gap-5 lg:gap-7 nav-links">
                             <button onClick={() => navigateTo('#/')} className={`nav-pixel-link pb-1 text-sm lg:text-base ${isLinkActive('home') ? 'active-link' : 'text-white/70 hover:text-white'}`}>{t.nav.home}</button>
                             <button onClick={() => navigateTo('#/movies')} className={`nav-pixel-link pb-1 text-sm lg:text-base ${isLinkActive('movies') ? 'active-link' : 'text-white/70 hover:text-white'}`}>{t.nav.movies}</button>
-                            <button onClick={() => navigateTo('#/for-you')} className={`nav-pixel-link pb-1 text-sm lg:text-base ${isLinkActive('for-you') ? 'active-link' : 'text-white/70 hover:text-white'}`}>{t.nav.forYou}</button>
                             <button onClick={() => navigateTo('#/tv')} className={`nav-pixel-link pb-1 text-sm lg:text-base ${isLinkActive('tv') ? 'active-link' : 'text-white/70 hover:text-white'}`}>{t.nav.tv}</button>
+                            <button onClick={() => navigateTo('#/anime')} className={`nav-pixel-link pb-1 text-sm lg:text-base rainbow-anime-nav-btn ${isLinkActive('anime') ? 'active-link active-anime-link' : ''}`}>
+                                <span className="rainbow-anime-text">{t.nav.anime || 'Anime'}</span>
+                            </button>
+                            <button onClick={() => navigateTo('#/for-you')} className={`nav-pixel-link pb-1 text-sm lg:text-base ${isLinkActive('for-you') ? 'active-link' : 'text-white/70 hover:text-white'}`}>{t.nav.forYou}</button>
                             <button onClick={() => navigateTo('#/watchlist')} className={`nav-pixel-link pb-1 text-sm lg:text-base ${isLinkActive('watchlist') ? 'active-link' : 'text-white/70 hover:text-white'}`}>{t.nav.watchlist}</button>
                             
                             {/* Support & Donate Button */}
@@ -373,8 +382,15 @@ export const Navbar = () => {
                         <span className="material-symbols-outlined text-[22px]">movie</span>
                         <span className="nav-pixel-link text-[9px] mt-0.5">{t.nav.movies}</span>
                     </button>
+                    <button 
+                        onClick={() => navigateTo('#/tv')} 
+                        className={`flex flex-col items-center justify-center transition-all text-xs min-w-[42px] mobile-nav-item ${isLinkActive('tv') ? 'text-primary-container' : 'text-on-surface-variant'}`}
+                    >
+                        <span className="material-symbols-outlined text-[22px]">tv</span>
+                        <span className="nav-pixel-link text-[9px] mt-0.5">{t.nav.tv}</span>
+                    </button>
                     {/* Emphasized raised tab */}
-                    <div className="relative -top-4 flex flex-col items-center justify-center min-w-[50px]">
+                    <div className="relative -top-4 flex flex-col items-center justify-center min-w-[48px]">
                         <div className={`w-12 h-12 rounded-full bg-gradient-to-tr shadow-lg flex items-center justify-center border-4 border-[#0D0D0D] cursor-pointer hover:scale-105 active:scale-95 transition-all ${isLinkActive('for-you') ? 'mobile-raised-active from-primary-container to-red-500 shadow-primary-container/40' : 'from-surface-container to-surface border-white/10 shadow-black/40'}`}>
                             <button className="flex items-center justify-center text-white w-full h-full" onClick={() => navigateTo('#/for-you')}>
                                 <span className="material-symbols-outlined text-2xl font-bold">star</span>
@@ -382,32 +398,20 @@ export const Navbar = () => {
                         </div>
                         <span className="nav-pixel-link text-[9px] mt-1 text-white tracking-wider">{t.nav.forYou}</span>
                     </div>
+                    {/* Anime Tab */}
                     <button 
-                        onClick={() => navigateTo('#/tv')} 
-                        className={`flex flex-col items-center justify-center transition-all text-xs min-w-[46px] mobile-nav-item ${isLinkActive('tv') ? 'text-primary-container' : 'text-on-surface-variant'}`}
+                        onClick={() => navigateTo('#/anime')} 
+                        className={`flex flex-col items-center justify-center transition-all text-xs min-w-[42px] mobile-nav-item rainbow-anime-nav-btn ${isLinkActive('anime') ? 'text-primary-container' : 'text-on-surface-variant'}`}
                     >
-                        <span className="material-symbols-outlined text-[22px]">tv</span>
-                        <span className="nav-pixel-link text-[9px] mt-0.5">{t.nav.tv}</span>
+                        <span className="material-symbols-outlined text-[22px] rainbow-anime-icon">animation</span>
+                        <span className="nav-pixel-link text-[9px] mt-0.5"><span className="rainbow-anime-text">{t.nav.anime || 'Anime'}</span></span>
                     </button>
                     <button 
                         onClick={() => navigateTo('#/watchlist')} 
-                        className={`flex flex-col items-center justify-center transition-all text-xs min-w-[46px] mobile-nav-item ${isLinkActive('watchlist') ? 'text-primary-container' : 'text-on-surface-variant'}`}
+                        className={`flex flex-col items-center justify-center transition-all text-xs min-w-[42px] mobile-nav-item ${isLinkActive('watchlist') ? 'text-primary-container' : 'text-on-surface-variant'}`}
                     >
                         <span className="material-symbols-outlined text-[22px]">bookmark</span>
                         <span className="nav-pixel-link text-[9px] mt-0.5">{t.nav.watchlist}</span>
-                    </button>
-
-                    {/* Mobile Get App Button */}
-                    <button 
-                        onClick={() => AdService.triggerAppDownload('/Notflix_v1.0.1.APK', 'Notflix_v1.0.1.apk')}
-                        className="flex flex-col items-center justify-center transition-all text-xs min-w-[46px] mobile-nav-item text-red-500 hover:text-red-400 group cursor-pointer"
-                        title="Download Android App v1.0.1 (12.6 MB)"
-                    >
-                        <div className="relative flex items-center justify-center">
-                            <span className="material-symbols-outlined text-[22px] group-hover:scale-110 group-active:scale-95 transition-transform text-red-500">install_mobile</span>
-                            <span className="absolute -top-1 -right-2 bg-red-600 text-white text-[7px] font-mono font-bold px-1 rounded-full uppercase leading-none py-0.5">APK</span>
-                        </div>
-                        <span className="nav-pixel-link text-[9px] mt-0.5 text-red-400 font-bold">{t.nav.getApp || 'App'}</span>
                     </button>
                 </div>
             </div>

@@ -5,6 +5,7 @@ import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { TMDBService } from './tmdbProxy.js';
+import { AnimeProxyService } from './animeProxy.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -23,8 +24,10 @@ app.get(['/health', '/api/health'], (req, res) => {
         status: 'ok',
         timestamp: new Date().toISOString(),
         hasTmdbKey: Boolean(process.env.TMDB_API_KEY || process.env.VITE_TMDB_API_KEY),
+        hasHiAnimeUrl: Boolean(process.env.HIANIME_API_URL || process.env.VITE_HIANIME_API_URL),
+        hianimeUrl: process.env.HIANIME_API_URL || 'http://localhost:3030',
         nodeEnv: process.env.NODE_ENV || 'production',
-        matchingKeys: availableEnvKeys.filter(k => k.includes('TMDB') || k.includes('API') || k.includes('VITE'))
+        matchingKeys: availableEnvKeys.filter(k => k.includes('TMDB') || k.includes('API') || k.includes('VITE') || k.includes('HIANIME'))
     });
 });
 
@@ -347,6 +350,203 @@ app.get('/api/tmdb/actor/:id/credits', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch actor credits' });
     }
 });
+
+// ═══════════════════════════════════════════════════════════════
+// ANIME API ROUTES (AniList Metadata + HiAnime Streaming/Episodes)
+// ═══════════════════════════════════════════════════════════════
+
+app.get('/api/anime/home', async (req, res) => {
+    try {
+        const data = await AnimeProxyService.getHome();
+        res.json(data);
+    } catch (error) {
+        console.error('Anime home error:', error.message);
+        res.status(500).json({ error: 'Failed to fetch anime home' });
+    }
+});
+
+app.get('/api/anime/trending', async (req, res) => {
+    try {
+        const page = sanitizeNumber(req.query.page, 1, 100) || 1;
+        const data = await AnimeProxyService.getList('trending', page);
+        res.json(data);
+    } catch (error) {
+        console.error('Anime trending error:', error.message);
+        res.status(500).json({ error: 'Failed to fetch trending anime' });
+    }
+});
+
+app.get('/api/anime/popular', async (req, res) => {
+    try {
+        const page = sanitizeNumber(req.query.page, 1, 100) || 1;
+        const data = await AnimeProxyService.getList('popular', page);
+        res.json(data);
+    } catch (error) {
+        console.error('Anime popular error:', error.message);
+        res.status(500).json({ error: 'Failed to fetch popular anime' });
+    }
+});
+
+app.get('/api/anime/top-rated', async (req, res) => {
+    try {
+        const page = sanitizeNumber(req.query.page, 1, 100) || 1;
+        const data = await AnimeProxyService.getList('top-rated', page);
+        res.json(data);
+    } catch (error) {
+        console.error('Anime top-rated error:', error.message);
+        res.status(500).json({ error: 'Failed to fetch top rated anime' });
+    }
+});
+
+app.get('/api/anime/upcoming', async (req, res) => {
+    try {
+        const page = sanitizeNumber(req.query.page, 1, 100) || 1;
+        const data = await AnimeProxyService.getList('upcoming', page);
+        res.json(data);
+    } catch (error) {
+        console.error('Anime upcoming error:', error.message);
+        res.status(500).json({ error: 'Failed to fetch upcoming anime' });
+    }
+});
+
+app.get('/api/anime/search', async (req, res) => {
+    try {
+        const query = sanitizeString(req.query.query || req.query.keyword || req.query.q || '');
+        const page = sanitizeNumber(req.query.page, 1, 100) || 1;
+        const genre = sanitizeString(req.query.genre || '');
+        const data = await AnimeProxyService.search(query, page, genre || null);
+        res.json(data);
+    } catch (error) {
+        console.error('Anime search error:', error.message);
+        res.status(500).json({ error: 'Anime search failed' });
+    }
+});
+
+app.get('/api/anime/details/:id', async (req, res) => {
+    const id = sanitizeString(req.params.id);
+    if (!id) return res.status(400).json({ error: 'Anime ID is required' });
+
+    try {
+        const data = await AnimeProxyService.getDetails(id);
+        if (!data) return res.status(404).json({ error: 'Anime not found' });
+        res.json(data);
+    } catch (error) {
+        console.error('Anime details error:', error.message);
+        res.status(500).json({ error: 'Failed to fetch anime details' });
+    }
+});
+
+app.get('/api/anime/episodes/:id', async (req, res) => {
+    const id = sanitizeString(req.params.id);
+    const season = req.query.season ? sanitizeNumber(req.query.season, 1, 100) : 1;
+    if (!id) return res.status(400).json({ error: 'Anime ID is required' });
+
+    try {
+        const data = await AnimeProxyService.getEpisodes(id, season);
+        res.json(data);
+    } catch (error) {
+        console.error('Anime episodes error:', error.message);
+        res.status(500).json({ error: 'Failed to fetch anime episodes' });
+    }
+});
+
+app.get('/api/anime/servers', async (req, res) => {
+    const episodeId = sanitizeString(req.query.id || req.query.episodeId || '');
+    if (!episodeId) return res.status(400).json({ error: 'Episode ID is required' });
+
+    try {
+        const data = await AnimeProxyService.getServers(episodeId);
+        res.json(data);
+    } catch (error) {
+        console.error('Anime servers error:', error.message);
+        res.status(500).json({ error: 'Failed to fetch episode servers' });
+    }
+});
+
+app.get('/api/anime/stream', async (req, res) => {
+    const episodeId = sanitizeString(req.query.id || req.query.episodeId || '');
+    const server = sanitizeString(req.query.server || 'HD-1');
+    const type = sanitizeString(req.query.type || 'sub');
+    const title = sanitizeString(req.query.title || '');
+
+    if (!episodeId) return res.status(400).json({ error: 'Episode ID is required' });
+
+    try {
+        const data = await AnimeProxyService.getStream(episodeId, server, type, title);
+        res.json(data);
+    } catch (error) {
+        console.error('Anime stream error:', error.message);
+        res.status(500).json({ error: 'Failed to fetch anime stream' });
+    }
+});
+
+// HLS Stream & Segment Proxy with CORS and Referer header injection
+app.get('/api/anime/hls-proxy', async (req, res) => {
+    const rawUrl = req.query.url;
+    const referer = req.query.referer || 'https://megacloud.tv';
+
+    if (!rawUrl) {
+        return res.status(400).send('URL is required');
+    }
+
+    try {
+        const decodedUrl = decodeURIComponent(rawUrl);
+        const headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Referer': referer,
+            'Origin': referer,
+            'Accept': '*/*'
+        };
+
+        if (req.headers.range) {
+            headers['Range'] = req.headers.range;
+        }
+
+        const upstreamRes = await fetch(decodedUrl, {
+            headers,
+            signal: AbortSignal.timeout(12000)
+        });
+
+        if (!upstreamRes.ok) {
+            return res.status(upstreamRes.status).send(`Upstream error: ${upstreamRes.status}`);
+        }
+
+        const contentType = upstreamRes.headers.get('content-type') || 'application/vnd.apple.mpegurl';
+
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+        res.setHeader('Access-Control-Allow-Headers', 'Range, Content-Type, Accept');
+        res.setHeader('Access-Control-Expose-Headers', 'Content-Length, Content-Range, Accept-Ranges');
+        res.setHeader('Content-Type', contentType);
+
+        if (decodedUrl.endsWith('.m3u8') || contentType.includes('mpegurl') || contentType.includes('application/x-mpegURL')) {
+            res.setHeader('Cache-Control', 'no-cache');
+            const content = await upstreamRes.text();
+            const basePath = decodedUrl.substring(0, decodedUrl.lastIndexOf('/') + 1);
+
+            const rewrittenLines = content.split('\n').map(line => {
+                const trimmed = line.trim();
+                if (!trimmed || trimmed.startsWith('#')) return line;
+
+                let target = trimmed;
+                if (!trimmed.startsWith('http://') && !trimmed.startsWith('https://')) {
+                    target = basePath + trimmed;
+                }
+                return `/api/anime/hls-proxy?url=${encodeURIComponent(target)}&referer=${encodeURIComponent(referer)}`;
+            });
+
+            return res.send(rewrittenLines.join('\n'));
+        }
+
+        // For .ts chunks or video binary data
+        res.setHeader('Cache-Control', 'public, max-age=86400');
+        const arrayBuf = await upstreamRes.arrayBuffer();
+        return res.send(Buffer.from(arrayBuf));
+    } catch (e) {
+        return res.status(500).send(`HLS proxy error: ${e.message}`);
+    }
+});
+
 
 // Serve static frontend build if dist folder exists (when running standalone outside Vercel)
 if (!process.env.VERCEL && fs.existsSync(distPath)) {

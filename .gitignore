@@ -27,3 +27,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Scratch & Local API Daemons
+hianime-api-core/
+server/hianime-api/
+brag-output/
+reel_output/
+generate_reel.py
+.agents/

@@ -4,6 +4,7 @@ const am = {
     home: 'መነሻ',
     movies: 'ፊልሞች',
     tv: 'ቲቪ',
+    anime: 'አኒሜ',
     forYou: 'ለእርስዎ',
     watchlist: 'የእኔ ዝርዝር',
     search: 'ፈልግ',

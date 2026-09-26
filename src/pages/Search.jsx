@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { TMDBService, normalizeListResponse } from '../services/tmdb';
+import { AnimeService } from '../services/animeService';
 import { useApp } from '../context/AppContext';
 import { NativeAdBanner } from '../components/NativeAdBanner';
 import { DisplayAdBanner } from '../components/DisplayAdBanner';
@@ -61,9 +62,25 @@ export const Search = () => {
     const executeSearch = async (searchQuery, currentFilters) => {
         setLoading(true);
         try {
-            const data = normalizeListResponse(await TMDBService.searchMedia(searchQuery, currentFilters));
+            let tmdbResults = [];
+            let animeResults = [];
+
+            if (currentFilters.type === 'anime') {
+                animeResults = await AnimeService.search(searchQuery, 1).catch(() => []);
+            } else if (currentFilters.type === 'all') {
+                const [tmdb, anime] = await Promise.all([
+                    TMDBService.searchMedia(searchQuery, currentFilters).then(normalizeListResponse).catch(() => []),
+                    AnimeService.search(searchQuery, 1).catch(() => [])
+                ]);
+                tmdbResults = tmdb;
+                animeResults = anime;
+            } else {
+                tmdbResults = normalizeListResponse(await TMDBService.searchMedia(searchQuery, currentFilters));
+            }
+
+            const combined = [...tmdbResults, ...animeResults];
             // Remove any AI‑related titles (case‑insensitive)
-            const filtered = data.filter(item => {
+            const filtered = combined.filter(item => {
                 const title = (item.title || '').toLowerCase();
                 return !title.includes('ai');
             });
@@ -192,13 +209,13 @@ export const Search = () => {
                             <div className="space-y-3">
                                 <h3 className="text-sm font-bold text-white/60 uppercase tracking-wider">Content Type</h3>
                                 <div className="flex bg-black/40 rounded-xl p-1 border border-white/5">
-                                    {['all', 'movie', 'tv'].map(t => (
+                                    {['all', 'movie', 'tv', 'anime'].map(t => (
                                         <button 
                                             key={t}
                                             onClick={() => setFilters(prev => ({ ...prev, type: t }))}
                                             className={`flex-1 py-2 text-sm font-bold rounded-lg capitalize transition-all ${filters.type === t ? 'bg-white/10 text-white shadow-md' : 'text-white/50 hover:text-white/80'}`}
                                         >
-                                            {t === 'all' ? 'All' : t === 'tv' ? 'TV Shows' : 'Movies'}
+                                            {t === 'all' ? 'All' : t === 'tv' ? 'TV Shows' : t === 'anime' ? 'Anime' : 'Movies'}
                                         </button>
                                     ))}
                                 </div>

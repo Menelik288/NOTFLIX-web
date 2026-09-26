@@ -60,7 +60,7 @@ export const HeroBanner = ({ media }) => {
         return <FallbackHero />;
     }
 
-    const mediaType = media.type === 'tv' ? 'tv' : 'movie';
+    const mediaType = media.type === 'anime' ? 'anime' : (media.type === 'tv' ? 'tv' : 'movie');
     const mediaId = media.id;
     const imageSrc = media.backdrop || media.poster;
     const inWatchlist = (watchlist || []).some(item => String(item.id) === String(mediaId));

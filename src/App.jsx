@@ -17,6 +17,8 @@ import ForYou from './pages/ForYou';
 import Search from './pages/Search';
 import Watchlist from './pages/Watchlist';
 import Details from './pages/Details';
+import Anime from './pages/Anime';
+import AnimeDetails from './pages/AnimeDetails';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 import About from './pages/settings/About';
@@ -48,6 +50,7 @@ const ROUTES = [
     { pattern: '/',            Component: Home },
     { pattern: '/movies',      Component: Movies },
     { pattern: '/tv',          Component: Series },
+    { pattern: '/anime',       Component: Anime },
     { pattern: '/for-you',     Component: ForYou },
     { pattern: '/search',      Component: Search },
     { pattern: '/watchlist',   Component: Watchlist },
@@ -60,6 +63,7 @@ const ROUTES = [
     { pattern: '/details/:id', Component: Details },
     { pattern: '/movie/:id',   Component: Details },
     { pattern: '/tv/:id',      Component: Details },
+    { pattern: '/anime/:id',   Component: AnimeDetails },
 ];
 
 const RouterView = () => {
