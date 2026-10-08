@@ -137,10 +137,14 @@ A modern, full-stack web application clone of Netflix, designed to provide a pre
 
 ---
 
-## 📄 License
-This project is for educational purposes only. Not affiliated with Netflix. Data provided by TMDB.
+## 📄 License & Terms of Use
+**Copyright (c) 2026 Menelik Alemayehu. All Rights Reserved.**
 
-This project is open source and available under the [MIT License](LICENSE).
+This repository is strictly **Proprietary & Confidential**. It is published as an engineering portfolio showcase only.
+
+- ❌ **No Cloning / Forking**: Cloning, copying, downloading, scraping, or re-hosting this repository in whole or in part is strictly prohibited.
+- ❌ **No Redistribution**: No commercial or non-commercial redistribution, re-licensing, or derivative works are permitted without explicit written permission.
+- ℹ️ For details, refer to the [LICENSE](LICENSE) file.
 
 
 
