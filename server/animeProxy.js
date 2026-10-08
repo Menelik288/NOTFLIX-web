@@ -37,26 +37,59 @@ const ANIME_SHOW_MAP = {
 
     // Demon Slayer
     '85937:1': { slug: 'demon-slayer-kimetsu-no-yaiba-rzepv', showId: '1279' },
+    '85937:2': { slug: 'demon-slayer-kimetsu-no-yaiba-entertainment-district-arc-x80w9', showId: '3819' },
+    '85937:3': { slug: 'demon-slayer-kimetsu-no-yaiba-swordsmith-village-arc-m2jqp', showId: '5482' },
+    '85937:4': { slug: 'demon-slayer-kimetsu-no-yaiba-hashira-training-arc-zpj5q', showId: '7612' },
     '101922:1': { slug: 'demon-slayer-kimetsu-no-yaiba-rzepv', showId: '1279' },
+    '101922:2': { slug: 'demon-slayer-kimetsu-no-yaiba-entertainment-district-arc-x80w9', showId: '3819' },
+    '101922:3': { slug: 'demon-slayer-kimetsu-no-yaiba-swordsmith-village-arc-m2jqp', showId: '5482' },
+    '101922:4': { slug: 'demon-slayer-kimetsu-no-yaiba-hashira-training-arc-zpj5q', showId: '7612' },
+    '129874:1': { slug: 'demon-slayer-kimetsu-no-yaiba-rzepv', showId: '1279' },
     '129874:2': { slug: 'demon-slayer-kimetsu-no-yaiba-entertainment-district-arc-x80w9', showId: '3819' },
+    '129874:3': { slug: 'demon-slayer-kimetsu-no-yaiba-swordsmith-village-arc-m2jqp', showId: '5482' },
+    '129874:4': { slug: 'demon-slayer-kimetsu-no-yaiba-hashira-training-arc-zpj5q', showId: '7612' },
+    '145139:1': { slug: 'demon-slayer-kimetsu-no-yaiba-rzepv', showId: '1279' },
+    '145139:2': { slug: 'demon-slayer-kimetsu-no-yaiba-entertainment-district-arc-x80w9', showId: '3819' },
     '145139:3': { slug: 'demon-slayer-kimetsu-no-yaiba-swordsmith-village-arc-m2jqp', showId: '5482' },
+    '145139:4': { slug: 'demon-slayer-kimetsu-no-yaiba-hashira-training-arc-zpj5q', showId: '7612' },
+    '166240:1': { slug: 'demon-slayer-kimetsu-no-yaiba-rzepv', showId: '1279' },
+    '166240:2': { slug: 'demon-slayer-kimetsu-no-yaiba-entertainment-district-arc-x80w9', showId: '3819' },
+    '166240:3': { slug: 'demon-slayer-kimetsu-no-yaiba-swordsmith-village-arc-m2jqp', showId: '5482' },
     '166240:4': { slug: 'demon-slayer-kimetsu-no-yaiba-hashira-training-arc-zpj5q', showId: '7612' },
 
     // Attack on Titan
-    '16498:1': { slug: 'attack-on-titan-002rq', showId: '809' },
-    '20958:2': { slug: 'attack-on-titan-season-2-005jq', showId: '810' },
-    '99147:3': { slug: 'attack-on-titan-season-3-007qq', showId: '811' },
-    '110277:4': { slug: 'attack-on-titan-final-season-008mq', showId: '812' },
     '1429:1': { slug: 'attack-on-titan-002rq', showId: '809' },
+    '1429:2': { slug: 'attack-on-titan-season-2-005jq', showId: '810' },
+    '1429:3': { slug: 'attack-on-titan-season-3-007qq', showId: '811' },
+    '1429:4': { slug: 'attack-on-titan-final-season-008mq', showId: '812' },
+    '16498:1': { slug: 'attack-on-titan-002rq', showId: '809' },
+    '16498:2': { slug: 'attack-on-titan-season-2-005jq', showId: '810' },
+    '16498:3': { slug: 'attack-on-titan-season-3-007qq', showId: '811' },
+    '16498:4': { slug: 'attack-on-titan-final-season-008mq', showId: '812' },
+    '20958:1': { slug: 'attack-on-titan-002rq', showId: '809' },
+    '20958:2': { slug: 'attack-on-titan-season-2-005jq', showId: '810' },
+    '20958:3': { slug: 'attack-on-titan-season-3-007qq', showId: '811' },
+    '20958:4': { slug: 'attack-on-titan-final-season-008mq', showId: '812' },
+    '99147:1': { slug: 'attack-on-titan-002rq', showId: '809' },
+    '99147:2': { slug: 'attack-on-titan-season-2-005jq', showId: '810' },
+    '99147:3': { slug: 'attack-on-titan-season-3-007qq', showId: '811' },
+    '99147:4': { slug: 'attack-on-titan-final-season-008mq', showId: '812' },
+    '110277:1': { slug: 'attack-on-titan-002rq', showId: '809' },
+    '110277:2': { slug: 'attack-on-titan-season-2-005jq', showId: '810' },
+    '110277:3': { slug: 'attack-on-titan-season-3-007qq', showId: '811' },
+    '110277:4': { slug: 'attack-on-titan-final-season-008mq', showId: '812' },
 
     // One Piece
     '21:1': { slug: 'one-piece-351', showId: '351' },
     '37854:1': { slug: 'one-piece-351', showId: '351' },
 
     // Solo Leveling
-    '151807:1': { slug: 'solo-leveling-82928', showId: '6892' },
-    '173778:2': { slug: 'solo-leveling-season-2-arise-from-the-shadow-3eukp', showId: '8910' },
     '127532:1': { slug: 'solo-leveling-82928', showId: '6892' },
+    '127532:2': { slug: 'solo-leveling-season-2-arise-from-the-shadow-3eukp', showId: '8910' },
+    '151807:1': { slug: 'solo-leveling-82928', showId: '6892' },
+    '151807:2': { slug: 'solo-leveling-season-2-arise-from-the-shadow-3eukp', showId: '8910' },
+    '173778:1': { slug: 'solo-leveling-82928', showId: '6892' },
+    '173778:2': { slug: 'solo-leveling-season-2-arise-from-the-shadow-3eukp', showId: '8910' },
 
     // Chainsaw Man
     '127230:1': { slug: 'chainsaw-man-tv', showId: '4720' },
@@ -90,10 +123,16 @@ const ANIME_SHOW_MAP = {
 
     // Blue Lock
     '137822:1': { slug: 'blue-lock-x89w5', showId: '4638' },
+    '137822:2': { slug: 'blue-lock-vs-u-20-japan-0ompr', showId: '7548' },
+    '163146:1': { slug: 'blue-lock-x89w5', showId: '4638' },
     '163146:2': { slug: 'blue-lock-vs-u-20-japan-0ompr', showId: '7548' },
 
     // Spy x Family
+    '120089:1': { slug: 'spy-x-family-643', showId: '4452' },
+    '120089:2': { slug: 'spy-x-family-season-2-58137', showId: '6368' },
     '140960:1': { slug: 'spy-x-family-643', showId: '4452' },
+    '140960:2': { slug: 'spy-x-family-season-2-58137', showId: '6368' },
+    '158871:1': { slug: 'spy-x-family-643', showId: '4452' },
     '158871:2': { slug: 'spy-x-family-season-2-58137', showId: '6368' }
 };
 
@@ -175,6 +214,7 @@ const ANIME_TMDB_MAP = {
     '113415': { tmdbId: 95479, season: 1, totalSeasons: 2, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 24, id: '113415' }, { seasonNumber: 2, name: 'Season 2: Shibuya Incident', episodeCount: 23, id: '145064' }] },
     '145064': { tmdbId: 95479, season: 2, totalSeasons: 2, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 24, id: '113415' }, { seasonNumber: 2, name: 'Season 2: Shibuya Incident', episodeCount: 23, id: '145064' }] },
     '131573': { tmdbId: 810693, isMovie: true, seasons: [{ seasonNumber: 1, name: 'Movie: JUJUTSU KAISEN 0', episodeCount: 1, id: '131573' }] },
+    '95479': { tmdbId: 95479, season: 1, totalSeasons: 2, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 24, id: '113415' }, { seasonNumber: 2, name: 'Season 2: Shibuya Incident', episodeCount: 23, id: '145064' }] },
 
     // Demon Slayer
     '85937': { tmdbId: 85937, totalSeasons: 4, seasons: [{ seasonNumber: 1, name: 'Season 1: Unwavering Resolve', episodeCount: 26, id: '101922' }, { seasonNumber: 2, name: 'Season 2: Entertainment District', episodeCount: 18, id: '129874' }, { seasonNumber: 3, name: 'Season 3: Swordsmith Village', episodeCount: 11, id: '145139' }, { seasonNumber: 4, name: 'Season 4: Hashira Training', episodeCount: 8, id: '166240' }] },
@@ -184,6 +224,7 @@ const ANIME_TMDB_MAP = {
     '166240': { tmdbId: 85937, season: 4, totalSeasons: 4, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 26, id: '101922' }, { seasonNumber: 2, name: 'Season 2', episodeCount: 18, id: '129874' }, { seasonNumber: 3, name: 'Season 3', episodeCount: 11, id: '145139' }, { seasonNumber: 4, name: 'Season 4', episodeCount: 8, id: '166240' }] },
 
     // Attack on Titan
+    '1429': { tmdbId: 1429, totalSeasons: 4, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 25, id: '16498' }, { seasonNumber: 2, name: 'Season 2', episodeCount: 12, id: '20958' }, { seasonNumber: 3, name: 'Season 3', episodeCount: 22, id: '99147' }, { seasonNumber: 4, name: 'Season 4: Final Season', episodeCount: 28, id: '110277' }] },
     '16498': { tmdbId: 1429, season: 1, totalSeasons: 4, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 25, id: '16498' }, { seasonNumber: 2, name: 'Season 2', episodeCount: 12, id: '20958' }, { seasonNumber: 3, name: 'Season 3', episodeCount: 22, id: '99147' }, { seasonNumber: 4, name: 'Season 4: Final Season', episodeCount: 28, id: '110277' }] },
     '20958': { tmdbId: 1429, season: 2, totalSeasons: 4, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 25, id: '16498' }, { seasonNumber: 2, name: 'Season 2', episodeCount: 12, id: '20958' }, { seasonNumber: 3, name: 'Season 3', episodeCount: 22, id: '99147' }, { seasonNumber: 4, name: 'Season 4: Final Season', episodeCount: 28, id: '110277' }] },
     '99147': { tmdbId: 1429, season: 3, totalSeasons: 4, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 25, id: '16498' }, { seasonNumber: 2, name: 'Season 2', episodeCount: 12, id: '20958' }, { seasonNumber: 3, name: 'Season 3', episodeCount: 22, id: '99147' }, { seasonNumber: 4, name: 'Season 4: Final Season', episodeCount: 28, id: '110277' }] },
@@ -191,41 +232,60 @@ const ANIME_TMDB_MAP = {
 
     // One Piece
     '21': { tmdbId: 37854, totalSeasons: 1, seasons: [{ seasonNumber: 1, name: 'All Episodes', episodeCount: 1120, id: '21' }] },
+    '37854': { tmdbId: 37854, totalSeasons: 1, seasons: [{ seasonNumber: 1, name: 'All Episodes', episodeCount: 1120, id: '21' }] },
 
     // Solo Leveling
+    '127532': { tmdbId: 127532, totalSeasons: 2, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 12, id: '151807' }, { seasonNumber: 2, name: 'Season 2: Arise from the Shadow', episodeCount: 12, id: '173778' }] },
     '151807': { tmdbId: 127532, season: 1, totalSeasons: 2, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 12, id: '151807' }, { seasonNumber: 2, name: 'Season 2: Arise from the Shadow', episodeCount: 12, id: '173778' }] },
     '173778': { tmdbId: 127532, season: 2, totalSeasons: 2, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 12, id: '151807' }, { seasonNumber: 2, name: 'Season 2: Arise from the Shadow', episodeCount: 12, id: '173778' }] },
 
     // Chainsaw Man
     '127230': { tmdbId: 114410, season: 1, totalSeasons: 1, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 12, id: '127230' }] },
+    '114410': { tmdbId: 114410, season: 1, totalSeasons: 1, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 12, id: '127230' }] },
 
     // Naruto & Naruto Shippuden
     '20': { tmdbId: 46260, totalSeasons: 5, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 52 }, { seasonNumber: 2, name: 'Season 2', episodeCount: 52 }, { seasonNumber: 3, name: 'Season 3', episodeCount: 52 }, { seasonNumber: 4, name: 'Season 4', episodeCount: 52 }, { seasonNumber: 5, name: 'Season 5', episodeCount: 12 }] },
+    '46260': { tmdbId: 46260, totalSeasons: 5, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 52 }, { seasonNumber: 2, name: 'Season 2', episodeCount: 52 }, { seasonNumber: 3, name: 'Season 3', episodeCount: 52 }, { seasonNumber: 4, name: 'Season 4', episodeCount: 52 }, { seasonNumber: 5, name: 'Season 5', episodeCount: 12 }] },
     '1735': { tmdbId: 31910, totalSeasons: 21, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 32 }, { seasonNumber: 2, name: 'Season 2', episodeCount: 21 }, { seasonNumber: 3, name: 'Season 3', episodeCount: 18 }, { seasonNumber: 4, name: 'Season 4', episodeCount: 17 }] },
+    '31910': { tmdbId: 31910, totalSeasons: 21, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 32 }, { seasonNumber: 2, name: 'Season 2', episodeCount: 21 }, { seasonNumber: 3, name: 'Season 3', episodeCount: 18 }, { seasonNumber: 4, name: 'Season 4', episodeCount: 17 }] },
 
     // Bleach
     '269': { tmdbId: 30984, totalSeasons: 16, seasons: [{ seasonNumber: 1, name: 'Season 1: Agent of the Shinigami', episodeCount: 20 }, { seasonNumber: 2, name: 'Season 2: Soul Society', episodeCount: 21 }, { seasonNumber: 3, name: 'Season 3: The Rescue', episodeCount: 22 }] },
+    '30984': { tmdbId: 30984, totalSeasons: 16, seasons: [{ seasonNumber: 1, name: 'Season 1: Agent of the Shinigami', episodeCount: 20 }, { seasonNumber: 2, name: 'Season 2: Soul Society', episodeCount: 21 }, { seasonNumber: 3, name: 'Season 3: The Rescue', episodeCount: 22 }] },
 
     // Death Note
     '1535': { tmdbId: 13916, totalSeasons: 1, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 37, id: '1535' }] },
+    '13916': { tmdbId: 13916, totalSeasons: 1, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 37, id: '1535' }] },
 
     // Spy x Family
+    '120089': { tmdbId: 120089, totalSeasons: 2, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 25, id: '140960' }, { seasonNumber: 2, name: 'Season 2', episodeCount: 12, id: '158871' }] },
     '140960': { tmdbId: 120089, season: 1, totalSeasons: 2, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 25, id: '140960' }, { seasonNumber: 2, name: 'Season 2', episodeCount: 12, id: '158871' }] },
+    '158871': { tmdbId: 120089, season: 2, totalSeasons: 2, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 25, id: '140960' }, { seasonNumber: 2, name: 'Season 2', episodeCount: 12, id: '158871' }] },
 
     // My Hero Academia
     '21459': { tmdbId: 65930, season: 1, totalSeasons: 7, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 13 }, { seasonNumber: 2, name: 'Season 2', episodeCount: 25 }, { seasonNumber: 3, name: 'Season 3', episodeCount: 25 }, { seasonNumber: 4, name: 'Season 4', episodeCount: 25 }, { seasonNumber: 5, name: 'Season 5', episodeCount: 25 }, { seasonNumber: 6, name: 'Season 6', episodeCount: 25 }, { seasonNumber: 7, name: 'Season 7', episodeCount: 21 }] },
+    '65930': { tmdbId: 65930, season: 1, totalSeasons: 7, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 13 }, { seasonNumber: 2, name: 'Season 2', episodeCount: 25 }, { seasonNumber: 3, name: 'Season 3', episodeCount: 25 }, { seasonNumber: 4, name: 'Season 4', episodeCount: 25 }, { seasonNumber: 5, name: 'Season 5', episodeCount: 25 }, { seasonNumber: 6, name: 'Season 6', episodeCount: 25 }, { seasonNumber: 7, name: 'Season 7', episodeCount: 21 }] },
 
     // Dandadan
     '171018': { tmdbId: 251504, season: 1, totalSeasons: 1, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 12, id: '171018' }] },
+    '251504': { tmdbId: 251504, season: 1, totalSeasons: 1, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 12, id: '171018' }] },
 
     // Frieren
     '154587': { tmdbId: 209867, season: 1, totalSeasons: 1, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 28, id: '154587' }] },
+    '209867': { tmdbId: 209867, season: 1, totalSeasons: 1, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 28, id: '154587' }] },
 
     // Kaiju No. 8
     '146065': { tmdbId: 138502, season: 1, totalSeasons: 1, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 12, id: '146065' }] },
+    '138502': { tmdbId: 138502, season: 1, totalSeasons: 1, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 12, id: '146065' }] },
 
     // Blue Lock
-    '137822': { tmdbId: 137822, season: 1, totalSeasons: 2, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 24, id: '137822' }, { seasonNumber: 2, name: 'Season 2: vs. U-20 Japan', episodeCount: 14, id: '163146' }] }
+    '137822': { tmdbId: 137822, season: 1, totalSeasons: 2, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 24, id: '137822' }, { seasonNumber: 2, name: 'Season 2: vs. U-20 Japan', episodeCount: 14, id: '163146' }] },
+    '163146': { tmdbId: 137822, season: 2, totalSeasons: 2, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 24, id: '137822' }, { seasonNumber: 2, name: 'Season 2: vs. U-20 Japan', episodeCount: 14, id: '163146' }] },
+
+    // Vinland Saga
+    '101348': { tmdbId: 88126, season: 1, totalSeasons: 2, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 24, id: '101348' }, { seasonNumber: 2, name: 'Season 2', episodeCount: 24, id: '136430' }] },
+    '136430': { tmdbId: 88126, season: 2, totalSeasons: 2, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 24, id: '101348' }, { seasonNumber: 2, name: 'Season 2', episodeCount: 24, id: '136430' }] },
+    '88126': { tmdbId: 88126, season: 1, totalSeasons: 2, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 24, id: '101348' }, { seasonNumber: 2, name: 'Season 2', episodeCount: 24, id: '136430' }] }
 };
 
 // Normalize AniList media object into standard Notflix media schema
@@ -863,7 +923,7 @@ export const AnimeProxyService = {
         const tmdbId = details?.tmdbId || ANIME_TMDB_MAP[id]?.tmdbId;
 
         // Special curated handling for Jujutsu Kaisen
-        if (String(id) === '113415' || String(tmdbId) === '95479' || details?.title?.toLowerCase().includes('jujutsu kaisen')) {
+        if (String(id) === '113415' || String(id) === '145064' || String(tmdbId) === '95479' || details?.title?.toLowerCase().includes('jujutsu kaisen')) {
             const jjkS1Titles = [
                 'Ryomen Sukuna', 'For Myself', 'Girl of Steel', 'Curse Womb Must Die',
                 'Curse Womb Must Die -II-', 'After Rain', 'Assault', 'Boredom',

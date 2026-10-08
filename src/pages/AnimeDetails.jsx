@@ -13,48 +13,82 @@ import { DetailsPageSkeleton } from '../components/Skeleton';
 import { MediaRow } from '../components/MediaRow';
 
 const ANIME_TMDB_MAP = {
-    '113415': { tmdbId: 95479 },
-    '145064': { tmdbId: 95479 },
-    '131573': { tmdbId: 810693 },
-    '95479': { tmdbId: 95479 },
-    '85937': { tmdbId: 85937 },
-    '101922': { tmdbId: 85937 },
-    '129874': { tmdbId: 85937 },
-    '145139': { tmdbId: 85937 },
-    '166240': { tmdbId: 85937 },
-    '16498': { tmdbId: 1429 },
-    '20958': { tmdbId: 1429 },
-    '99147': { tmdbId: 1429 },
-    '110277': { tmdbId: 1429 },
-    '1429': { tmdbId: 1429 },
-    '21': { tmdbId: 37854 },
-    '37854': { tmdbId: 37854 },
-    '151807': { tmdbId: 127532 },
-    '173778': { tmdbId: 127532 },
-    '127532': { tmdbId: 127532 },
-    '127230': { tmdbId: 114410 },
-    '114410': { tmdbId: 114410 },
-    '20': { tmdbId: 46260 },
-    '46260': { tmdbId: 46260 },
-    '1735': { tmdbId: 31910 },
-    '31910': { tmdbId: 31910 },
-    '269': { tmdbId: 30984 },
-    '30984': { tmdbId: 30984 },
-    '1535': { tmdbId: 13916 },
-    '13916': { tmdbId: 13916 },
-    '140960': { tmdbId: 120089 },
-    '158871': { tmdbId: 120089 },
-    '120089': { tmdbId: 120089 },
-    '21459': { tmdbId: 65930 },
-    '65930': { tmdbId: 65930 },
-    '171018': { tmdbId: 251504 },
-    '251504': { tmdbId: 251504 },
-    '154587': { tmdbId: 209867 },
-    '209867': { tmdbId: 209867 },
-    '146065': { tmdbId: 138502 },
-    '138502': { tmdbId: 138502 },
-    '137822': { tmdbId: 137822 },
-    '163146': { tmdbId: 137822 }
+    // Jujutsu Kaisen
+    '113415': { tmdbId: 95479, season: 1, totalSeasons: 2, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 24, id: '113415' }, { seasonNumber: 2, name: 'Season 2: Shibuya Incident', episodeCount: 23, id: '145064' }] },
+    '145064': { tmdbId: 95479, season: 2, totalSeasons: 2, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 24, id: '113415' }, { seasonNumber: 2, name: 'Season 2: Shibuya Incident', episodeCount: 23, id: '145064' }] },
+    '131573': { tmdbId: 810693, isMovie: true, seasons: [{ seasonNumber: 1, name: 'Movie: JUJUTSU KAISEN 0', episodeCount: 1, id: '131573' }] },
+    '95479': { tmdbId: 95479, season: 1, totalSeasons: 2, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 24, id: '113415' }, { seasonNumber: 2, name: 'Season 2: Shibuya Incident', episodeCount: 23, id: '145064' }] },
+
+    // Demon Slayer
+    '85937': { tmdbId: 85937, totalSeasons: 4, seasons: [{ seasonNumber: 1, name: 'Season 1: Unwavering Resolve', episodeCount: 26, id: '101922' }, { seasonNumber: 2, name: 'Season 2: Entertainment District', episodeCount: 18, id: '129874' }, { seasonNumber: 3, name: 'Season 3: Swordsmith Village', episodeCount: 11, id: '145139' }, { seasonNumber: 4, name: 'Season 4: Hashira Training', episodeCount: 8, id: '166240' }] },
+    '101922': { tmdbId: 85937, season: 1, totalSeasons: 4, seasons: [{ seasonNumber: 1, name: 'Season 1: Unwavering Resolve', episodeCount: 26, id: '101922' }, { seasonNumber: 2, name: 'Season 2: Entertainment District', episodeCount: 18, id: '129874' }, { seasonNumber: 3, name: 'Season 3: Swordsmith Village', episodeCount: 11, id: '145139' }, { seasonNumber: 4, name: 'Season 4: Hashira Training', episodeCount: 8, id: '166240' }] },
+    '129874': { tmdbId: 85937, season: 2, totalSeasons: 4, seasons: [{ seasonNumber: 1, name: 'Season 1: Unwavering Resolve', episodeCount: 26, id: '101922' }, { seasonNumber: 2, name: 'Season 2: Entertainment District', episodeCount: 18, id: '129874' }, { seasonNumber: 3, name: 'Season 3: Swordsmith Village', episodeCount: 11, id: '145139' }, { seasonNumber: 4, name: 'Season 4: Hashira Training', episodeCount: 8, id: '166240' }] },
+    '145139': { tmdbId: 85937, season: 3, totalSeasons: 4, seasons: [{ seasonNumber: 1, name: 'Season 1: Unwavering Resolve', episodeCount: 26, id: '101922' }, { seasonNumber: 2, name: 'Season 2: Entertainment District', episodeCount: 18, id: '129874' }, { seasonNumber: 3, name: 'Season 3: Swordsmith Village', episodeCount: 11, id: '145139' }, { seasonNumber: 4, name: 'Season 4: Hashira Training', episodeCount: 8, id: '166240' }] },
+    '166240': { tmdbId: 85937, season: 4, totalSeasons: 4, seasons: [{ seasonNumber: 1, name: 'Season 1: Unwavering Resolve', episodeCount: 26, id: '101922' }, { seasonNumber: 2, name: 'Season 2: Entertainment District', episodeCount: 18, id: '129874' }, { seasonNumber: 3, name: 'Season 3: Swordsmith Village', episodeCount: 11, id: '145139' }, { seasonNumber: 4, name: 'Season 4: Hashira Training', episodeCount: 8, id: '166240' }] },
+
+    // Attack on Titan
+    '1429': { tmdbId: 1429, totalSeasons: 4, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 25, id: '16498' }, { seasonNumber: 2, name: 'Season 2', episodeCount: 12, id: '20958' }, { seasonNumber: 3, name: 'Season 3', episodeCount: 22, id: '99147' }, { seasonNumber: 4, name: 'Season 4: Final Season', episodeCount: 28, id: '110277' }] },
+    '16498': { tmdbId: 1429, season: 1, totalSeasons: 4, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 25, id: '16498' }, { seasonNumber: 2, name: 'Season 2', episodeCount: 12, id: '20958' }, { seasonNumber: 3, name: 'Season 3', episodeCount: 22, id: '99147' }, { seasonNumber: 4, name: 'Season 4: Final Season', episodeCount: 28, id: '110277' }] },
+    '20958': { tmdbId: 1429, season: 2, totalSeasons: 4, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 25, id: '16498' }, { seasonNumber: 2, name: 'Season 2', episodeCount: 12, id: '20958' }, { seasonNumber: 3, name: 'Season 3', episodeCount: 22, id: '99147' }, { seasonNumber: 4, name: 'Season 4: Final Season', episodeCount: 28, id: '110277' }] },
+    '99147': { tmdbId: 1429, season: 3, totalSeasons: 4, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 25, id: '16498' }, { seasonNumber: 2, name: 'Season 2', episodeCount: 12, id: '20958' }, { seasonNumber: 3, name: 'Season 3', episodeCount: 22, id: '99147' }, { seasonNumber: 4, name: 'Season 4: Final Season', episodeCount: 28, id: '110277' }] },
+    '110277': { tmdbId: 1429, season: 4, totalSeasons: 4, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 25, id: '16498' }, { seasonNumber: 2, name: 'Season 2', episodeCount: 12, id: '20958' }, { seasonNumber: 3, name: 'Season 3', episodeCount: 22, id: '99147' }, { seasonNumber: 4, name: 'Season 4: Final Season', episodeCount: 28, id: '110277' }] },
+
+    // One Piece
+    '21': { tmdbId: 37854, totalSeasons: 1, seasons: [{ seasonNumber: 1, name: 'All Episodes', episodeCount: 1120, id: '21' }] },
+    '37854': { tmdbId: 37854, totalSeasons: 1, seasons: [{ seasonNumber: 1, name: 'All Episodes', episodeCount: 1120, id: '21' }] },
+
+    // Solo Leveling
+    '127532': { tmdbId: 127532, totalSeasons: 2, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 12, id: '151807' }, { seasonNumber: 2, name: 'Season 2: Arise from the Shadow', episodeCount: 12, id: '173778' }] },
+    '151807': { tmdbId: 127532, season: 1, totalSeasons: 2, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 12, id: '151807' }, { seasonNumber: 2, name: 'Season 2: Arise from the Shadow', episodeCount: 12, id: '173778' }] },
+    '173778': { tmdbId: 127532, season: 2, totalSeasons: 2, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 12, id: '151807' }, { seasonNumber: 2, name: 'Season 2: Arise from the Shadow', episodeCount: 12, id: '173778' }] },
+
+    // Chainsaw Man
+    '127230': { tmdbId: 114410, season: 1, totalSeasons: 1, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 12, id: '127230' }] },
+    '114410': { tmdbId: 114410, season: 1, totalSeasons: 1, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 12, id: '127230' }] },
+
+    // Naruto & Naruto Shippuden
+    '20': { tmdbId: 46260, totalSeasons: 5, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 52 }, { seasonNumber: 2, name: 'Season 2', episodeCount: 52 }, { seasonNumber: 3, name: 'Season 3', episodeCount: 52 }, { seasonNumber: 4, name: 'Season 4', episodeCount: 52 }, { seasonNumber: 5, name: 'Season 5', episodeCount: 12 }] },
+    '46260': { tmdbId: 46260, totalSeasons: 5, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 52 }, { seasonNumber: 2, name: 'Season 2', episodeCount: 52 }, { seasonNumber: 3, name: 'Season 3', episodeCount: 52 }, { seasonNumber: 4, name: 'Season 4', episodeCount: 52 }, { seasonNumber: 5, name: 'Season 5', episodeCount: 12 }] },
+    '1735': { tmdbId: 31910, totalSeasons: 21, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 32 }, { seasonNumber: 2, name: 'Season 2', episodeCount: 21 }, { seasonNumber: 3, name: 'Season 3', episodeCount: 18 }, { seasonNumber: 4, name: 'Season 4', episodeCount: 17 }] },
+    '31910': { tmdbId: 31910, totalSeasons: 21, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 32 }, { seasonNumber: 2, name: 'Season 2', episodeCount: 21 }, { seasonNumber: 3, name: 'Season 3', episodeCount: 18 }, { seasonNumber: 4, name: 'Season 4', episodeCount: 17 }] },
+
+    // Bleach
+    '269': { tmdbId: 30984, totalSeasons: 16, seasons: [{ seasonNumber: 1, name: 'Season 1: Agent of the Shinigami', episodeCount: 20 }, { seasonNumber: 2, name: 'Season 2: Soul Society', episodeCount: 21 }, { seasonNumber: 3, name: 'Season 3: The Rescue', episodeCount: 22 }] },
+    '30984': { tmdbId: 30984, totalSeasons: 16, seasons: [{ seasonNumber: 1, name: 'Season 1: Agent of the Shinigami', episodeCount: 20 }, { seasonNumber: 2, name: 'Season 2: Soul Society', episodeCount: 21 }, { seasonNumber: 3, name: 'Season 3: The Rescue', episodeCount: 22 }] },
+
+    // Death Note
+    '1535': { tmdbId: 13916, totalSeasons: 1, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 37, id: '1535' }] },
+    '13916': { tmdbId: 13916, totalSeasons: 1, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 37, id: '1535' }] },
+
+    // Spy x Family
+    '120089': { tmdbId: 120089, totalSeasons: 2, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 25, id: '140960' }, { seasonNumber: 2, name: 'Season 2', episodeCount: 12, id: '158871' }] },
+    '140960': { tmdbId: 120089, season: 1, totalSeasons: 2, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 25, id: '140960' }, { seasonNumber: 2, name: 'Season 2', episodeCount: 12, id: '158871' }] },
+    '158871': { tmdbId: 120089, season: 2, totalSeasons: 2, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 25, id: '140960' }, { seasonNumber: 2, name: 'Season 2', episodeCount: 12, id: '158871' }] },
+
+    // My Hero Academia
+    '21459': { tmdbId: 65930, season: 1, totalSeasons: 7, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 13 }, { seasonNumber: 2, name: 'Season 2', episodeCount: 25 }, { seasonNumber: 3, name: 'Season 3', episodeCount: 25 }, { seasonNumber: 4, name: 'Season 4', episodeCount: 25 }, { seasonNumber: 5, name: 'Season 5', episodeCount: 25 }, { seasonNumber: 6, name: 'Season 6', episodeCount: 25 }, { seasonNumber: 7, name: 'Season 7', episodeCount: 21 }] },
+    '65930': { tmdbId: 65930, season: 1, totalSeasons: 7, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 13 }, { seasonNumber: 2, name: 'Season 2', episodeCount: 25 }, { seasonNumber: 3, name: 'Season 3', episodeCount: 25 }, { seasonNumber: 4, name: 'Season 4', episodeCount: 25 }, { seasonNumber: 5, name: 'Season 5', episodeCount: 25 }, { seasonNumber: 6, name: 'Season 6', episodeCount: 25 }, { seasonNumber: 7, name: 'Season 7', episodeCount: 21 }] },
+
+    // Dandadan
+    '171018': { tmdbId: 251504, season: 1, totalSeasons: 1, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 12, id: '171018' }] },
+    '251504': { tmdbId: 251504, season: 1, totalSeasons: 1, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 12, id: '171018' }] },
+
+    // Frieren
+    '154587': { tmdbId: 209867, season: 1, totalSeasons: 1, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 28, id: '154587' }] },
+    '209867': { tmdbId: 209867, season: 1, totalSeasons: 1, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 28, id: '154587' }] },
+
+    // Kaiju No. 8
+    '146065': { tmdbId: 138502, season: 1, totalSeasons: 1, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 12, id: '146065' }] },
+    '138502': { tmdbId: 138502, season: 1, totalSeasons: 1, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 12, id: '146065' }] },
+
+    // Blue Lock
+    '137822': { tmdbId: 137822, season: 1, totalSeasons: 2, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 24, id: '137822' }, { seasonNumber: 2, name: 'Season 2: vs. U-20 Japan', episodeCount: 14, id: '163146' }] },
+    '163146': { tmdbId: 137822, season: 2, totalSeasons: 2, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 24, id: '137822' }, { seasonNumber: 2, name: 'Season 2: vs. U-20 Japan', episodeCount: 14, id: '163146' }] },
+
+    // Vinland Saga
+    '101348': { tmdbId: 88126, season: 1, totalSeasons: 2, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 24, id: '101348' }, { seasonNumber: 2, name: 'Season 2', episodeCount: 24, id: '136430' }] },
+    '136430': { tmdbId: 88126, season: 2, totalSeasons: 2, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 24, id: '101348' }, { seasonNumber: 2, name: 'Season 2', episodeCount: 24, id: '136430' }] },
+    '88126': { tmdbId: 88126, season: 1, totalSeasons: 2, seasons: [{ seasonNumber: 1, name: 'Season 1', episodeCount: 24, id: '101348' }, { seasonNumber: 2, name: 'Season 2', episodeCount: 24, id: '136430' }] }
 };
 
 export const AnimeDetails = ({ id }) => {
@@ -196,16 +230,18 @@ export const AnimeDetails = ({ id }) => {
                         : [{ seasonNumber: 1, name: data?.format === 'MOVIE' ? 'Movie' : 'Season 1', id: animeId }]
                     );
                 setSeasons(availableSeasons);
-                setSelectedSeason(1);
+
+                const initSeason = data?.season || ANIME_TMDB_MAP[String(animeId)]?.season || 1;
+                setSelectedSeason(initSeason);
 
                 // Fetch reviews from SupabaseDB
                 SupabaseDB.getMediaReviews(animeId).then(revs => {
                     setReviews(Array.isArray(revs) ? revs : []);
                 }).catch(() => {});
 
-                // Fetch episode list for Season 1
+                // Fetch episode list for initial season
                 setLoadingEpisodes(true);
-                const epList = await AnimeService.getEpisodes(animeId, 1);
+                const epList = await AnimeService.getEpisodes(animeId, initSeason);
                 setEpisodes(epList || []);
                 if (epList && epList.length > 0) {
                     setSelectedEpisodeNum(epList[0].episodeNumber || 1);
@@ -263,20 +299,13 @@ export const AnimeDetails = ({ id }) => {
         loadStream();
     }, [isPlaying, selectedEpisodeNum, selectedSeason, currentServer, audioMode]);
 
-    // Handle Season Change
+    // Handle Season Change (No ads, smoothly switch season episodes & player)
     const handleSeasonChange = async (seasonNum) => {
-        AdService.triggerDirectAd('season_change');
+        if (!seasonNum || seasonNum === selectedSeason && episodes.length > 0) return;
         setSelectedSeason(seasonNum);
         setSelectedEpisodeNum(1);
         setChunkIndex(0);
         setLoadingEpisodes(true);
-
-        // Check if this season corresponds to another anime ID (e.g. sequel/prequel on AniList)
-        const sObj = seasons.find(s => s.seasonNumber === seasonNum);
-        if (sObj?.id && String(sObj.id) !== String(animeId)) {
-            navigateTo(`#/anime/${sObj.id}`);
-            return;
-        }
 
         try {
             const epList = await AnimeService.getEpisodes(animeId, seasonNum);
@@ -298,7 +327,6 @@ export const AnimeDetails = ({ id }) => {
 
     const handleNextEpisode = () => {
         if (hasNextEpisode) {
-            AdService.triggerDirectAd('episode_change');
             const nextEp = episodes[currentEpisodeIndex + 1];
             setSelectedEpisodeNum(nextEp.episodeNumber);
             const nextChunk = Math.floor((nextEp.episodeNumber - 1) / EPISODES_PER_CHUNK);
@@ -308,7 +336,6 @@ export const AnimeDetails = ({ id }) => {
 
     const handlePrevEpisode = () => {
         if (hasPrevEpisode) {
-            AdService.triggerDirectAd('episode_change');
             const prevEp = episodes[currentEpisodeIndex - 1];
             setSelectedEpisodeNum(prevEp.episodeNumber);
             const prevChunk = Math.floor((prevEp.episodeNumber - 1) / EPISODES_PER_CHUNK);
@@ -317,7 +344,6 @@ export const AnimeDetails = ({ id }) => {
     };
 
     const handleSelectEpisode = (epNum) => {
-        AdService.triggerDirectAd('episode_change');
         setSelectedEpisodeNum(epNum);
         setIsPlaying(true);
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -698,7 +724,7 @@ export const AnimeDetails = ({ id }) => {
                                         className="bg-red-600 hover:bg-red-700 text-white px-7 py-3 rounded-xl font-bold flex items-center gap-2 transition-all active:scale-95 shadow-lg shadow-red-600/40 cursor-pointer"
                                     >
                                         <span className="material-symbols-outlined fill" style={{ fontVariationSettings: "'FILL' 1" }}>play_arrow</span>
-                                        <span>Start Episode 1</span>
+                                        <span>{selectedSeason > 1 ? `Start S${selectedSeason} · E${selectedEpisodeNum || 1}` : `Start Episode ${selectedEpisodeNum || 1}`}</span>
                                     </button>
 
                                     <button
