@@ -21,8 +21,6 @@ export const Watchlist = () => {
                 </p>
             </div>
 
-            <NativeAdBanner />
-
             {/* Watchlist Grid */}
             {watchlistItems.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-20 text-center text-white/40">
