@@ -17,8 +17,10 @@ export const AdService = {
     /**
      * Initializes Adsterra Popunder with a 5-minute frequency cap.
      * Prevents multi-tab spam, boosts user retention, and keeps ads non-intrusive.
+     * TEMPORARILY DISABLED: Commented out to test user experience retention vs ad revenue impact.
      */
     initPopunder: () => {
+        /*
         try {
             if (typeof window === 'undefined') return;
             const now = Date.now();
@@ -43,6 +45,7 @@ export const AdService = {
         } catch (e) {
             console.warn('[NotFlix Ads] Popunder init error:', e);
         }
+        */
     },
 
     /**

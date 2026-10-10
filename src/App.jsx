@@ -90,9 +90,9 @@ const RouterView = () => {
 const AppShell = () => {
     const { currentMedia, closePlayer, settings, donationModalOpen, setDonationModalOpen } = useApp();
 
-    // Initialize frequency-capped Popunder and apply theme class on settings change
+    // Popunder temporarily disabled for testing UX vs ad revenue impact
     useEffect(() => {
-        AdService.initPopunder();
+        // AdService.initPopunder();
 
         if (settings.lightMode) {
             document.documentElement.classList.add('light-theme');
