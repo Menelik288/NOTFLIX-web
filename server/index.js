@@ -69,11 +69,15 @@ const sanitizeNumber = (num, min = 0, max = 2147483647) => {
 // ═══════════════════════════════════════════════════════════════
 const edgeCache = (sMaxAge = 7200, staleSeconds = 86400) => (req, res, next) => {
     if (req.method === 'GET') {
-        res.setHeader('Cache-Control', `public, max-age=0, s-maxage=${sMaxAge}, stale-while-revalidate=${staleSeconds}`);
+        res.setHeader('Cache-Control', `public, max-age=60, s-maxage=${sMaxAge}, stale-while-revalidate=${staleSeconds}`);
+        res.setHeader('CDN-Cache-Control', `max-age=${sMaxAge}, stale-while-revalidate=${staleSeconds}`);
+        res.setHeader('Vercel-CDN-Cache-Control', `max-age=${sMaxAge}, stale-while-revalidate=${staleSeconds}`);
         const origStatus = res.status;
         res.status = function (code) {
             if (code >= 400) {
                 res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+                res.removeHeader('CDN-Cache-Control');
+                res.removeHeader('Vercel-CDN-Cache-Control');
             }
             return origStatus.apply(this, arguments);
         };
