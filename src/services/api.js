@@ -1,9 +1,38 @@
-const rawApiBase = import.meta.env?.VITE_API_BASE;
-const API_BASE = (
-    typeof rawApiBase === 'string' && (!rawApiBase.includes('localhost') || import.meta.env?.DEV)
-        ? rawApiBase
-        : (import.meta.env?.DEV ? 'http://localhost:3001' : '')
-).replace(/\/api\/?$/, '');
+const rawApiBase = typeof import.meta.env?.VITE_API_BASE === 'string' ? import.meta.env.VITE_API_BASE.trim() : '';
+
+// Resolve API base URL:
+// In production on Vercel, the frontend and backend are hosted together on the same origin.
+// All requests use relative paths '' to hit the Vercel serverless function (/api/*) directly,
+// avoiding any external host dependencies, CORS preflights, or expired Railway limits.
+const getApiBase = () => {
+    // 1. Local development (vite dev): use local express server
+    if (import.meta.env?.DEV) {
+        if (rawApiBase && !rawApiBase.includes('railway.app')) {
+            return rawApiBase.replace(/\/api\/?$/, '').replace(/\/+$/, '');
+        }
+        return 'http://localhost:3001';
+    }
+
+    // 2. Production:
+    // Completely ignore Railway (expired limit / dead backend instance)
+    if (rawApiBase.includes('railway.app')) {
+        return '';
+    }
+
+    // If pointing to localhost in production or pointing to current domain, use relative ''
+    if (!rawApiBase || rawApiBase.includes('localhost') || rawApiBase.includes('notflix.pro.et')) {
+        return '';
+    }
+
+    // If in browser and matches current origin, use relative ''
+    if (typeof window !== 'undefined' && window.location?.origin && rawApiBase.startsWith(window.location.origin)) {
+        return '';
+    }
+
+    return rawApiBase.replace(/\/api\/?$/, '').replace(/\/+$/, '');
+};
+
+const API_BASE = getApiBase();
 
 class APIError extends Error {
     constructor(message, status) {
