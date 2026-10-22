@@ -61,7 +61,32 @@ const sanitizeNumber = (num, min = 0, max = 2147483647) => {
     return Math.max(min, Math.min(max, parsed));
 };
 
-app.get('/api/tmdb/trending', async (req, res) => {
+// ═══════════════════════════════════════════════════════════════
+// EDGE & CDN CACHING MIDDLEWARE (Optimized for Vercel Serverless)
+// - s-maxage: seconds Vercel edge CDN caches the response globally
+// - stale-while-revalidate: seconds CDN serves cache while refreshing in background
+// - Automatic error protection: resets to no-cache if status >= 400
+// ═══════════════════════════════════════════════════════════════
+const edgeCache = (sMaxAge = 7200, staleSeconds = 86400) => (req, res, next) => {
+    if (req.method === 'GET') {
+        res.setHeader('Cache-Control', `public, max-age=0, s-maxage=${sMaxAge}, stale-while-revalidate=${staleSeconds}`);
+        const origStatus = res.status;
+        res.status = function (code) {
+            if (code >= 400) {
+                res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+            }
+            return origStatus.apply(this, arguments);
+        };
+    }
+    next();
+};
+
+const cacheLong = edgeCache(86400, 604800);   // 24h edge cache, 7d stale-while-revalidate (genres, cast, videos, credits)
+const cacheMedium = edgeCache(7200, 86400);   // 2h edge cache, 24h stale-while-revalidate (trending, popular, details, anime home)
+const cacheShort = edgeCache(900, 3600);      // 15m edge cache, 1h stale-while-revalidate (search queries)
+const cacheStream = edgeCache(300, 1800);     // 5m edge cache, 30m stale-while-revalidate (anime servers, stream info)
+
+app.get('/api/tmdb/trending', cacheMedium, async (req, res) => {
     try {
         const data = await TMDBService.getTrendingMovies();
         res.json(data);
@@ -71,7 +96,7 @@ app.get('/api/tmdb/trending', async (req, res) => {
     }
 });
 
-app.get('/api/tmdb/trending/movies', async (req, res) => {
+app.get('/api/tmdb/trending/movies', cacheMedium, async (req, res) => {
     try {
         const data = await TMDBService.getTrendingMovies();
         res.json(data);
@@ -81,7 +106,7 @@ app.get('/api/tmdb/trending/movies', async (req, res) => {
     }
 });
 
-app.get('/api/tmdb/trending/tv', async (req, res) => {
+app.get('/api/tmdb/trending/tv', cacheMedium, async (req, res) => {
     try {
         const data = await TMDBService.getTrendingTV();
         res.json(data);
@@ -91,7 +116,7 @@ app.get('/api/tmdb/trending/tv', async (req, res) => {
     }
 });
 
-app.get('/api/tmdb/top-rated/movies', async (req, res) => {
+app.get('/api/tmdb/top-rated/movies', cacheMedium, async (req, res) => {
     try {
         const data = await TMDBService.getTopRatedMovies();
         res.json(data);
@@ -101,7 +126,7 @@ app.get('/api/tmdb/top-rated/movies', async (req, res) => {
     }
 });
 
-app.get('/api/tmdb/top-rated/tv', async (req, res) => {
+app.get('/api/tmdb/top-rated/tv', cacheMedium, async (req, res) => {
     try {
         const data = await TMDBService.getTopRatedTV();
         res.json(data);
@@ -111,7 +136,7 @@ app.get('/api/tmdb/top-rated/tv', async (req, res) => {
     }
 });
 
-app.get('/api/tmdb/now-playing', async (req, res) => {
+app.get('/api/tmdb/now-playing', cacheMedium, async (req, res) => {
     try {
         const data = await TMDBService.getNowPlayingMovies();
         res.json(data);
@@ -121,7 +146,7 @@ app.get('/api/tmdb/now-playing', async (req, res) => {
     }
 });
 
-app.get('/api/tmdb/genres', async (req, res) => {
+app.get('/api/tmdb/genres', cacheLong, async (req, res) => {
     try {
         const data = await TMDBService.getGenres();
         res.json(data);
@@ -131,7 +156,7 @@ app.get('/api/tmdb/genres', async (req, res) => {
     }
 });
 
-app.get('/api/tmdb/movie/:id', async (req, res) => {
+app.get('/api/tmdb/movie/:id', cacheMedium, async (req, res) => {
     const id = sanitizeNumber(req.params.id);
 
     if (!id) {
@@ -150,7 +175,7 @@ app.get('/api/tmdb/movie/:id', async (req, res) => {
     }
 });
 
-app.get('/api/tmdb/media/:type/:id', async (req, res) => {
+app.get('/api/tmdb/media/:type/:id', cacheMedium, async (req, res) => {
     const type = sanitizeString(req.params.type);
     const id = sanitizeNumber(req.params.id);
     
@@ -174,7 +199,7 @@ app.get('/api/tmdb/media/:type/:id', async (req, res) => {
     }
 });
 
-app.get('/api/tmdb/media/:type/:id/cast', async (req, res) => {
+app.get('/api/tmdb/media/:type/:id/cast', cacheLong, async (req, res) => {
     const type = sanitizeString(req.params.type);
     const id = sanitizeNumber(req.params.id);
     
@@ -195,7 +220,7 @@ app.get('/api/tmdb/media/:type/:id/cast', async (req, res) => {
     }
 });
 
-app.get('/api/tmdb/media/:type/:id/similar', async (req, res) => {
+app.get('/api/tmdb/media/:type/:id/similar', cacheMedium, async (req, res) => {
     const type = sanitizeString(req.params.type);
     const id = sanitizeNumber(req.params.id);
     
@@ -212,7 +237,7 @@ app.get('/api/tmdb/media/:type/:id/similar', async (req, res) => {
     }
 });
 
-app.get('/api/tmdb/media/:type/:id/videos', async (req, res) => {
+app.get('/api/tmdb/media/:type/:id/videos', cacheLong, async (req, res) => {
     const type = sanitizeString(req.params.type);
     const id = sanitizeNumber(req.params.id);
     
@@ -229,7 +254,7 @@ app.get('/api/tmdb/media/:type/:id/videos', async (req, res) => {
     }
 });
 
-app.get('/api/tmdb/tv/:id', async (req, res) => {
+app.get('/api/tmdb/tv/:id', cacheMedium, async (req, res) => {
     const id = sanitizeNumber(req.params.id);
 
     if (!id) {
@@ -248,7 +273,7 @@ app.get('/api/tmdb/tv/:id', async (req, res) => {
     }
 });
 
-app.get('/api/tmdb/tv/:id/season/:season', async (req, res) => {
+app.get('/api/tmdb/tv/:id/season/:season', cacheMedium, async (req, res) => {
     const tvId = sanitizeNumber(req.params.id);
     const season = sanitizeNumber(req.params.season);
     
@@ -268,7 +293,7 @@ app.get('/api/tmdb/tv/:id/season/:season', async (req, res) => {
     }
 });
 
-app.get('/api/tmdb/search', async (req, res) => {
+app.get('/api/tmdb/search', cacheShort, async (req, res) => {
     const query = sanitizeString(req.query.query || '');
     const type = sanitizeString(req.query.type || 'all');
     const genres = req.query.genres ? req.query.genres.split(',').map(sanitizeNumber).filter(Boolean) : [];
@@ -285,7 +310,7 @@ app.get('/api/tmdb/search', async (req, res) => {
     }
 });
 
-app.get('/api/tmdb/action/movies', async (req, res) => {
+app.get('/api/tmdb/action/movies', cacheMedium, async (req, res) => {
     try {
         const data = await TMDBService.getActionMovies();
         res.json(data);
@@ -295,7 +320,7 @@ app.get('/api/tmdb/action/movies', async (req, res) => {
     }
 });
 
-app.get('/api/tmdb/comedy/movies', async (req, res) => {
+app.get('/api/tmdb/comedy/movies', cacheMedium, async (req, res) => {
     try {
         const data = await TMDBService.getComedyMovies();
         res.json(data);
@@ -305,7 +330,7 @@ app.get('/api/tmdb/comedy/movies', async (req, res) => {
     }
 });
 
-app.get('/api/tmdb/popular/movies', async (req, res) => {
+app.get('/api/tmdb/popular/movies', cacheMedium, async (req, res) => {
     try {
         const data = await TMDBService.getPopularMovies();
         res.json(data);
@@ -315,7 +340,7 @@ app.get('/api/tmdb/popular/movies', async (req, res) => {
     }
 });
 
-app.get('/api/tmdb/action/tv', async (req, res) => {
+app.get('/api/tmdb/action/tv', cacheMedium, async (req, res) => {
     try {
         const data = await TMDBService.getActionTV();
         res.json(data);
@@ -325,7 +350,7 @@ app.get('/api/tmdb/action/tv', async (req, res) => {
     }
 });
 
-app.get('/api/tmdb/popular/tv', async (req, res) => {
+app.get('/api/tmdb/popular/tv', cacheMedium, async (req, res) => {
     try {
         const data = await TMDBService.getPopularTV();
         res.json(data);
@@ -335,7 +360,7 @@ app.get('/api/tmdb/popular/tv', async (req, res) => {
     }
 });
 
-app.get('/api/tmdb/actor/:id/credits', async (req, res) => {
+app.get('/api/tmdb/actor/:id/credits', cacheLong, async (req, res) => {
     const actorId = sanitizeNumber(req.params.id);
     
     if (!actorId) {
@@ -355,7 +380,7 @@ app.get('/api/tmdb/actor/:id/credits', async (req, res) => {
 // ANIME API ROUTES (AniList Metadata + HiAnime Streaming/Episodes)
 // ═══════════════════════════════════════════════════════════════
 
-app.get('/api/anime/home', async (req, res) => {
+app.get('/api/anime/home', cacheMedium, async (req, res) => {
     try {
         const data = await AnimeProxyService.getHome();
         res.json(data);
@@ -365,7 +390,7 @@ app.get('/api/anime/home', async (req, res) => {
     }
 });
 
-app.get('/api/anime/trending', async (req, res) => {
+app.get('/api/anime/trending', cacheMedium, async (req, res) => {
     try {
         const page = sanitizeNumber(req.query.page, 1, 100) || 1;
         const data = await AnimeProxyService.getList('trending', page);
@@ -376,7 +401,7 @@ app.get('/api/anime/trending', async (req, res) => {
     }
 });
 
-app.get('/api/anime/popular', async (req, res) => {
+app.get('/api/anime/popular', cacheMedium, async (req, res) => {
     try {
         const page = sanitizeNumber(req.query.page, 1, 100) || 1;
         const data = await AnimeProxyService.getList('popular', page);
@@ -387,7 +412,7 @@ app.get('/api/anime/popular', async (req, res) => {
     }
 });
 
-app.get('/api/anime/top-rated', async (req, res) => {
+app.get('/api/anime/top-rated', cacheMedium, async (req, res) => {
     try {
         const page = sanitizeNumber(req.query.page, 1, 100) || 1;
         const data = await AnimeProxyService.getList('top-rated', page);
@@ -398,7 +423,7 @@ app.get('/api/anime/top-rated', async (req, res) => {
     }
 });
 
-app.get('/api/anime/upcoming', async (req, res) => {
+app.get('/api/anime/upcoming', cacheMedium, async (req, res) => {
     try {
         const page = sanitizeNumber(req.query.page, 1, 100) || 1;
         const data = await AnimeProxyService.getList('upcoming', page);
@@ -409,7 +434,7 @@ app.get('/api/anime/upcoming', async (req, res) => {
     }
 });
 
-app.get('/api/anime/search', async (req, res) => {
+app.get('/api/anime/search', cacheShort, async (req, res) => {
     try {
         const query = sanitizeString(req.query.query || req.query.keyword || req.query.q || '');
         const page = sanitizeNumber(req.query.page, 1, 100) || 1;
@@ -422,7 +447,7 @@ app.get('/api/anime/search', async (req, res) => {
     }
 });
 
-app.get('/api/anime/details/:id', async (req, res) => {
+app.get('/api/anime/details/:id', cacheMedium, async (req, res) => {
     const id = sanitizeString(req.params.id);
     if (!id) return res.status(400).json({ error: 'Anime ID is required' });
 
@@ -436,7 +461,7 @@ app.get('/api/anime/details/:id', async (req, res) => {
     }
 });
 
-app.get('/api/anime/episodes/:id', async (req, res) => {
+app.get('/api/anime/episodes/:id', cacheMedium, async (req, res) => {
     const id = sanitizeString(req.params.id);
     const season = req.query.season ? sanitizeNumber(req.query.season, 1, 100) : 1;
     if (!id) return res.status(400).json({ error: 'Anime ID is required' });
@@ -450,7 +475,7 @@ app.get('/api/anime/episodes/:id', async (req, res) => {
     }
 });
 
-app.get('/api/anime/servers', async (req, res) => {
+app.get('/api/anime/servers', cacheStream, async (req, res) => {
     const episodeId = sanitizeString(req.query.id || req.query.episodeId || '');
     if (!episodeId) return res.status(400).json({ error: 'Episode ID is required' });
 
@@ -463,7 +488,7 @@ app.get('/api/anime/servers', async (req, res) => {
     }
 });
 
-app.get('/api/anime/stream', async (req, res) => {
+app.get('/api/anime/stream', cacheStream, async (req, res) => {
     const episodeId = sanitizeString(req.query.id || req.query.episodeId || '');
     const server = sanitizeString(req.query.server || 'HD-1');
     const type = sanitizeString(req.query.type || 'sub');
