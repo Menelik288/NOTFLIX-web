@@ -281,7 +281,7 @@ app.get('/api/tmdb/tv/:id/season/:season', cacheMedium, async (req, res) => {
     const tvId = sanitizeNumber(req.params.id);
     const season = sanitizeNumber(req.params.season);
     
-    if (!tvId || !season) {
+    if (!tvId || season === null || season === undefined) {
         return res.status(400).json({ error: 'Invalid TV ID or season number' });
     }
     

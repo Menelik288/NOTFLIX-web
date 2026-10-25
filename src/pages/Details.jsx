@@ -55,6 +55,7 @@ export const Details = ({ id }) => {
     // TV show state
     const [selectedSeason, setSelectedSeason] = useState(1);
     const [selectedEpisode, setSelectedEpisode] = useState(1);
+    const [seasons, setSeasons] = useState([]);
     const [seasonData, setSeasonData] = useState(null);
     const [loadingEpisodes, setLoadingEpisodes] = useState(false);
 
@@ -141,6 +142,7 @@ export const Details = ({ id }) => {
             setMedia(null);
             setCast([]);
             setSimilar([]);
+            setSeasons([]);
             setSeasonData(null);
             window.scrollTo(0, 0);
 
@@ -175,11 +177,19 @@ export const Details = ({ id }) => {
                 });
                 setReviews(Array.isArray(reviewsData) ? reviewsData : []);
 
-                if (type === 'tv' && detailsData.totalSeasons > 0) {
-                    setSelectedSeason(1);
+                if (type === 'tv' && (detailsData.totalSeasons > 0 || (detailsData.seasons && detailsData.seasons.length > 0))) {
+                    const availableSeasons = (detailsData.seasons && detailsData.seasons.length > 0)
+                        ? detailsData.seasons.filter(s => s.seasonNumber > 0 || detailsData.seasons.length === 1)
+                        : Array.from({ length: detailsData.totalSeasons || 1 }, (_, i) => ({
+                            seasonNumber: i + 1,
+                            name: `${t.details.season} ${i + 1}`
+                        }));
+                    setSeasons(availableSeasons);
+                    const initialSeasonNum = availableSeasons[0]?.seasonNumber || 1;
+                    setSelectedSeason(initialSeasonNum);
                     setSelectedEpisode(1);
                     try {
-                        const season = await TMDBService.getSeasonDetails(mediaId, 1);
+                        const season = await TMDBService.getSeasonDetails(mediaId, initialSeasonNum);
                         setSeasonData(season && season.episodes ? season : { ...season, episodes: [] });
                     } catch (seasonError) {
                         console.error("Error fetching season details:", seasonError);
@@ -321,7 +331,7 @@ export const Details = ({ id }) => {
     };
 
     const handleSeasonChange = async (seasonNum) => {
-        if (!mediaId || !seasonNum) return;
+        if (!mediaId || seasonNum === undefined || seasonNum === null) return;
         setSelectedSeason(seasonNum);
         setLoadingEpisodes(true);
         try {
@@ -580,7 +590,7 @@ export const Details = ({ id }) => {
                                     <p className="font-bold text-white text-xs sm:text-sm truncate">{media.title}</p>
                                     {type === 'tv' && currentEpisodeData && (
                                         <p className="text-white/50 text-[11px] sm:text-xs truncate">
-                                            S{selectedSeason} · E{selectedEpisode} — {currentEpisodeData.name}
+                                            {seasonData?.name ? `${seasonData.name} · ` : `S${selectedSeason} · `}E{selectedEpisode} — {currentEpisodeData.name}
                                         </p>
                                     )}
                                 </div>
@@ -686,7 +696,7 @@ export const Details = ({ id }) => {
             )}
 
             {/* ═══════════════ SEASON / EPISODE SELECTOR (TV only) ═══════════════ */}
-            {type === 'tv' && media.totalSeasons > 0 && (
+            {type === 'tv' && (media.totalSeasons > 0 || seasons.length > 0) && (
                 <section className="px-4 md:px-edge-margin py-6 md:py-10 max-w-container-max mx-auto">
                     {/* Section Header + Season Dropdown + Scroll Controls (< and >) */}
                     <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
@@ -694,18 +704,32 @@ export const Details = ({ id }) => {
                             <h2 className="text-xl md:text-2xl font-extrabold flex items-center gap-3 text-white">
                                 <span className="w-1.5 h-8 bg-red-600 rounded-full"></span>
                                 {t.details.episodes}
+                                {seasonData?.name && (
+                                    <span className="text-sm font-normal text-white/50 hidden sm:inline">
+                                        — {seasonData.name}
+                                    </span>
+                                )}
                             </h2>
                             <div className="relative">
                                 <select
                                     value={selectedSeason}
-                                    onChange={(e) => handleSeasonChange(parseInt(e.target.value))}
+                                    onChange={(e) => handleSeasonChange(parseInt(e.target.value, 10))}
                                     className="glass-panel appearance-none pr-10 pl-4 py-2.5 rounded-lg text-white font-bold text-sm cursor-pointer outline-none focus:ring-1 focus:ring-red-500/50"
+                                    aria-label="Season Selector"
                                 >
-                                    {Array.from({ length: media.totalSeasons }, (_, i) => i + 1).map(s => (
-                                        <option key={s} value={s} style={{ background: '#1a1a1a', color: 'white' }}>
-                                            {t.details.season} {s}
-                                        </option>
-                                    ))}
+                                    {(seasons.length > 0 ? seasons : Array.from({ length: media.totalSeasons || 1 }, (_, i) => ({ seasonNumber: i + 1, name: `${t.details.season} ${i + 1}` }))).map(s => {
+                                        let label = s.name || `${t.details.season} ${s.seasonNumber}`;
+                                        const partMatch = s.name?.match(/Part\s*(\d+)/i);
+                                        if (partMatch && partMatch[1] && partMatch[1] !== String(s.seasonNumber)) {
+                                            label = `${s.name} (Season ${partMatch[1]})`;
+                                        }
+                                        const epCount = s.episodeCount ? ` (${s.episodeCount} eps)` : '';
+                                        return (
+                                            <option key={s.seasonNumber} value={s.seasonNumber} style={{ background: '#1a1a1a', color: 'white' }}>
+                                                {label}{epCount}
+                                            </option>
+                                        );
+                                    })}
                                 </select>
                                 <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-white/50 text-lg">
                                     expand_more

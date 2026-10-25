@@ -160,6 +160,16 @@ export const TMDBService = {
         } else {
             mapped.duration = data.number_of_seasons ? `${data.number_of_seasons} Seasons` : '1 Season';
             mapped.totalSeasons = data.number_of_seasons || 1;
+            mapped.totalEpisodes = data.number_of_episodes || 0;
+            mapped.seasons = Array.isArray(data.seasons) ? data.seasons.map(s => ({
+                id: s.id,
+                name: s.name,
+                seasonNumber: s.season_number,
+                episodeCount: s.episode_count,
+                airDate: s.air_date,
+                overview: s.overview || '',
+                poster: s.poster_path ? `${IMAGE_BASE_URL}${s.poster_path}` : null
+            })) : [];
         }
         
         return mapped;
@@ -174,12 +184,6 @@ export const TMDBService = {
             character: actor.character,
             avatar: actor.profile_path ? `${IMAGE_BASE_URL}${actor.profile_path}` : 'https://via.placeholder.com/150'
         }));
-    },
-
-    getMediaVideos: async (id, type = 'movie') => {
-        const data = await fetchTMDBItem(`/${type}/${id}/videos`);
-        if (!data || !data.results) return [];
-        return data.results.filter(v => v.site === 'YouTube' && (v.type === 'Trailer' || v.type === 'Teaser' || v.type === 'Clip'));
     },
 
     getMediaVideos: async (id, type = 'movie') => {
@@ -206,9 +210,14 @@ export const TMDBService = {
         const data = await fetchTMDBItem(`/tv/${tvId}/season/${seasonNumber}`);
         if (!data) return null;
         return {
+            id: data.id,
             seasonNumber: data.season_number,
             name: data.name || `Season ${seasonNumber}`,
+            overview: data.overview || '',
+            poster: data.poster_path ? `${IMAGE_BASE_URL}${data.poster_path}` : null,
+            airDate: data.air_date,
             episodes: (data.episodes || []).map(ep => ({
+                id: ep.id,
                 episodeNumber: ep.episode_number,
                 name: ep.name || `Episode ${ep.episode_number}`,
                 overview: ep.overview || '',
