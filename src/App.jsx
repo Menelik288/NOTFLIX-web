@@ -88,7 +88,27 @@ const RouterView = () => {
 };
 
 const AppShell = () => {
-    const { currentMedia, closePlayer, settings, donationModalOpen, setDonationModalOpen } = useApp();
+    const { currentRoute, currentMedia, closePlayer, settings, donationModalOpen, setDonationModalOpen } = useApp();
+
+    // Dynamic SEO Title Manager
+    useEffect(() => {
+        const cleanHash = (currentRoute || '#/').replace(/^#/, '').split('?')[0];
+        if (cleanHash === '' || cleanHash === '/') {
+            document.title = "NotFlix – Watch Free Movies, TV Shows & Anime in HD";
+        } else if (cleanHash.startsWith('/movies')) {
+            document.title = "Free Movies Online – Watch Trending & Popular Movies | NotFlix";
+        } else if (cleanHash.startsWith('/tv')) {
+            document.title = "TV Series & Shows – Stream Full Seasons Free | NotFlix";
+        } else if (cleanHash.startsWith('/anime') && !cleanHash.includes('/anime/')) {
+            document.title = "Watch Anime Online Free in HD – Sub & Dub | NotFlix Anime";
+        } else if (cleanHash.startsWith('/for-you')) {
+            document.title = "For You – Personalized Recommendations | NotFlix";
+        } else if (cleanHash.startsWith('/search')) {
+            document.title = "Search Movies, TV Shows & Anime | NotFlix";
+        } else if (cleanHash.startsWith('/watchlist')) {
+            document.title = "My Watchlist | NotFlix";
+        }
+    }, [currentRoute]);
 
     // Popunder temporarily disabled for testing UX vs ad revenue impact
     useEffect(() => {

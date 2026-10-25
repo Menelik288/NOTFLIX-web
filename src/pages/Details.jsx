@@ -151,6 +151,9 @@ export const Details = ({ id }) => {
                 }
 
                 setMedia(detailsData);
+                const titleStr = detailsData.title || detailsData.name || 'Movie';
+                const yearStr = detailsData.year ? ` (${detailsData.year})` : '';
+                document.title = `Watch ${titleStr}${yearStr} Free in HD | NotFlix`;
 
                 const [castData, similarData] = await Promise.all([
                     TMDBService.getMediaCast(mediaId, type).catch((error) => {

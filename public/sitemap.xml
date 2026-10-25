@@ -21,6 +21,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://notflix.pro.et/for-you</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://notflix.pro.et/foryou</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>

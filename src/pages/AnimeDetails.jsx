@@ -217,6 +217,8 @@ export const AnimeDetails = ({ id }) => {
             try {
                 const data = await AnimeService.getDetails(animeId);
                 setAnime(data);
+                const aTitle = data?.title || 'Anime';
+                document.title = `Watch ${aTitle} Free in HD Online | NotFlix Anime`;
 
                 // Build seasons list
                 const availableSeasons = data?.seasons && data.seasons.length > 0
