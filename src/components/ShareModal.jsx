@@ -10,7 +10,7 @@ export const ShareModal = ({ isOpen, onClose, media, type = 'movie' }) => {
 
     const shareUrl = typeof window !== 'undefined' 
         ? `${window.location.origin}${window.location.pathname}#/${type}/${media.id}`
-        : `https://www.notflix.pro.et/#/${type}/${media.id}`;
+        : `https://notflix.pro.et/#/${type}/${media.id}`;
 
     const shareTitle = media.title || 'Movie / Show';
     const yearStr = media.year ? ` (${media.year})` : '';
