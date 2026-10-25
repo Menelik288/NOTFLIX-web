@@ -97,6 +97,113 @@ const fetchTMDBItem = async (endpoint) => {
     return await response.json();
 };
 
+const CUSTOM_TV_MAPPINGS = {
+    // Lupin: Netflix split Part 1 (5 eps) and Part 2 (5 eps), but TMDB combined them into Season 1 (10 eps).
+    // Streaming embed providers (VidSrc, Vidbing/MoviesAPI, VidCore, etc.) follow Netflix/IMDb standard:
+    // Season 1 = Part 1 (eps 1..5)
+    // Season 2 = Part 2 (eps 1..5)
+    // Season 3 = Part 3 (eps 1..7)
+    // Season 4 = Part 4 (eps 1..8 - released Oct 23, 2026)
+    '96677': {
+        totalSeasons: 4,
+        duration: '4 Seasons',
+        seasons: [
+            { id: 157243, name: 'Part 1', seasonNumber: 1, episodeCount: 5, airDate: '2021-01-08' },
+            { id: 157243, name: 'Part 2', seasonNumber: 2, episodeCount: 5, airDate: '2021-06-11' },
+            { id: 310008, name: 'Part 3', seasonNumber: 3, episodeCount: 7, airDate: '2023-10-05' },
+            { id: 456251, name: 'Part 4', seasonNumber: 4, episodeCount: 8, airDate: '2026-10-23' }
+        ],
+        getSeason: async (seasonNumber) => {
+            const num = parseInt(seasonNumber, 10);
+            if (num === 1) {
+                const s1 = await fetchTMDBItem('/tv/96677/season/1');
+                if (!s1) return null;
+                return {
+                    id: s1.id,
+                    seasonNumber: 1,
+                    name: 'Part 1',
+                    overview: s1.overview || '',
+                    poster: s1.poster_path ? `${IMAGE_BASE_URL}${s1.poster_path}` : null,
+                    airDate: '2021-01-08',
+                    episodes: (s1.episodes || []).slice(0, 5).map(ep => ({
+                        id: ep.id,
+                        episodeNumber: ep.episode_number,
+                        name: ep.name || `Episode ${ep.episode_number}`,
+                        overview: ep.overview || '',
+                        still: ep.still_path ? `${IMAGE_BASE_URL}${ep.still_path}` : null,
+                        runtime: ep.runtime || 0,
+                        airDate: ep.air_date
+                    }))
+                };
+            }
+            if (num === 2) {
+                const s1 = await fetchTMDBItem('/tv/96677/season/1');
+                if (!s1) return null;
+                return {
+                    id: s1.id,
+                    seasonNumber: 2,
+                    name: 'Part 2',
+                    overview: s1.overview || '',
+                    poster: s1.poster_path ? `${IMAGE_BASE_URL}${s1.poster_path}` : null,
+                    airDate: '2021-06-11',
+                    episodes: (s1.episodes || []).slice(5, 10).map((ep, idx) => ({
+                        id: ep.id,
+                        episodeNumber: idx + 1,
+                        name: ep.name || `Episode ${idx + 1}`,
+                        overview: ep.overview || '',
+                        still: ep.still_path ? `${IMAGE_BASE_URL}${ep.still_path}` : null,
+                        runtime: ep.runtime || 0,
+                        airDate: ep.air_date
+                    }))
+                };
+            }
+            if (num === 3) {
+                const s2 = await fetchTMDBItem('/tv/96677/season/2');
+                if (!s2) return null;
+                return {
+                    id: s2.id,
+                    seasonNumber: 3,
+                    name: 'Part 3',
+                    overview: s2.overview || '',
+                    poster: s2.poster_path ? `${IMAGE_BASE_URL}${s2.poster_path}` : null,
+                    airDate: s2.air_date,
+                    episodes: (s2.episodes || []).map(ep => ({
+                        id: ep.id,
+                        episodeNumber: ep.episode_number,
+                        name: ep.name || `Episode ${ep.episode_number}`,
+                        overview: ep.overview || '',
+                        still: ep.still_path ? `${IMAGE_BASE_URL}${ep.still_path}` : null,
+                        runtime: ep.runtime || 0,
+                        airDate: ep.air_date
+                    }))
+                };
+            }
+            if (num === 4) {
+                const s3 = await fetchTMDBItem('/tv/96677/season/3');
+                if (!s3) return null;
+                return {
+                    id: s3.id,
+                    seasonNumber: 4,
+                    name: 'Part 4',
+                    overview: s3.overview || '',
+                    poster: s3.poster_path ? `${IMAGE_BASE_URL}${s3.poster_path}` : null,
+                    airDate: s3.air_date,
+                    episodes: (s3.episodes || []).map(ep => ({
+                        id: ep.id,
+                        episodeNumber: ep.episode_number,
+                        name: ep.name || `Episode ${ep.episode_number}`,
+                        overview: ep.overview || '',
+                        still: ep.still_path ? `${IMAGE_BASE_URL}${ep.still_path}` : null,
+                        runtime: ep.runtime || 0,
+                        airDate: ep.air_date
+                    }))
+                };
+            }
+            return null;
+        }
+    }
+};
+
 export const TMDBService = {
     getTrendingMovies: async () => {
         const results = await fetchTMDB('/trending/movie/week');
@@ -114,7 +221,7 @@ export const TMDBService = {
     },
 
     getTopRatedTV: async () => {
-        const results = await fetchTMDB('/discover/tv?sort_by=vote_average.desc&vote_count.gte=5000');
+        const results = await fetchTMDB('/discover/tv?sort_by=vote_average.desc&vote_count.gte=1000');
         return results.map(item => mapTMDBToNotFlix(item, 'tv')).filter(i => i.backdrop && i.poster);
     },
 
@@ -170,6 +277,18 @@ export const TMDBService = {
                 overview: s.overview || '',
                 poster: s.poster_path ? `${IMAGE_BASE_URL}${s.poster_path}` : null
             })) : [];
+
+            // Custom show mapping overrides (e.g. Lupin)
+            if (CUSTOM_TV_MAPPINGS[String(id)]) {
+                const custom = CUSTOM_TV_MAPPINGS[String(id)];
+                mapped.duration = custom.duration;
+                mapped.totalSeasons = custom.totalSeasons;
+                mapped.seasons = custom.seasons.map(s => ({
+                    ...s,
+                    overview: s.overview || '',
+                    poster: s.poster ? s.poster : (mapped.poster || null)
+                }));
+            }
         }
         
         return mapped;
@@ -207,6 +326,11 @@ export const TMDBService = {
     },
 
     getSeasonDetails: async (tvId, seasonNumber) => {
+        if (CUSTOM_TV_MAPPINGS[String(tvId)]) {
+            const customSeason = await CUSTOM_TV_MAPPINGS[String(tvId)].getSeason(seasonNumber);
+            if (customSeason) return customSeason;
+        }
+
         const data = await fetchTMDBItem(`/tv/${tvId}/season/${seasonNumber}`);
         if (!data) return null;
         return {

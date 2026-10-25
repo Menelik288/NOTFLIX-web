@@ -719,9 +719,8 @@ export const Details = ({ id }) => {
                                 >
                                     {(seasons.length > 0 ? seasons : Array.from({ length: media.totalSeasons || 1 }, (_, i) => ({ seasonNumber: i + 1, name: `${t.details.season} ${i + 1}` }))).map(s => {
                                         let label = s.name || `${t.details.season} ${s.seasonNumber}`;
-                                        const partMatch = s.name?.match(/Part\s*(\d+)/i);
-                                        if (partMatch && partMatch[1] && partMatch[1] !== String(s.seasonNumber)) {
-                                            label = `${s.name} (Season ${partMatch[1]})`;
+                                        if (s.name && s.name.startsWith('Part ')) {
+                                            label = `${s.name} (Season ${s.seasonNumber})`;
                                         }
                                         const epCount = s.episodeCount ? ` (${s.episodeCount} eps)` : '';
                                         return (
