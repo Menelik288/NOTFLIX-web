@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { AppProvider, useApp } from './context/AppContext';
 import { LanguageProvider } from './context/LanguageContext';
 import { Navbar } from './components/Navbar';
@@ -146,6 +147,7 @@ function App() {
         <LanguageProvider>
             <AppProvider>
                 <AppShell />
+                <Analytics />
             </AppProvider>
         </LanguageProvider>
     );
