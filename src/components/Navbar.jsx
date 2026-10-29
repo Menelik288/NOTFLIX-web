@@ -170,19 +170,19 @@ export const Navbar = () => {
             <header className="sticky top-0 w-full z-40 bg-black/30 backdrop-blur-2xl border-b border-white/10 shadow-2xl transition-all duration-300">
                 <nav className="flex justify-between items-center px-4 md:px-edge-margin h-20 max-w-container-max mx-auto">
                     <div className="flex items-center gap-6 md:gap-12">
-                        <a className="logo-pixel text-3xl md:text-4xl cursor-pointer logo-glow" onClick={() => navigateTo('#/')}>
+                        <a href="/" className="logo-pixel text-3xl md:text-4xl cursor-pointer logo-glow" onClick={(e) => { e.preventDefault(); navigateTo('/'); }}>
                             NOTFLIX
                         </a>
                         {/* Desktop Links: Movies → TV Shows → Anime */}
                         <div className="hidden md:flex items-center gap-5 lg:gap-7 nav-links">
-                            <button onClick={() => navigateTo('#/')} className={`nav-pixel-link pb-1 text-sm lg:text-base ${isLinkActive('home') ? 'active-link' : 'text-white/70 hover:text-white'}`}>{t.nav.home}</button>
-                            <button onClick={() => navigateTo('#/movies')} className={`nav-pixel-link pb-1 text-sm lg:text-base ${isLinkActive('movies') ? 'active-link' : 'text-white/70 hover:text-white'}`}>{t.nav.movies}</button>
-                            <button onClick={() => navigateTo('#/tv')} className={`nav-pixel-link pb-1 text-sm lg:text-base ${isLinkActive('tv') ? 'active-link' : 'text-white/70 hover:text-white'}`}>{t.nav.tv}</button>
-                            <button onClick={() => navigateTo('#/anime')} className={`nav-pixel-link pb-1 text-sm lg:text-base rainbow-anime-nav-btn ${isLinkActive('anime') ? 'active-link active-anime-link' : ''}`}>
+                            <a href="/" onClick={(e) => { e.preventDefault(); navigateTo('/'); }} className={`nav-pixel-link pb-1 text-sm lg:text-base ${isLinkActive('home') ? 'active-link' : 'text-white/70 hover:text-white'}`}>{t.nav.home}</a>
+                            <a href="/movies" onClick={(e) => { e.preventDefault(); navigateTo('/movies'); }} className={`nav-pixel-link pb-1 text-sm lg:text-base ${isLinkActive('movies') ? 'active-link' : 'text-white/70 hover:text-white'}`}>{t.nav.movies}</a>
+                            <a href="/tv" onClick={(e) => { e.preventDefault(); navigateTo('/tv'); }} className={`nav-pixel-link pb-1 text-sm lg:text-base ${isLinkActive('tv') ? 'active-link' : 'text-white/70 hover:text-white'}`}>{t.nav.tv}</a>
+                            <a href="/anime" onClick={(e) => { e.preventDefault(); navigateTo('/anime'); }} className={`nav-pixel-link pb-1 text-sm lg:text-base rainbow-anime-nav-btn ${isLinkActive('anime') ? 'active-link active-anime-link' : ''}`}>
                                 <WavyRainbowText text={t.nav.anime || 'Anime'} />
-                            </button>
-                            <button onClick={() => navigateTo('#/for-you')} className={`nav-pixel-link pb-1 text-sm lg:text-base ${isLinkActive('for-you') ? 'active-link' : 'text-white/70 hover:text-white'}`}>{t.nav.forYou}</button>
-                            <button onClick={() => navigateTo('#/watchlist')} className={`nav-pixel-link pb-1 text-sm lg:text-base ${isLinkActive('watchlist') ? 'active-link' : 'text-white/70 hover:text-white'}`}>{t.nav.watchlist}</button>
+                            </a>
+                            <a href="/for-you" onClick={(e) => { e.preventDefault(); navigateTo('/for-you'); }} className={`nav-pixel-link pb-1 text-sm lg:text-base ${isLinkActive('for-you') ? 'active-link' : 'text-white/70 hover:text-white'}`}>{t.nav.forYou}</a>
+                            <a href="/watchlist" onClick={(e) => { e.preventDefault(); navigateTo('/watchlist'); }} className={`nav-pixel-link pb-1 text-sm lg:text-base ${isLinkActive('watchlist') ? 'active-link' : 'text-white/70 hover:text-white'}`}>{t.nav.watchlist}</a>
                             
                             {/* Support & Donate Button */}
                             <button
@@ -400,51 +400,56 @@ export const Navbar = () => {
             {/* Mobile Bottom Navigation Bar */}
             <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-black/60 backdrop-blur-2xl border-t border-white/10 shadow-2xl">
                 <div className="flex justify-around items-end h-16 px-1 pb-1 relative">
-                    <button 
-                        onClick={() => navigateTo('#/')} 
+                    <a 
+                        href="/"
+                        onClick={(e) => { e.preventDefault(); navigateTo('/'); }} 
                         className={`flex flex-col items-center justify-center transition-all text-xs min-w-[46px] mobile-nav-item ${isLinkActive('home') ? 'text-primary-container' : 'text-on-surface-variant'}`}
                     >
                         <span className="material-symbols-outlined text-[22px]">home</span>
                         <span className="nav-pixel-link text-[9px] mt-0.5">{t.nav.home}</span>
-                    </button>
-                    <button 
-                        onClick={() => navigateTo('#/movies')} 
+                    </a>
+                    <a 
+                        href="/movies"
+                        onClick={(e) => { e.preventDefault(); navigateTo('/movies'); }} 
                         className={`flex flex-col items-center justify-center transition-all text-xs min-w-[46px] mobile-nav-item ${isLinkActive('movies') ? 'text-primary-container' : 'text-on-surface-variant'}`}
                     >
                         <span className="material-symbols-outlined text-[22px]">movie</span>
                         <span className="nav-pixel-link text-[9px] mt-0.5">{t.nav.movies}</span>
-                    </button>
-                    <button 
-                        onClick={() => navigateTo('#/tv')} 
+                    </a>
+                    <a 
+                        href="/tv"
+                        onClick={(e) => { e.preventDefault(); navigateTo('/tv'); }} 
                         className={`flex flex-col items-center justify-center transition-all text-xs min-w-[42px] mobile-nav-item ${isLinkActive('tv') ? 'text-primary-container' : 'text-on-surface-variant'}`}
                     >
                         <span className="material-symbols-outlined text-[22px]">tv</span>
                         <span className="nav-pixel-link text-[9px] mt-0.5">{t.nav.tv}</span>
-                    </button>
+                    </a>
                     {/* Emphasized raised tab */}
                     <div className="relative -top-4 flex flex-col items-center justify-center min-w-[48px]">
                         <div className={`w-12 h-12 rounded-full bg-gradient-to-tr shadow-lg flex items-center justify-center border-4 border-[#0D0D0D] cursor-pointer hover:scale-105 active:scale-95 transition-all ${isLinkActive('for-you') ? 'mobile-raised-active from-primary-container to-red-500 shadow-primary-container/40' : 'from-surface-container to-surface border-white/10 shadow-black/40'}`}>
-                            <button className="flex items-center justify-center text-white w-full h-full" onClick={() => navigateTo('#/for-you')}>
+                            <a className="flex items-center justify-center text-white w-full h-full" href="/for-you" onClick={(e) => { e.preventDefault(); navigateTo('/for-you'); }}>
                                 <span className="material-symbols-outlined text-2xl font-bold">star</span>
-                            </button>
+                            </a>
                         </div>
                         <span className="nav-pixel-link text-[9px] mt-1 text-white tracking-wider">{t.nav.forYou}</span>
                     </div>
                     {/* Anime Tab */}
-                    <button 
-                        onClick={() => navigateTo('#/anime')} 
+                    <a 
+                        href="/anime"
+                        onClick={(e) => { e.preventDefault(); navigateTo('/anime'); }} 
                         className={`flex flex-col items-center justify-center transition-all text-xs min-w-[42px] mobile-nav-item rainbow-anime-nav-btn ${isLinkActive('anime') ? 'text-primary-container' : 'text-on-surface-variant'}`}
                     >
                         <span className="material-symbols-outlined text-[20px] rainbow-anime-icon">animation</span>
                         <span className="nav-pixel-link mt-0.5"><WavyRainbowText text={t.nav.anime || 'Anime'} size="sm" /></span>
-                    </button>
-                    <button 
-                        onClick={() => navigateTo('#/watchlist')} 
+                    </a>
+                    <a 
+                        href="/watchlist"
+                        onClick={(e) => { e.preventDefault(); navigateTo('/watchlist'); }} 
                         className={`flex flex-col items-center justify-center transition-all text-xs min-w-[42px] mobile-nav-item ${isLinkActive('watchlist') ? 'text-primary-container' : 'text-on-surface-variant'}`}
                     >
                         <span className="material-symbols-outlined text-[22px]">bookmark</span>
                         <span className="nav-pixel-link text-[9px] mt-0.5">{t.nav.watchlist}</span>
-                    </button>
+                    </a>
                 </div>
             </div>
         </>

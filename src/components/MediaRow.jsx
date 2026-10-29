@@ -28,12 +28,13 @@ export const MediaRow = ({ title, items, type = 'poster', showViewAll = false })
                     {title}
                 </h2>
                 {showViewAll && (
-                    <button 
-                        onClick={() => navigateTo('#/movies')} 
+                    <a 
+                        href="/movies"
+                        onClick={(e) => { e.preventDefault(); navigateTo('/movies'); }} 
                         className="text-primary-container font-label-md hover:underline text-xs md:text-sm font-semibold"
                     >
                         {t.mediaRow.viewAll}
-                    </button>
+                    </a>
                 )}
             </div>
 
@@ -44,17 +45,19 @@ export const MediaRow = ({ title, items, type = 'poster', showViewAll = false })
             >
                 {safeItems.map((item, idx) => {
                     // Items in 'progress' mode are progress tracking objects
-                    // (e.g. { id: 'the-last-signal', percent: 75, remaining: '15m remaining', season: 2, episode: 4 })
                     const media = type === 'progress' ? item : item;
                     if (!media) return null;
+                    const mediaType = media.type || 'movie';
+                    const targetUrl = `/${mediaType}/${media.id}`;
 
                     // 1. PROGRESS MODE CARDS (Continue Watching)
                     if (type === 'progress') {
                         return (
-                            <div 
+                            <a 
                                 key={media.id + '-' + idx} 
-                                className="flex-none w-44 md:w-56 lg:w-60 group cursor-pointer"
-                                onClick={() => navigateTo(`#/${media.type || 'movie'}/${media.id}`)}
+                                href={targetUrl}
+                                className="flex-none w-44 md:w-56 lg:w-60 group cursor-pointer block"
+                                onClick={(e) => { e.preventDefault(); navigateTo(targetUrl); }}
                             >
                                 <div className="relative glass-surface rounded-xl overflow-hidden aspect-[2/3] border border-white/10 premium-hover">
                                     <img 
@@ -65,14 +68,13 @@ export const MediaRow = ({ title, items, type = 'poster', showViewAll = false })
                                     />
                                     {/* X remove button */}
                                     <button
-                                        onClick={(e) => { e.stopPropagation(); removeFromContinueWatching(media.id); }}
+                                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); removeFromContinueWatching(media.id); }}
                                         className="absolute top-2 right-2 z-40 glass-surface rounded-full p-1.5 flex items-center justify-center hover:bg-white/10 transition-colors"
                                     >
                                         <span className="material-symbols-outlined text-base md:text-lg text-white">close</span>
                                     </button>
                                     {/* Progress overlay */}
                                     <div className="absolute bottom-0 left-0 w-full h-1.5 bg-white/20">
-                                        {/* generate random percent 0-90 */}
                                         <div 
                                             className="h-full bg-red-600"
                                             style={{ width: `${media.percent ?? 75}%` }}
@@ -87,28 +89,29 @@ export const MediaRow = ({ title, items, type = 'poster', showViewAll = false })
                                         {item.season ? `S${item.season} : E${item.episode}` : (media.type === 'tv' ? 'Series' : 'Movie')}
                                     </p>
                                 </div>
-                            </div>
+                            </a>
                         );
                     }
 
                     // 2. LATEST RELEASE CARDS
                     if (type === 'latest') {
                         return (
-                            <div 
+                            <a 
                                 key={media.id} 
-                                className="flex-none w-[240px] md:w-[320px] glass-surface rounded-xl overflow-hidden group cursor-pointer border border-white/10"
-                                onClick={() => navigateTo(`#/${media.type}/${media.id}`)}
+                                href={targetUrl}
+                                className="flex-none w-[240px] md:w-[320px] glass-surface rounded-xl overflow-hidden group cursor-pointer border border-white/10 block"
+                                onClick={(e) => { e.preventDefault(); navigateTo(targetUrl); }}
                             >
                                 <div className="relative glass-surface rounded-xl overflow-hidden aspect-video border border-white/10 premium-hover">
                                     <img 
                                         className="w-full h-full object-cover" 
-                                        src={media.backdrop || media.poster || 'https://via.placeholder.com/640x360?text=No+Image'}
+                                        src={media.backdrop || media.poster || 'https://via.placeholder.com/640x360?text=No+Image'} 
                                         alt={media.title}
-                                        loading="lazy"
+                                        loading="lazy" 
                                     />
                                     {/* Watchlist toggle button */}
                                     <button
-                                        onClick={(e) => { e.stopPropagation(); toggleWatchlist(media.id, media.type, media.poster, media.title, media.rating); }}
+                                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleWatchlist(media.id, media.type, media.poster, media.title, media.rating); }}
                                         className="absolute top-2 right-2 glass-surface p-1.5 rounded-full border-white/40 hover:border-white transition-all flex items-center text-white"
                                     >
                                         <span className="material-symbols-outlined text-base md:text-lg">                                        {watchlist.some(w => String(w.id) === String(media.id)) ? 'check' : 'bookmark_add'}</span>
@@ -124,16 +127,17 @@ export const MediaRow = ({ title, items, type = 'poster', showViewAll = false })
                                         {media.title}
                                     </h4>
                                 </div>
-                            </div>
+                            </a>
                         );
                     }
 
                     // 3. POSTER CARDS (Default - Trending / Movies)
                     return (
-                        <div 
+                        <a 
                             key={media.id} 
-                            className="flex-none w-44 md:w-56 lg:w-60 group cursor-pointer relative"
-                            onClick={() => navigateTo(`#/${media.type}/${media.id}`)}
+                            href={targetUrl}
+                            className="flex-none w-44 md:w-56 lg:w-60 group cursor-pointer relative block"
+                            onClick={(e) => { e.preventDefault(); navigateTo(targetUrl); }}
                         >
                             {/* Image */}
                             <div className="relative glass-surface rounded-xl overflow-hidden aspect-[2/3] border border-white/10 premium-hover">
@@ -141,11 +145,11 @@ export const MediaRow = ({ title, items, type = 'poster', showViewAll = false })
                                     className="w-full h-full object-cover transition-transform duration-750 group-hover:scale-110" 
                                     src={media.poster || 'https://via.placeholder.com/300x450?text=No+Image'} 
                                     alt={media.title}
-                                    loading="lazy"
+                                    loading="lazy" 
                                 />
                                 {/* Watchlist Toggle Button */}
                                 <button 
-                                    onClick={(e) => { e.stopPropagation(); toggleWatchlist(media.id, media.type, media.poster, media.title, media.rating); }}
+                                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleWatchlist(media.id, media.type, media.poster, media.title, media.rating); }}
                                     className="absolute top-2 right-2 glass-surface p-1.5 rounded-full border-white/40 hover:border-white active:scale-90 transition-all flex items-center text-white"
                                 >
                                     <span className="material-symbols-outlined text-base md:text-lg">
@@ -155,7 +159,7 @@ export const MediaRow = ({ title, items, type = 'poster', showViewAll = false })
                                 {/* Rating Badge */}
                                 <RatingBadge rating={media.rating} className="absolute top-2 left-2" />
                             </div>
-                        </div>
+                        </a>
                     );
                 })}
             </div>

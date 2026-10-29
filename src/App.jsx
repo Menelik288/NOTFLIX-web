@@ -27,20 +27,20 @@ import PrivacyPolicy from './pages/settings/PrivacyPolicy';
 import TermsOfService from './pages/settings/TermsOfService';
 import ViewingHistory from './pages/settings/ViewingHistory';
 
-// Route parser: matches #/path/:param patterns
-function matchRoute(pattern, hash) {
-    // Strip query string from hash before matching
-    const cleanHash = (hash || '#/').replace(/^#/, '').split('?')[0];
+// Route parser: matches /path/:param and #/path/:param patterns
+function matchRoute(pattern, route) {
+    // Strip hash and query string from route before matching
+    const cleanRoute = (route || '/').replace(/^#/, '').split('?')[0];
     const patternParts = pattern.split('/').filter(Boolean);
-    const hashParts = cleanHash.split('/').filter(Boolean);
+    const routeParts = cleanRoute.split('/').filter(Boolean);
 
-    if (patternParts.length !== hashParts.length) return null;
+    if (patternParts.length !== routeParts.length) return null;
 
     const params = {};
     for (let i = 0; i < patternParts.length; i++) {
         if (patternParts[i].startsWith(':')) {
-            params[patternParts[i].slice(1)] = decodeURIComponent(hashParts[i]);
-        } else if (patternParts[i] !== hashParts[i]) {
+            params[patternParts[i].slice(1)] = decodeURIComponent(routeParts[i]);
+        } else if (patternParts[i] !== routeParts[i]) {
             return null;
         }
     }
@@ -91,23 +91,47 @@ const RouterView = () => {
 const AppShell = () => {
     const { currentRoute, currentMedia, closePlayer, settings, donationModalOpen, setDonationModalOpen } = useApp();
 
-    // Dynamic SEO Title Manager
+    // Dynamic SEO Title & Canonical URL Manager
     useEffect(() => {
-        const cleanHash = (currentRoute || '#/').replace(/^#/, '').split('?')[0];
-        if (cleanHash === '' || cleanHash === '/') {
-            document.title = "NotFlix – Watch Free Movies, TV Shows & Anime in HD";
-        } else if (cleanHash.startsWith('/movies')) {
-            document.title = "Free Movies Online – Watch Trending & Popular Movies | NotFlix";
-        } else if (cleanHash.startsWith('/tv')) {
-            document.title = "TV Series & Shows – Stream Full Seasons Free | NotFlix";
-        } else if (cleanHash.startsWith('/anime') && !cleanHash.includes('/anime/')) {
-            document.title = "Watch Anime Online Free in HD – Sub & Dub | NotFlix Anime";
-        } else if (cleanHash.startsWith('/for-you')) {
-            document.title = "For You – Personalized Recommendations | NotFlix";
-        } else if (cleanHash.startsWith('/search')) {
-            document.title = "Search Movies, TV Shows & Anime | NotFlix";
-        } else if (cleanHash.startsWith('/watchlist')) {
-            document.title = "My Watchlist | NotFlix";
+        const cleanRoute = (currentRoute || '/').replace(/^#/, '').split('?')[0];
+        let pageTitle = "NotFlix – Watch Free Movies, TV Shows & Anime in HD";
+        
+        if (cleanRoute === '' || cleanRoute === '/') {
+            pageTitle = "NotFlix – Watch Free Movies, TV Shows & Anime in HD";
+        } else if (cleanRoute.startsWith('/movies')) {
+            pageTitle = "Free Movies Online – Watch Trending & Popular Movies | NotFlix";
+        } else if (cleanRoute.startsWith('/tv') && !cleanRoute.includes('/tv/')) {
+            pageTitle = "TV Series & Shows – Stream Full Seasons Free | NotFlix";
+        } else if (cleanRoute.startsWith('/anime') && !cleanRoute.includes('/anime/')) {
+            pageTitle = "Watch Anime Online Free in HD – Sub & Dub | NotFlix Anime";
+        } else if (cleanRoute.startsWith('/for-you')) {
+            pageTitle = "For You – Personalized Recommendations | NotFlix";
+        } else if (cleanRoute.startsWith('/search')) {
+            pageTitle = "Search Movies, TV Shows & Anime | NotFlix";
+        } else if (cleanRoute.startsWith('/watchlist')) {
+            pageTitle = "My Watchlist | NotFlix";
+        }
+
+        const isMediaDetails = cleanRoute.startsWith('/movie/') || cleanRoute.startsWith('/tv/') || cleanRoute.startsWith('/details/') || cleanRoute.startsWith('/anime/');
+        if (!isMediaDetails) {
+            document.title = pageTitle;
+
+            const fullCanonical = cleanRoute === '' || cleanRoute === '/'
+                ? 'https://notflix.pro.et/'
+                : `https://notflix.pro.et${cleanRoute.startsWith('/') ? cleanRoute : `/${cleanRoute}`}`;
+
+            let canonicalTag = document.querySelector('link[rel="canonical"]');
+            if (!canonicalTag) {
+                canonicalTag = document.createElement('link');
+                canonicalTag.setAttribute('rel', 'canonical');
+                document.head.appendChild(canonicalTag);
+            }
+            canonicalTag.setAttribute('href', fullCanonical);
+
+            const ogUrlTag = document.querySelector('meta[property="og:url"]');
+            if (ogUrlTag) {
+                ogUrlTag.setAttribute('content', fullCanonical);
+            }
         }
     }, [currentRoute]);
 

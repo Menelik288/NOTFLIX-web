@@ -25,8 +25,23 @@ export const AppProvider = ({ children }) => {
     const [currentMedia, setCurrentMedia] = useState(null);
     const [currentSource, setCurrentSource] = useState('vidsrc'); 
     
+    // Helper to get effective route from pathname or hash
+    const getEffectiveRoute = () => {
+        if (typeof window === 'undefined') return '/';
+        const hash = window.location.hash;
+        if (hash && hash !== '#' && hash !== '#/') {
+            return hash.replace(/^#/, '');
+        }
+        const pathname = window.location.pathname;
+        const search = window.location.search || '';
+        if (pathname && pathname !== '/') {
+            return pathname + search;
+        }
+        return hash && hash.startsWith('#') ? hash.replace(/^#/, '') || '/' : '/';
+    };
+
     // Routing state
-    const [currentRoute, setCurrentRoute] = useState(window.location.hash || '#/');
+    const [currentRoute, setCurrentRoute] = useState(getEffectiveRoute);
 
     // ─── INIT AUTH ───
     useEffect(() => {
@@ -62,12 +77,14 @@ export const AppProvider = ({ children }) => {
 
     // ─── APP SHELL FX ───
     useEffect(() => {
-        const handleHashChange = () => {
-            setCurrentRoute(window.location.hash || '#/');
+        const updateRoute = () => {
+            setCurrentRoute(getEffectiveRoute());
             document.getElementById('notifications-panel')?.classList.add('hidden');
             window.scrollTo(0, 0);
         };
-        window.addEventListener('hashchange', handleHashChange);
+
+        window.addEventListener('hashchange', updateRoute);
+        window.addEventListener('popstate', updateRoute);
         
         if (settings.lightMode) {
             document.body.classList.add('light-theme');
@@ -75,12 +92,26 @@ export const AppProvider = ({ children }) => {
             document.body.classList.remove('light-theme');
         }
 
-        return () => window.removeEventListener('hashchange', handleHashChange);
+        return () => {
+            window.removeEventListener('hashchange', updateRoute);
+            window.removeEventListener('popstate', updateRoute);
+        };
     }, [settings.lightMode]);
 
     // ─── HELPERS ───
-    const navigateTo = (hash) => {
-        window.location.hash = hash;
+    const navigateTo = (target) => {
+        if (!target) return;
+        const cleanTarget = target.startsWith('#') ? target.slice(1) : target;
+        const routePath = cleanTarget.startsWith('/') ? cleanTarget : `/${cleanTarget}`;
+
+        if (window.history && window.history.pushState) {
+            window.history.pushState({}, '', routePath);
+            setCurrentRoute(routePath);
+            document.getElementById('notifications-panel')?.classList.add('hidden');
+            window.scrollTo(0, 0);
+        } else {
+            window.location.hash = `#${cleanTarget}`;
+        }
     };
 
     const addNotification = (title, message, icon = "notifications") => {

@@ -23,7 +23,7 @@ export const Details = ({ id }) => {
     const { t } = useLanguage();
 
     const mediaId = id;
-    const type = window.location.hash.includes('/tv/') ? 'tv' : 'movie';
+    const type = (window.location.pathname.includes('/tv/') || window.location.hash.includes('/tv/')) ? 'tv' : 'movie';
 
     // Core data
     const [media, setMedia] = useState(null);
@@ -155,7 +155,23 @@ export const Details = ({ id }) => {
                 setMedia(detailsData);
                 const titleStr = detailsData.title || detailsData.name || 'Movie';
                 const yearStr = detailsData.year ? ` (${detailsData.year})` : '';
-                document.title = `Watch ${titleStr}${yearStr} Free in HD | NotFlix`;
+                const fullTitle = `Watch ${titleStr}${yearStr} Free in HD | NotFlix`;
+                document.title = fullTitle;
+
+                // Dynamic Canonical and Social Meta tags for this title
+                const canonicalUrl = `https://notflix.pro.et/${type}/${mediaId}`;
+                let canonicalTag = document.querySelector('link[rel="canonical"]');
+                if (!canonicalTag) {
+                    canonicalTag = document.createElement('link');
+                    canonicalTag.setAttribute('rel', 'canonical');
+                    document.head.appendChild(canonicalTag);
+                }
+                canonicalTag.setAttribute('href', canonicalUrl);
+
+                const ogUrlTag = document.querySelector('meta[property="og:url"]');
+                if (ogUrlTag) ogUrlTag.setAttribute('content', canonicalUrl);
+                const ogTitleTag = document.querySelector('meta[property="og:title"]');
+                if (ogTitleTag) ogTitleTag.setAttribute('content', fullTitle);
 
                 const [castData, similarData] = await Promise.all([
                     TMDBService.getMediaCast(mediaId, type).catch((error) => {

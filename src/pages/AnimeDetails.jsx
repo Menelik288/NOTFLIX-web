@@ -218,7 +218,23 @@ export const AnimeDetails = ({ id }) => {
                 const data = await AnimeService.getDetails(animeId);
                 setAnime(data);
                 const aTitle = data?.title || 'Anime';
-                document.title = `Watch ${aTitle} Free in HD Online | NotFlix Anime`;
+                const fullTitle = `Watch ${aTitle} Free in HD Online | NotFlix Anime`;
+                document.title = fullTitle;
+
+                // Dynamic Canonical and Social Meta tags for Anime
+                const canonicalUrl = `https://notflix.pro.et/anime/${animeId}`;
+                let canonicalTag = document.querySelector('link[rel="canonical"]');
+                if (!canonicalTag) {
+                    canonicalTag = document.createElement('link');
+                    canonicalTag.setAttribute('rel', 'canonical');
+                    document.head.appendChild(canonicalTag);
+                }
+                canonicalTag.setAttribute('href', canonicalUrl);
+
+                const ogUrlTag = document.querySelector('meta[property="og:url"]');
+                if (ogUrlTag) ogUrlTag.setAttribute('content', canonicalUrl);
+                const ogTitleTag = document.querySelector('meta[property="og:title"]');
+                if (ogTitleTag) ogTitleTag.setAttribute('content', fullTitle);
 
                 // Build seasons list
                 const availableSeasons = data?.seasons && data.seasons.length > 0
