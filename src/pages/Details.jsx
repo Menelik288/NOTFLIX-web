@@ -25,6 +25,14 @@ export const Details = ({ id }) => {
     const mediaId = id;
     const type = (window.location.pathname.includes('/tv/') || window.location.hash.includes('/tv/')) ? 'tv' : 'movie';
 
+    // Ensure standard cursor on Details page to avoid conflict with iframe and embeds
+    useEffect(() => {
+        document.body.setAttribute('data-default-cursor', 'true');
+        return () => {
+            document.body.removeAttribute('data-default-cursor');
+        };
+    }, []);
+
     // Core data
     const [media, setMedia] = useState(null);
     const [cast, setCast] = useState([]);

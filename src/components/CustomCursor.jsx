@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useApp } from '../context/AppContext';
 
 export const CustomCursor = () => {
@@ -14,13 +14,31 @@ export const CustomCursor = () => {
     const [isHovering, setIsHovering] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
 
-    const isDetailsPage = currentRoute && (
-        currentRoute.includes('#/details/') || 
-        currentRoute.includes('#/movie/') || 
-        currentRoute.includes('#/tv/') ||
-        currentRoute.includes('#/anime/') ||
-        (currentRoute.startsWith('#/anime') && currentRoute !== '#/anime')
-    );
+    const checkIsDetailsRoute = (route) => {
+        if (!route) return false;
+        const clean = route.replace(/^#/, '').split('?')[0];
+        return (
+            clean.startsWith('/details/') ||
+            clean.startsWith('/movie/') ||
+            clean.startsWith('/tv/') ||
+            clean.startsWith('/anime/') ||
+            clean.startsWith('/watch/') ||
+            route.includes('/details/') ||
+            route.includes('/movie/') ||
+            route.includes('/tv/') ||
+            route.includes('/anime/') ||
+            route.includes('/watch/')
+        );
+    };
+
+    const isDetailsPage = 
+        checkIsDetailsRoute(currentRoute) ||
+        (typeof window !== 'undefined' && (
+            checkIsDetailsRoute(window.location.pathname) ||
+            checkIsDetailsRoute(window.location.hash) ||
+            document.body.getAttribute('data-default-cursor') === 'true'
+        ));
+
     const isPlayerOpen = !!currentMedia;
     const shouldHide = isDetailsPage || isPlayerOpen;
 
@@ -29,14 +47,29 @@ export const CustomCursor = () => {
         if (shouldHide) {
             document.body.setAttribute('data-default-cursor', 'true');
         } else {
-            document.body.removeAttribute('data-default-cursor');
+            const isStillDetails = typeof window !== 'undefined' && (
+                checkIsDetailsRoute(window.location.pathname) || 
+                checkIsDetailsRoute(window.location.hash)
+            );
+            if (!isStillDetails) {
+                document.body.removeAttribute('data-default-cursor');
+            }
         }
-        return () => document.body.removeAttribute('data-default-cursor');
-    }, [shouldHide]);
+        return () => {
+            const isStillDetails = typeof window !== 'undefined' && (
+                checkIsDetailsRoute(window.location.pathname) || 
+                checkIsDetailsRoute(window.location.hash)
+            );
+            if (!isStillDetails) {
+                document.body.removeAttribute('data-default-cursor');
+            }
+        };
+    }, [shouldHide, currentRoute]);
 
     useEffect(() => {
-        // Only run on non-touch devices
-        if (window.matchMedia('(pointer: coarse)').matches) return;
+        // Only run on non-touch devices and when cursor should be active
+        if (typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches) return;
+        if (shouldHide) return;
 
         const onMouseMove = (e) => {
             if (!isVisible) setIsVisible(true);
@@ -46,7 +79,7 @@ export const CustomCursor = () => {
 
         const onMouseOver = (e) => {
             const target = e.target;
-            const isInteractive = target.closest('button, a, input, select, textarea, .group, .premium-hover, [role="button"], [role="link"], label');
+            const isInteractive = target?.closest?.('button, a, input, select, textarea, .group, .premium-hover, [role="button"], [role="link"], label, .cursor-pointer');
             setIsHovering(!!isInteractive);
         };
 
@@ -79,19 +112,25 @@ export const CustomCursor = () => {
             document.removeEventListener('mouseover', onMouseOver, true);
             document.body.removeEventListener('mouseleave', onMouseLeave);
             document.body.removeEventListener('mouseenter', onMouseEnter);
-            cancelAnimationFrame(requestRef.current);
+            if (requestRef.current) {
+                cancelAnimationFrame(requestRef.current);
+            }
         };
-    }, [isVisible]);
+    }, [isVisible, shouldHide]);
 
-    // Render nothing if on mobile/touch device
+    // Render nothing if on mobile/touch device or if cursor should be hidden (details page or player open)
     if (typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches) {
+        return null;
+    }
+
+    if (shouldHide) {
         return null;
     }
 
     return (
         <div 
             className="pointer-events-none fixed inset-0 z-[9999] overflow-hidden" 
-            style={{ opacity: isVisible && !shouldHide ? 1 : 0, transition: 'opacity 0.3s ease' }}
+            style={{ opacity: isVisible ? 1 : 0, transition: 'opacity 0.3s ease' }}
         >
             {/* Outer Circle */}
             <div ref={circleRef} className="absolute top-0 left-0 will-change-transform">

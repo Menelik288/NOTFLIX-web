@@ -516,6 +516,7 @@ body[data-lang="am"] .feed-action-label {
     }
 
     /* Restore default cursor on Details page and Video Player */
+    body[data-default-cursor="true"],
     body[data-default-cursor="true"] *,
     body[data-default-cursor="true"] *::before,
     body[data-default-cursor="true"] *::after {
@@ -526,9 +527,20 @@ body[data-lang="am"] .feed-action-label {
     body[data-default-cursor="true"] a,
     body[data-default-cursor="true"] input,
     body[data-default-cursor="true"] select,
+    body[data-default-cursor="true"] textarea,
     body[data-default-cursor="true"] [role="button"],
-    body[data-default-cursor="true"] label {
+    body[data-default-cursor="true"] [role="link"],
+    body[data-default-cursor="true"] label,
+    body[data-default-cursor="true"] .cursor-pointer,
+    body[data-default-cursor="true"] [class*="cursor-pointer"],
+    body[data-default-cursor="true"] .btn-primary {
         cursor: pointer !important;
+    }
+
+    body[data-default-cursor="true"] .cursor-not-allowed,
+    body[data-default-cursor="true"] [class*="cursor-not-allowed"],
+    body[data-default-cursor="true"] :disabled {
+        cursor: not-allowed !important;
     }
 }
 

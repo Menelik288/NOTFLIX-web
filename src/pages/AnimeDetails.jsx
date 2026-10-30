@@ -105,6 +105,14 @@ export const AnimeDetails = ({ id }) => {
 
     const animeId = id;
 
+    // Ensure standard cursor on AnimeDetails page to avoid conflict with iframe and embeds
+    useEffect(() => {
+        document.body.setAttribute('data-default-cursor', 'true');
+        return () => {
+            document.body.removeAttribute('data-default-cursor');
+        };
+    }, []);
+
     // Core anime data
     const [anime, setAnime] = useState(null);
     const [loading, setLoading] = useState(true);
