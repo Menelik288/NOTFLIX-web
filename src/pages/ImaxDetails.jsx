@@ -10,7 +10,7 @@ export const ImaxDetails = ({ id = 'the-odyssey' }) => {
 
     const movie = ImaxData.getById(id) || ImaxData.getFeatured();
     const [isPlaying, setIsPlaying] = useState(false);
-    const [selectedRendition, setSelectedRendition] = useState('expanded-143');
+    const [selectedRendition, setSelectedRendition] = useState('vidbing');
     const playerSectionRef = useRef(null);
 
     const isInWatchlist = watchlist?.some(item => item.id === movie?.id);
@@ -72,7 +72,7 @@ export const ImaxDetails = ({ id = 'the-odyssey' }) => {
         );
     }
 
-    const handleStartPlayback = (renditionId = 'expanded-143') => {
+    const handleStartPlayback = (renditionId = 'vidbing') => {
         setSelectedRendition(renditionId);
         setIsPlaying(true);
         setTimeout(() => {
@@ -177,22 +177,31 @@ export const ImaxDetails = ({ id = 'the-odyssey' }) => {
                                 {/* Play Buttons */}
                                 <div className="flex flex-wrap items-center gap-3 pt-2">
                                     <button
-                                        onClick={() => handleStartPlayback('expanded-143')}
+                                        onClick={() => handleStartPlayback('vidbing')}
                                         className="group bg-[#00E5FF] hover:bg-[#38eeff] text-black px-7 py-3.5 rounded-xl font-black italic tracking-wider flex items-center gap-2.5 transition-all shadow-[0_0_30px_rgba(0,229,255,0.5)] hover:shadow-[0_0_45px_rgba(0,229,255,0.8)] active:scale-95 cursor-pointer text-sm sm:text-base"
                                     >
                                         <span className="material-symbols-outlined text-2xl fill group-hover:scale-110 transition-transform" style={{ fontVariationSettings: "'FILL' 1" }}>
                                             play_arrow
                                         </span>
-                                        <span>PLAY IN IMAX (1.43:1)</span>
+                                        <span>STREAM ON VIDBING</span>
                                     </button>
 
                                     <button
-                                        onClick={() => handleStartPlayback('digital-190')}
+                                        onClick={() => handleStartPlayback('expanded-143')}
                                         className="bg-black/60 hover:bg-black/80 text-cyan-300 border border-cyan-400/40 px-5 py-3.5 rounded-xl font-bold flex items-center gap-2 backdrop-blur-xl transition-all cursor-pointer text-xs sm:text-sm"
-                                        title="Play in 1.90:1 Digital Format"
+                                        title="Play 1.43:1 Native 70mm Sequence"
                                     >
                                         <span className="material-symbols-outlined text-lg">aspect_ratio</span>
-                                        <span>Play 1.90:1 Digital</span>
+                                        <span>IMAX 1.43:1 Native</span>
+                                    </button>
+
+                                    <button
+                                        onClick={() => handleStartPlayback('vip4k')}
+                                        className="bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/40 px-4 py-3.5 rounded-xl font-bold flex items-center gap-1.5 backdrop-blur-xl transition-all cursor-pointer text-xs sm:text-sm"
+                                        title="Play in VIP 4K Mode"
+                                    >
+                                        <span className="material-symbols-outlined text-lg text-amber-400">workspace_premium</span>
+                                        <span>VIP 4K</span>
                                     </button>
 
                                     {/* Watchlist Toggle */}

@@ -19,7 +19,7 @@ import { AdService } from '../services/adService';
  */
 export const ImaxVideoPlayer = ({
     movie,
-    initialRenditionId = 'expanded-143',
+    initialRenditionId = 'vidbing',
     onClose,
     embedded = false
 }) => {
@@ -31,7 +31,7 @@ export const ImaxVideoPlayer = ({
     // Active Rendition
     const renditions = movie?.renditions || [];
     const [selectedRenditionId, setSelectedRenditionId] = useState(
-        initialRenditionId || renditions[0]?.id || 'expanded-143'
+        initialRenditionId || renditions[0]?.id || 'vidbing'
     );
     const currentRendition = renditions.find(r => r.id === selectedRenditionId) || renditions[0];
 
@@ -64,12 +64,22 @@ export const ImaxVideoPlayer = ({
 
     // ─── Reset and Load Video when Rendition Changes ───
     useEffect(() => {
+        setIsLoading(false);
+        setPlaybackError(null);
+        setCurrentTime(0);
+
+        if (currentRendition?.type === 'iframe') {
+            setIsLoading(false);
+            setSourceDimensions({ width: 1920, height: 1080 });
+            setDetectedRatio(1.43);
+            setAspectFormatName(`${currentRendition.name} (Direct Stream)`);
+            return;
+        }
+
         const video = videoRef.current;
         if (!video) return;
 
         setIsLoading(true);
-        setPlaybackError(null);
-        setCurrentTime(0);
         setSourceDimensions({ width: 0, height: 0 });
         setDetectedRatio(null);
         setAspectFormatName('Analyzing source...');
@@ -362,21 +372,47 @@ export const ImaxVideoPlayer = ({
                 - ZERO stretching, ZERO cropping, ZERO artificial warping.
                 ═══════════════════════════════════════════════════════════ */}
             <div className="absolute inset-0 flex items-center justify-center bg-black">
-                <video
-                    ref={videoRef}
-                    src={currentRendition?.url}
-                    className="w-full h-full object-contain cursor-pointer transition-all duration-200"
-                    onClick={togglePlay}
-                    onTimeUpdate={handleTimeUpdate}
-                    onLoadedMetadata={handleLoadedMetadata}
-                    onWaiting={() => setIsLoading(true)}
-                    onPlaying={() => setIsLoading(false)}
-                    onError={() => {
-                        setIsLoading(false);
-                        setPlaybackError("Unable to stream video rendition. Please select an alternate format.");
-                    }}
-                    playsInline
-                />
+                {currentRendition?.type === 'iframe' || currentRendition?.embedUrl ? (
+                    <div className="w-full h-full relative bg-black flex items-center justify-center">
+                        <iframe
+                            key={currentRendition?.embedUrl || currentRendition?.id}
+                            src={currentRendition?.embedUrl || `https://moviesapi.to/movie/${movie?.tmdbId || 1368337}`}
+                            className="w-full h-full border-0"
+                            allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock"
+                            allowFullScreen
+                            webkitallowfullscreen="true"
+                            mozallowfullscreen="true"
+                            referrerPolicy="origin"
+                            title={movie?.title || "IMAX Stream"}
+                        />
+                        {/* Stream Disclaimer HUD */}
+                        <div className="absolute top-20 left-6 z-20 pointer-events-auto hidden sm:flex items-center gap-2">
+                            <div className="bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-cyan-500/30 text-xs shadow-xl">
+                                <span className="text-white/40 block text-[9px] font-mono uppercase">STREAMING SERVER</span>
+                                <span className="text-[#00E5FF] font-bold font-mono text-xs uppercase flex items-center gap-1.5">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-[#00E5FF] animate-pulse"></span>
+                                    {currentRendition?.name || 'Vidbing Stream'}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                ) : (
+                    <video
+                        ref={videoRef}
+                        src={currentRendition?.url}
+                        className="w-full h-full object-contain cursor-pointer transition-all duration-200"
+                        onClick={togglePlay}
+                        onTimeUpdate={handleTimeUpdate}
+                        onLoadedMetadata={handleLoadedMetadata}
+                        onWaiting={() => setIsLoading(true)}
+                        onPlaying={() => setIsLoading(false)}
+                        onError={() => {
+                            setIsLoading(false);
+                            setPlaybackError("Unable to stream video rendition. Please select an alternate format.");
+                        }}
+                        playsInline
+                    />
+                )}
             </div>
 
             {/* Loading Indicator */}
