@@ -189,10 +189,10 @@ export const ImaxDetails = ({ id = 'the-odyssey' }) => {
                                     <button
                                         onClick={() => handleStartPlayback('digital-190')}
                                         className="bg-black/60 hover:bg-black/80 text-white/90 border border-white/20 hover:border-red-500/50 px-5 py-3.5 rounded-xl font-bold flex items-center gap-2 backdrop-blur-xl transition-all cursor-pointer text-xs sm:text-sm"
-                                        title="Watch in IMAX 1.90:1 Digital Format"
+                                        title="Watch in genuine IMAX 1.90:1 Digital Cinema format (VIP 4K Stream)"
                                     >
                                         <span className="material-symbols-outlined text-lg text-white">aspect_ratio</span>
-                                        <span>IMAX 1.90:1 Digital</span>
+                                        <span>IMAX 1.90:1 Digital (VIP 4K)</span>
                                     </button>
 
                                     {/* Watchlist Toggle */}

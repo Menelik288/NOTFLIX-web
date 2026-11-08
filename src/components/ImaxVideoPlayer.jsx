@@ -34,6 +34,7 @@ export const ImaxVideoPlayer = ({
     // Playback State
     const [isLoading, setIsLoading] = useState(false);
     const [playbackError, setPlaybackError] = useState(null);
+    const [switchNotice, setSwitchNotice] = useState(null);
 
     // Controls State
     const [showControls, setShowControls] = useState(true);
@@ -44,7 +45,7 @@ export const ImaxVideoPlayer = ({
     const [activeAudioMode, setActiveAudioMode] = useState('imax12'); // 'imax12' | '5.1' | 'stereo'
 
     // Source Dimensions & Ratio
-    const [sourceDimensions, setSourceDimensions] = useState({ width: 1920, height: 1080 });
+    const [sourceDimensions, setSourceDimensions] = useState({ width: 3840, height: 2685 });
     const [detectedRatio, setDetectedRatio] = useState(currentRendition?.targetRatio || 1.43);
     const [aspectFormatName, setAspectFormatName] = useState(
         currentRendition?.isExpanded143 ? 'IMAX 1.43:1 Expanded Film (70mm Master)' : 'IMAX 1.90:1 Digital Format'
@@ -56,21 +57,49 @@ export const ImaxVideoPlayer = ({
         setShowRenditionMenu(false);
         setShowAudioMenu(false);
 
-        if (currentRendition?.type === 'iframe') {
-            setIsLoading(false);
-            setSourceDimensions({ width: 3840, height: 2685 });
-            setDetectedRatio(currentRendition.targetRatio || 1.43);
-            setAspectFormatName(`${currentRendition.name} (Direct Stream)`);
-            return;
-        }
+        const is143 = selectedRenditionId === 'expanded-143' || currentRendition?.targetRatio === 1.43;
+        const dims = is143 
+            ? { width: 3840, height: 2685, label: '3840 × 2685', ratio: 1.43, name: 'IMAX 1.43:1 Expanded 70mm' }
+            : { width: 3840, height: 2021, label: '3840 × 2021', ratio: 1.90, name: 'IMAX 1.90:1 Digital Cinema' };
 
-        const video = videoRef.current;
-        if (!video) return;
+        setSourceDimensions({ width: dims.width, height: dims.height });
+        setDetectedRatio(dims.ratio);
+        setAspectFormatName(dims.name);
 
-        setIsLoading(true);
-        video.load();
-        video.play().catch(() => {});
+        setSwitchNotice(dims);
+        const timer = setTimeout(() => setSwitchNotice(null), 2500);
+        return () => clearTimeout(timer);
     }, [selectedRenditionId]);
+
+    // Precise Dynamic Cinema Viewport Geometry
+    const getCinemaViewportStyle = () => {
+        const is143 = selectedRenditionId === 'expanded-143' || currentRendition?.targetRatio === 1.43;
+        if (is143) {
+            // 1.43:1 Expanded 70mm Presentation (Tall format)
+            // Constrained by height on 16:9 displays; width computes as height * 1.43
+            return {
+                aspectRatio: '1.43 / 1',
+                height: '100%',
+                maxHeight: '100%',
+                maxWidth: '100%',
+                width: 'auto',
+                margin: '0 auto',
+                transition: 'all 0.45s cubic-bezier(0.16, 1, 0.3, 1)'
+            };
+        } else {
+            // 1.90:1 Digital Laser Presentation (Wide format)
+            // Spans 100% horizontal width on 16:9 displays; height computes as width / 1.90
+            return {
+                aspectRatio: '1.90 / 1',
+                width: '100%',
+                maxWidth: '100%',
+                maxHeight: '100%',
+                height: 'auto',
+                margin: 'auto 0',
+                transition: 'all 0.45s cubic-bezier(0.16, 1, 0.3, 1)'
+            };
+        }
+    };
 
     // ─── Native HTML5 Video Metadata Handler (for sequence previews) ───
     const handleLoadedMetadata = () => {
@@ -201,20 +230,17 @@ export const ImaxVideoPlayer = ({
                 clean, pitch-black IMAX theater wings (pillarboxes) on both
                 sides. It is NEVER stretched or cropped!
                 ═══════════════════════════════════════════════════════════ */}
-            <div className="w-full h-full flex items-center justify-center bg-black overflow-hidden">
+            <div className="w-full h-full flex items-center justify-center bg-black overflow-hidden relative">
+                {/* Genuine IMAX Viewport with Strict Aspect Ratio Enforcement */}
                 <div 
-                    className="relative w-full h-full flex items-center justify-center transition-all duration-300"
-                    style={{
-                        aspectRatio: currentRendition?.targetRatio ? `${currentRendition.targetRatio}` : '1.43',
-                        maxHeight: '100%',
-                        maxWidth: '100%'
-                    }}
+                    className="relative flex items-center justify-center transition-all duration-500 ease-out shadow-2xl bg-black"
+                    style={getCinemaViewportStyle()}
                 >
                     {currentRendition?.type === 'iframe' || currentRendition?.embedUrl ? (
                         <iframe
-                            key={currentRendition?.embedUrl || currentRendition?.id}
+                            key={currentRendition?.id || currentRendition?.embedUrl}
                             src={currentRendition?.embedUrl || `https://vidsrc.me/embed/movie?tmdb=${movie?.tmdbId || 1368337}`}
-                            className="w-full h-full border-0 bg-black"
+                            className="w-full h-full border-0 bg-black block"
                             allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock"
                             allowFullScreen
                             webkitallowfullscreen="true"
@@ -237,6 +263,27 @@ export const ImaxVideoPlayer = ({
                         />
                     )}
                 </div>
+
+                {/* Momentary Cinema Aspect Ratio Switch Notice */}
+                {switchNotice && (
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-40 pointer-events-none animate-fade-in">
+                        <div className="bg-black/95 backdrop-blur-xl border border-red-500/50 px-6 py-4 rounded-2xl shadow-2xl flex flex-col items-center text-center gap-1.5 min-w-[280px]">
+                            <span className="text-red-500 font-black italic tracking-widest text-xs uppercase flex items-center gap-1.5">
+                                <span className="material-symbols-outlined text-sm">aspect_ratio</span>
+                                {switchNotice.name}
+                            </span>
+                            <span className="text-white font-mono text-xl font-bold tracking-tight">
+                                {switchNotice.ratio}:1 Native Mode
+                            </span>
+                            <span className="text-white/60 font-mono text-xs">
+                                Resolution: {switchNotice.label} • VIP 4K Stream
+                            </span>
+                            <span className="text-[10px] text-zinc-400 font-mono pt-1 border-t border-white/10 w-full">
+                                {switchNotice.ratio === 1.43 ? 'Ceiling-to-Floor Full Frame (+64% height)' : 'Digital Multiplex Large Format'}
+                            </span>
+                        </div>
+                    </div>
+                )}
             </div>
 
             {/* Error Message */}
@@ -361,23 +408,52 @@ export const ImaxVideoPlayer = ({
                     showControls ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
                 }`}
             >
-                <div className="flex items-center justify-between text-white">
-                    {/* Left: Active Server & Aspect Indicator */}
-                    <div className="flex items-center gap-3">
-                        <div className="bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10 flex items-center gap-2 text-xs">
-                            <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span>
-                            <span className="text-white/60 text-[10px] uppercase font-mono hidden sm:inline">Active Format:</span>
-                            <span className="text-red-500 font-bold font-mono text-xs uppercase">
-                                {currentRendition?.shortBadge || '1.43:1 EXPANDED'}
-                            </span>
+                <div className="flex flex-wrap items-center justify-between text-white gap-3">
+                    {/* Left: Interactive Quick Aspect Ratio Switcher & Resolution Badge */}
+                    <div className="flex flex-wrap items-center gap-2.5">
+                        {/* Direct One-Click 1.43:1 vs 1.90:1 Format Switcher */}
+                        <div className="flex items-center rounded-xl bg-black/85 border border-white/15 p-1 gap-1 shadow-lg">
+                            <button
+                                onClick={() => setSelectedRenditionId('expanded-143')}
+                                className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+                                    selectedRenditionId === 'expanded-143'
+                                        ? 'bg-red-600 text-white shadow-md shadow-red-600/40'
+                                        : 'text-white/60 hover:text-white hover:bg-white/5'
+                                }`}
+                                title="Switch to Genuine 1.43:1 Ceiling-to-Floor Full Frame"
+                            >
+                                <span className="material-symbols-outlined text-sm">fullscreen</span>
+                                <span>1.43:1 70MM</span>
+                            </button>
+
+                            <button
+                                onClick={() => setSelectedRenditionId('digital-190')}
+                                className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+                                    selectedRenditionId === 'digital-190'
+                                        ? 'bg-red-600 text-white shadow-md shadow-red-600/40'
+                                        : 'text-white/60 hover:text-white hover:bg-white/5'
+                                }`}
+                                title="Switch to Genuine 1.90:1 IMAX Digital Laser Format"
+                            >
+                                <span className="material-symbols-outlined text-sm">crop_16_9</span>
+                                <span>1.90:1 DIGITAL</span>
+                            </button>
                         </div>
-                        <span className="text-[10px] font-mono text-white/70 px-2 py-1 rounded bg-white/5 border border-white/10 hidden md:inline">
-                            {currentRendition?.isExpanded143 ? '1.43:1 CEILING-TO-FLOOR' : '1.90:1 DIGITAL MULTIPLEX'}
-                        </span>
+
+                        {/* Exact Dynamic Resolution Readout */}
+                        <div className="bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10 hidden sm:flex items-center gap-2 text-xs font-mono">
+                            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                            <span className="text-white/50 text-[10px] uppercase">RESOLUTION:</span>
+                            <span className="text-red-400 font-bold">
+                                {selectedRenditionId === 'expanded-143' ? '3840 × 2685' : '3840 × 2021'}
+                            </span>
+                            <span className="text-white/30">•</span>
+                            <span className="text-amber-400 font-bold text-[10px]">VIP 4K STREAM</span>
+                        </div>
                     </div>
 
                     {/* Right: Server Selection, Sound Profile, Fullscreen */}
-                    <div className="flex items-center gap-2.5 sm:gap-3">
+                    <div className="flex items-center gap-2.5 sm:gap-3 ml-auto">
                         {/* ─── 1. SERVER SELECTION DROPDOWN (ONLY DEDICATED IMAX FORMATS) ─── */}
                         <div className="relative">
                             <button

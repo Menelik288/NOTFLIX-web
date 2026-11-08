@@ -82,9 +82,9 @@ export const imaxCatalog = [
                 badgeColor: "bg-white/10 text-white/90 border-white/20",
                 targetRatio: 1.90,
                 type: "iframe",
-                embedUrl: "https://moviesapi.to/movie/1368337",
-                resolutionLabel: "4K Digital Large Format (1.90:1)",
-                description: "Digital IMAX 1.90:1 presentation optimized for modern IMAX laser multiplex auditoriums.",
+                embedUrl: "https://vidsrc.me/embed/movie?tmdb=1368337",
+                resolutionLabel: "VIP 4K Digital Cinema Master (1.90:1)",
+                description: "Digital IMAX 1.90:1 aspect ratio presentation powered by VIP 4K ultra-fast stream.",
                 isExpanded143: false,
                 isGenuineSource: true
             }
