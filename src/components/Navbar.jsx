@@ -161,6 +161,7 @@ export const Navbar = () => {
         const cleanPath = currentRoute.replace('#', '') || '/';
         if (routeKey === 'home') return cleanPath === '/' || cleanPath.startsWith('/movie/') || cleanPath.startsWith('/tv/') || cleanPath.startsWith('/details/');
         if (routeKey === 'anime') return cleanPath.startsWith('/anime');
+        if (routeKey === 'imax') return cleanPath.startsWith('/imax');
         return cleanPath.startsWith(`/${routeKey}`);
     };
 
@@ -180,6 +181,20 @@ export const Navbar = () => {
                             <a href="/tv" onClick={(e) => { e.preventDefault(); navigateTo('/tv'); }} className={`nav-pixel-link pb-1 text-sm lg:text-base ${isLinkActive('tv') ? 'active-link' : 'text-white/70 hover:text-white'}`}>{t.nav.tv}</a>
                             <a href="/anime" onClick={(e) => { e.preventDefault(); navigateTo('/anime'); }} className={`nav-pixel-link pb-1 text-sm lg:text-base rainbow-anime-nav-btn ${isLinkActive('anime') ? 'active-link active-anime-link' : ''}`}>
                                 <WavyRainbowText text={t.nav.anime || 'Anime'} />
+                            </a>
+                            <a 
+                                href="/imax" 
+                                onClick={(e) => { e.preventDefault(); navigateTo('/imax'); }} 
+                                className={`nav-pixel-link pb-1 text-sm lg:text-base imax-nav-btn flex items-center transition-all ${isLinkActive('imax') ? 'active-link active-imax-link' : 'text-white/80 hover:text-white'}`}
+                                title="IMAX Cinema Experience"
+                            >
+                                <span className={`imax-brand-badge font-black italic tracking-[0.2em] px-2.5 py-0.5 rounded text-xs transition-all duration-300 ${
+                                    isLinkActive('imax') 
+                                        ? 'bg-[#00E5FF]/20 text-[#00E5FF] border border-[#00E5FF]/60 shadow-[0_0_15px_rgba(0,229,255,0.4)]' 
+                                        : 'bg-white/[0.04] text-white/90 border border-white/10 hover:border-[#00E5FF]/40 hover:text-[#00E5FF] hover:bg-[#00E5FF]/10 hover:shadow-[0_0_12px_rgba(0,229,255,0.25)]'
+                                }`}>
+                                    IMAX
+                                </span>
                             </a>
                             <a href="/for-you" onClick={(e) => { e.preventDefault(); navigateTo('/for-you'); }} className={`nav-pixel-link pb-1 text-sm lg:text-base ${isLinkActive('for-you') ? 'active-link' : 'text-white/70 hover:text-white'}`}>{t.nav.forYou}</a>
                             <a href="/watchlist" onClick={(e) => { e.preventDefault(); navigateTo('/watchlist'); }} className={`nav-pixel-link pb-1 text-sm lg:text-base ${isLinkActive('watchlist') ? 'active-link' : 'text-white/70 hover:text-white'}`}>{t.nav.watchlist}</a>
@@ -437,10 +452,19 @@ export const Navbar = () => {
                     <a 
                         href="/anime"
                         onClick={(e) => { e.preventDefault(); navigateTo('/anime'); }} 
-                        className={`flex flex-col items-center justify-center transition-all text-xs min-w-[42px] mobile-nav-item rainbow-anime-nav-btn ${isLinkActive('anime') ? 'text-primary-container' : 'text-on-surface-variant'}`}
+                        className={`flex flex-col items-center justify-center transition-all text-xs min-w-[36px] mobile-nav-item rainbow-anime-nav-btn ${isLinkActive('anime') ? 'text-primary-container' : 'text-on-surface-variant'}`}
                     >
-                        <span className="material-symbols-outlined text-[20px] rainbow-anime-icon">animation</span>
+                        <span className="material-symbols-outlined text-[19px] rainbow-anime-icon">animation</span>
                         <span className="nav-pixel-link mt-0.5"><WavyRainbowText text={t.nav.anime || 'Anime'} size="sm" /></span>
+                    </a>
+                    {/* IMAX Mobile Tab */}
+                    <a 
+                        href="/imax"
+                        onClick={(e) => { e.preventDefault(); navigateTo('/imax'); }} 
+                        className={`flex flex-col items-center justify-center transition-all text-xs min-w-[36px] mobile-nav-item ${isLinkActive('imax') ? 'text-[#00E5FF]' : 'text-on-surface-variant'}`}
+                    >
+                        <span className="material-symbols-outlined text-[19px]">camera_indoor</span>
+                        <span className="nav-pixel-link font-black italic tracking-wider text-[8px] mt-0.5">IMAX</span>
                     </a>
                     <a 
                         href="/watchlist"

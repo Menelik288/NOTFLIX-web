@@ -22,6 +22,16 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://notflix.pro.et/imax</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://notflix.pro.et/imax/the-odyssey</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://notflix.pro.et/for-you</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>

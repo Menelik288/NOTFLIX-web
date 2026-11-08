@@ -20,6 +20,8 @@ import Watchlist from './pages/Watchlist';
 import Details from './pages/Details';
 import Anime from './pages/Anime';
 import AnimeDetails from './pages/AnimeDetails';
+import ImaxCatalogue from './pages/ImaxCatalogue';
+import ImaxDetails from './pages/ImaxDetails';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 import About from './pages/settings/About';
@@ -52,6 +54,8 @@ const ROUTES = [
     { pattern: '/movies',      Component: Movies },
     { pattern: '/tv',          Component: Series },
     { pattern: '/anime',       Component: Anime },
+    { pattern: '/imax',        Component: ImaxCatalogue },
+    { pattern: '/imax/:id',    Component: ImaxDetails },
     { pattern: '/for-you',     Component: ForYou },
     { pattern: '/search',      Component: Search },
     { pattern: '/watchlist',   Component: Watchlist },
@@ -104,6 +108,10 @@ const AppShell = () => {
             pageTitle = "TV Series & Shows – Stream Full Seasons Free | NotFlix";
         } else if (cleanRoute.startsWith('/anime') && !cleanRoute.includes('/anime/')) {
             pageTitle = "Watch Anime Online Free in HD – Sub & Dub | NotFlix Anime";
+        } else if (cleanRoute === '/imax' || cleanRoute === '/imax/') {
+            pageTitle = "NotFlix IMAX – Dedicated Large-Format Cinema Experience";
+        } else if (cleanRoute.startsWith('/imax/')) {
+            pageTitle = "The Odyssey (2026) in IMAX 70mm – NotFlix";
         } else if (cleanRoute.startsWith('/for-you')) {
             pageTitle = "For You – Personalized Recommendations | NotFlix";
         } else if (cleanRoute.startsWith('/search')) {
