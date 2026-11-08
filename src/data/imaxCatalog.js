@@ -107,10 +107,10 @@ export const imaxCatalog = [
                 shortBadge: "1.43:1 NATIVE",
                 badgeColor: "bg-cyan-500/20 text-cyan-300 border-cyan-400/40",
                 targetRatio: 1.43,
-                type: "video",
+                type: "iframe",
+                embedUrl: "https://vidsrc.me/embed/movie?tmdb=1368337",
                 resolutionLabel: "4K Expanded Master (1.43:1)",
                 description: "Authentic 1.43:1 tall frame presentation matching 15/70mm IMAX cinema screens. Preserves full vertical height without any cropping or horizontal stretch.",
-                url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                 isExpanded143: true,
                 isGenuineSource: true
             },
@@ -120,25 +120,12 @@ export const imaxCatalog = [
                 shortBadge: "1.90:1 DIGITAL",
                 badgeColor: "bg-blue-500/20 text-blue-300 border-blue-400/40",
                 targetRatio: 1.90,
-                type: "video",
+                type: "iframe",
+                embedUrl: "https://moviesapi.to/movie/1368337",
                 resolutionLabel: "4K Digital Large Format (1.90:1)",
                 description: "Digital IMAX 1.90:1 aspect ratio presentation optimized for commercial IMAX laser multiplexes.",
-                url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
                 isExpanded143: false,
                 isGenuineSource: true
-            },
-            {
-                id: "theatrical-trailer",
-                name: "Official Studio Teaser Trailer (16:9)",
-                shortBadge: "16:9 WIDESCREEN",
-                badgeColor: "bg-white/10 text-white/70 border-white/20",
-                targetRatio: 1.777,
-                type: "video",
-                resolutionLabel: "1080p Standard Widescreen",
-                description: "Standard 16:9 widescreen trailer broadcast presentation. Does not feature the expanded vertical picture information.",
-                url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
-                isExpanded143: false,
-                isGenuineSource: false
             }
         ],
 
