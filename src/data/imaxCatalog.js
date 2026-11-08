@@ -63,8 +63,21 @@ export const imaxCatalog = [
         // Available Playback Renditions
         renditions: [
             {
+                id: "vip4k",
+                name: "VIP 4K Mode (Default)",
+                shortBadge: "VIP 4K",
+                badgeColor: "bg-amber-500/20 text-amber-300 border-amber-500/40",
+                targetRatio: 1.43,
+                type: "iframe",
+                embedUrl: "https://vidsrc.me/embed/movie?tmdb=1368337",
+                resolutionLabel: "VIP 4K Ultra Fast Stream",
+                description: "VIP 4K ultra fast streaming server for The Odyssey (TMDB: 1368337).",
+                isExpanded143: true,
+                isGenuineSource: true
+            },
+            {
                 id: "vidbing",
-                name: "Vidbing Stream (Default)",
+                name: "Vidbing Stream",
                 shortBadge: "VIDBING",
                 badgeColor: "bg-red-500/20 text-red-300 border-red-500/40",
                 targetRatio: 1.43,
@@ -72,19 +85,6 @@ export const imaxCatalog = [
                 embedUrl: "https://moviesapi.to/movie/1368337",
                 resolutionLabel: "Vidbing Fast Stream (1080p/4K)",
                 description: "Primary Vidbing stream for The Odyssey (TMDB: 1368337).",
-                isExpanded143: true,
-                isGenuineSource: true
-            },
-            {
-                id: "vip4k",
-                name: "VIP 4K Mode",
-                shortBadge: "VIP 4K",
-                badgeColor: "bg-amber-500/20 text-amber-300 border-amber-500/40",
-                targetRatio: 1.43,
-                type: "iframe",
-                embedUrl: "https://vidsrc.me/embed/movie?tmdb=1368337",
-                resolutionLabel: "VIP 4K Ultra Fast Stream",
-                description: "VIP 4K high-bitrate streaming mirror for The Odyssey (TMDB: 1368337).",
                 isExpanded143: true,
                 isGenuineSource: true
             },
