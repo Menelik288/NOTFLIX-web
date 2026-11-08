@@ -25,20 +25,18 @@ export const Details = ({ id }) => {
     const mediaId = id;
     const type = (window.location.pathname.includes('/tv/') || window.location.hash.includes('/tv/')) ? 'tv' : 'movie';
 
-    // Ensure standard cursor on Details page to avoid conflict with iframe and embeds
-    useEffect(() => {
-        document.body.setAttribute('data-default-cursor', 'true');
-        return () => {
-            document.body.removeAttribute('data-default-cursor');
-        };
-    }, []);
-
     // Core data
     const [media, setMedia] = useState(null);
     const [cast, setCast] = useState([]);
     const [similar, setSimilar] = useState([]);
     const [loading, setLoading] = useState(true);
     const [reviews, setReviews] = useState([]);
+
+    const isOdysseyMovie = 
+        String(mediaId) === '1368337' || 
+        String(mediaId) === 'the-odyssey' || 
+        String(media?.id) === '1368337' || 
+        media?.title?.toLowerCase()?.includes('odyssey');
 
     // Review form state
     const [newReviewRating, setNewReviewRating] = useState(0);
@@ -476,6 +474,18 @@ export const Details = ({ id }) => {
                             </div>
                         </div>
 
+                        {/* Floating IMAX Version Pill for The Odyssey */}
+                        {isOdysseyMovie && (
+                            <button
+                                onClick={() => navigateTo('/imax/the-odyssey')}
+                                className="absolute top-4 left-4 z-40 bg-purple-600 hover:bg-purple-700 text-white px-3.5 py-2 rounded-xl backdrop-blur-md border border-purple-400/40 shadow-xl transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 text-xs font-black italic tracking-wide"
+                                title="Switch to Dedicated IMAX 70mm Experience"
+                            >
+                                <span className="material-symbols-outlined text-base">aspect_ratio</span>
+                                <span>IMAX version</span>
+                            </button>
+                        )}
+
                         {/* Floating Universal Fullscreen Button */}
                         <button
                             onClick={toggleUniversalFullscreen}
@@ -548,6 +558,22 @@ export const Details = ({ id }) => {
                                         <span className="material-symbols-outlined fill" style={{ fontVariationSettings: "'FILL' 1" }}>play_arrow</span>
                                         <span>{t.details.watchNow}</span>
                                     </button>
+
+                                    {/* Dedicated IMAX Version Button in Purple for The Odyssey */}
+                                    {isOdysseyMovie && (
+                                        <button
+                                            onClick={() => {
+                                                navigateTo('/imax/the-odyssey');
+                                            }}
+                                            className="px-5 sm:px-6 py-3 rounded-xl font-black italic tracking-wide text-white bg-purple-600 hover:bg-purple-700 active:bg-purple-800 flex items-center gap-2 transition-all active:scale-95 shadow-lg shadow-purple-600/40 cursor-pointer border border-purple-400/40"
+                                            title="Experience The Odyssey in Authentic IMAX 70mm Presentation"
+                                        >
+                                            <span className="material-symbols-outlined text-purple-200" style={{ fontVariationSettings: "'FILL' 1" }}>
+                                                aspect_ratio
+                                            </span>
+                                            <span>IMAX version</span>
+                                        </button>
+                                    )}
 
                                     {/* Quick VIP 4K Button */}
                                     <button

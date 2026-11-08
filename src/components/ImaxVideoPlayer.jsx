@@ -16,7 +16,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
  */
 export const ImaxVideoPlayer = ({
     movie,
-    initialRenditionId = 'vip4k',
+    initialRenditionId = 'expanded-143',
     onClose,
     embedded = false
 }) => {
@@ -24,10 +24,10 @@ export const ImaxVideoPlayer = ({
     const containerRef = useRef(null);
     const controlsTimeoutRef = useRef(null);
 
-    // Active Rendition (Default to VIP 4K)
+    // Active Rendition (Default to IMAX 1.43:1 Expanded Film)
     const renditions = movie?.renditions || [];
     const [selectedRenditionId, setSelectedRenditionId] = useState(
-        initialRenditionId || renditions[0]?.id || 'vip4k'
+        initialRenditionId || renditions[0]?.id || 'expanded-143'
     );
     const currentRendition = renditions.find(r => r.id === selectedRenditionId) || renditions[0];
 
@@ -187,10 +187,10 @@ export const ImaxVideoPlayer = ({
             onClick={handleUserActivity}
             className={`imax-cinema-player-root relative w-full bg-black select-none overflow-hidden transition-all duration-300 font-sans ${
                 embedded 
-                    ? 'rounded-2xl border border-cyan-500/30 shadow-[0_0_50px_rgba(0,229,255,0.15)] aspect-[1.43/1] max-h-[82vh]' 
+                    ? 'rounded-2xl border border-white/10 shadow-[0_0_50px_rgba(229,9,20,0.15)] aspect-[1.43/1] max-h-[82vh]' 
                     : isFullscreen 
                         ? 'fixed inset-0 z-50 h-screen w-screen flex items-center justify-center' 
-                        : 'relative w-full h-[85vh] rounded-2xl border border-cyan-500/25 shadow-2xl flex items-center justify-center'
+                        : 'relative w-full h-[85vh] rounded-2xl border border-white/10 shadow-2xl flex items-center justify-center'
             }`}
         >
             {/* ═══════════════════════════════════════════════════════════
@@ -230,7 +230,7 @@ export const ImaxVideoPlayer = ({
                             onLoadedMetadata={handleLoadedMetadata}
                             onError={() => {
                                 setIsLoading(false);
-                                setPlaybackError("Unable to load video sequence. Please switch to VIP 4K or Vidbing.");
+                                setPlaybackError("Unable to load video sequence. Please switch to another IMAX format.");
                             }}
                             playsInline
                             controls
@@ -242,14 +242,14 @@ export const ImaxVideoPlayer = ({
             {/* Error Message */}
             {playbackError && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/90 backdrop-blur-md z-40 p-6 text-center">
-                    <span className="material-symbols-outlined text-5xl text-amber-400 mb-3">warning</span>
+                    <span className="material-symbols-outlined text-5xl text-red-500 mb-3">warning</span>
                     <h3 className="text-xl font-bold text-white mb-2">Stream Server Notice</h3>
                     <p className="text-white/60 text-sm max-w-md mb-6">{playbackError}</p>
                     <button
-                        onClick={() => setSelectedRenditionId('vip4k')}
-                        className="px-5 py-2.5 rounded-lg bg-[#00E5FF] text-black font-bold text-xs"
+                        onClick={() => setSelectedRenditionId('expanded-143')}
+                        className="px-6 py-2.5 rounded-lg bg-red-600 hover:bg-red-700 text-white font-bold text-xs shadow-lg shadow-red-600/40 cursor-pointer"
                     >
-                        Switch to VIP 4K (Default)
+                        Switch to IMAX 1.43:1 (Default)
                     </button>
                 </div>
             )}
@@ -259,20 +259,20 @@ export const ImaxVideoPlayer = ({
                 ═══════════════════════════════════════════════════════════ */}
             {showTelemetry && (
                 <div className="absolute top-20 left-6 z-30 pointer-events-none max-w-sm hidden sm:block animate-fade-in">
-                    <div className="bg-black/85 backdrop-blur-xl border border-cyan-500/30 rounded-xl p-3 shadow-2xl text-[11px] font-mono space-y-1.5 text-white/90">
-                        <div className="flex items-center justify-between border-b border-cyan-500/20 pb-1 text-cyan-400 font-bold tracking-wider">
+                    <div className="bg-[#141414]/90 backdrop-blur-xl border border-white/15 rounded-xl p-3 shadow-2xl text-[11px] font-mono space-y-1.5 text-white/90">
+                        <div className="flex items-center justify-between border-b border-white/10 pb-1 text-red-500 font-bold tracking-wider">
                             <span className="flex items-center gap-1.5">
-                                <span className="w-2 h-2 rounded-full bg-[#00E5FF] animate-pulse"></span>
+                                <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span>
                                 IMAX FULLSCREEN GEOMETRY
                             </span>
-                            <span className="text-[9px] uppercase px-1.5 py-0.5 rounded bg-cyan-950/80 border border-cyan-500/40">
-                                {currentRendition?.shortBadge || 'VIP 4K'}
+                            <span className="text-[9px] uppercase px-1.5 py-0.5 rounded bg-red-950/60 border border-red-500/40 text-red-300">
+                                {currentRendition?.shortBadge || '1.43:1'}
                             </span>
                         </div>
                         <div className="grid grid-cols-2 gap-x-3 gap-y-1 text-[10px] text-white/70">
                             <div>
                                 <span className="text-white/40 block">TARGET RATIO:</span>
-                                <span className="text-[#00E5FF] font-bold">
+                                <span className="text-red-400 font-bold">
                                     {currentRendition?.targetRatio ? `${currentRendition.targetRatio}:1` : '1.43:1'}
                                 </span>
                             </div>
@@ -290,7 +290,7 @@ export const ImaxVideoPlayer = ({
                             </div>
                             <div>
                                 <span className="text-white/40 block">PILLARBOXING:</span>
-                                <span className="text-cyan-200 font-medium">
+                                <span className="text-zinc-300 font-medium">
                                     Natural Darkroom
                                 </span>
                             </div>
@@ -304,22 +304,22 @@ export const ImaxVideoPlayer = ({
                 Title, IMAX Badge, Close Button, Telemetry Toggle
                 ═══════════════════════════════════════════════════════════ */}
             <div
-                className={`absolute top-0 left-0 right-0 p-4 md:p-6 bg-gradient-to-b from-black/90 via-black/50 to-transparent flex items-center justify-between z-30 transition-opacity duration-300 ${
+                className={`absolute top-0 left-0 right-0 p-4 md:p-6 bg-gradient-to-b from-black/95 via-black/60 to-transparent flex items-center justify-between z-30 transition-opacity duration-300 ${
                     showControls ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
                 }`}
             >
                 <div className="flex items-center gap-3">
-                    <span className="bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-black italic tracking-widest text-[11px] px-2.5 py-1 rounded shadow-[0_0_15px_rgba(0,229,255,0.4)]">
+                    <span className="bg-red-600 text-white font-black italic tracking-widest text-[11px] px-2.5 py-1 rounded shadow-[0_0_15px_rgba(229,9,20,0.5)]">
                         IMAX
                     </span>
                     <div>
                         <h3 className="text-white font-bold text-sm md:text-base drop-shadow line-clamp-1">
                             {movie?.title} (2026)
                         </h3>
-                        <div className="flex items-center gap-2 text-[10px] text-cyan-300/80 font-mono">
+                        <div className="flex items-center gap-2 text-[10px] text-white/60 font-mono">
                             <span>A Christopher Nolan Film</span>
                             <span>•</span>
-                            <span className="text-amber-400 font-bold">{currentRendition?.name}</span>
+                            <span className="text-red-400 font-bold">{currentRendition?.name}</span>
                         </div>
                     </div>
                 </div>
@@ -330,7 +330,7 @@ export const ImaxVideoPlayer = ({
                         onClick={() => setShowTelemetry(prev => !prev)}
                         className={`hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-xs font-mono transition-all ${
                             showTelemetry
-                                ? 'bg-cyan-500/20 text-cyan-300 border-cyan-400/50 shadow-[0_0_10px_rgba(0,229,255,0.2)]'
+                                ? 'bg-red-600/20 text-red-300 border-red-500/50 shadow-[0_0_10px_rgba(229,9,20,0.2)]'
                                 : 'bg-black/50 text-white/60 border-white/20 hover:text-white'
                         }`}
                         title="Toggle Technical Telemetry HUD (T)"
@@ -364,46 +364,42 @@ export const ImaxVideoPlayer = ({
                 <div className="flex items-center justify-between text-white">
                     {/* Left: Active Server & Aspect Indicator */}
                     <div className="flex items-center gap-3">
-                        <div className="bg-black/70 backdrop-blur-md px-3 py-1.5 rounded-lg border border-cyan-500/30 flex items-center gap-2 text-xs">
-                            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                            <span className="text-white/60 text-[10px] uppercase font-mono hidden sm:inline">Active Server:</span>
-                            <span className="text-[#00E5FF] font-bold font-mono text-xs uppercase">
-                                {currentRendition?.shortBadge || 'VIP 4K'}
+                        <div className="bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10 flex items-center gap-2 text-xs">
+                            <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span>
+                            <span className="text-white/60 text-[10px] uppercase font-mono hidden sm:inline">Active Format:</span>
+                            <span className="text-red-500 font-bold font-mono text-xs uppercase">
+                                {currentRendition?.shortBadge || '1.43:1 EXPANDED'}
                             </span>
                         </div>
-                        <span className="text-[10px] font-mono text-cyan-300/80 px-2 py-1 rounded bg-cyan-950/40 border border-cyan-500/20 hidden md:inline">
-                            1.43:1 CEILING-TO-FLOOR
+                        <span className="text-[10px] font-mono text-white/70 px-2 py-1 rounded bg-white/5 border border-white/10 hidden md:inline">
+                            {currentRendition?.isExpanded143 ? '1.43:1 CEILING-TO-FLOOR' : '1.90:1 DIGITAL MULTIPLEX'}
                         </span>
                     </div>
 
                     {/* Right: Server Selection, Sound Profile, Fullscreen */}
                     <div className="flex items-center gap-2.5 sm:gap-3">
-                        {/* ─── 1. SERVER SELECTION DROPDOWN ─── */}
+                        {/* ─── 1. SERVER SELECTION DROPDOWN (ONLY DEDICATED IMAX FORMATS) ─── */}
                         <div className="relative">
                             <button
                                 onClick={() => {
                                     setShowRenditionMenu(prev => !prev);
                                     setShowAudioMenu(false);
                                 }}
-                                className={`px-3 py-1.5 rounded-lg border text-xs font-bold font-mono flex items-center gap-1.5 transition-all cursor-pointer ${
-                                    selectedRenditionId === 'vip4k'
-                                        ? 'bg-amber-500/20 text-amber-300 border-amber-500/60 shadow-[0_0_12px_rgba(245,158,11,0.3)]'
-                                        : 'bg-cyan-500/20 text-[#00E5FF] border-[#00E5FF]/60'
-                                }`}
-                                title="Switch Streaming Server"
+                                className="px-3 py-1.5 rounded-lg border text-xs font-bold font-mono flex items-center gap-1.5 transition-all cursor-pointer bg-red-600/20 text-red-300 border-red-500/50 hover:bg-red-600/30 shadow-[0_0_12px_rgba(229,9,20,0.25)]"
+                                title="Switch IMAX Streaming Presentation"
                             >
-                                <span className="material-symbols-outlined text-sm">dns</span>
-                                <span>{currentRendition?.name || 'VIP 4K Mode'}</span>
+                                <span className="material-symbols-outlined text-sm">aspect_ratio</span>
+                                <span>{currentRendition?.name || 'IMAX 1.43:1 Expanded 70mm'}</span>
                                 <span className="material-symbols-outlined text-sm">arrow_drop_down</span>
                             </button>
 
                             {showRenditionMenu && (
-                                <div className="absolute right-0 bottom-full mb-3 w-72 bg-neutral-950/95 border border-cyan-500/40 rounded-xl shadow-2xl p-2 z-50 backdrop-blur-2xl animate-fade-in text-xs">
+                                <div className="absolute right-0 bottom-full mb-3 w-72 bg-[#141414] border border-white/20 rounded-xl shadow-2xl p-2 z-50 backdrop-blur-2xl animate-fade-in text-xs">
                                     <div className="px-2 py-1 border-b border-white/10 mb-1 flex items-center justify-between">
-                                        <span className="text-[10px] uppercase font-bold tracking-wider text-cyan-400">
-                                            Select Streaming Server
+                                        <span className="text-[10px] uppercase font-bold tracking-wider text-red-500">
+                                            IMAX Presentation Formats
                                         </span>
-                                        <span className="text-[9px] text-white/40">Multi-Mirror</span>
+                                        <span className="text-[9px] text-white/40">Cinema Grade</span>
                                     </div>
                                     <div className="space-y-1">
                                         {renditions.map(r => (
@@ -415,14 +411,14 @@ export const ImaxVideoPlayer = ({
                                                 }}
                                                 className={`w-full text-left p-2 rounded-lg transition-all flex flex-col gap-0.5 cursor-pointer ${
                                                     selectedRenditionId === r.id
-                                                        ? 'bg-cyan-500/20 border border-cyan-500/40 text-cyan-300'
+                                                        ? 'bg-red-600/20 border border-red-500/50 text-red-300'
                                                         : 'hover:bg-white/10 text-white/80 border border-transparent'
                                                 }`}
                                             >
                                                 <div className="flex items-center justify-between">
                                                     <span className="font-bold text-xs">{r.name}</span>
                                                     <span className={`text-[9px] px-1.5 py-0.2 rounded font-mono font-bold ${
-                                                        r.id === 'vip4k' ? 'bg-amber-400 text-black' : 'bg-white/10 text-white/70'
+                                                        r.id === 'expanded-143' ? 'bg-red-600 text-white' : 'bg-white/10 text-white/70'
                                                     }`}>
                                                         {r.shortBadge}
                                                     </span>
@@ -446,7 +442,7 @@ export const ImaxVideoPlayer = ({
                                 }}
                                 className={`px-2.5 py-1.5 rounded-lg border text-xs font-mono flex items-center gap-1.5 transition-all cursor-pointer ${
                                     activeAudioMode === 'imax12'
-                                        ? 'bg-cyan-500/20 text-[#00E5FF] border-cyan-400/40'
+                                        ? 'bg-red-600/20 text-red-300 border-red-500/40'
                                         : 'bg-black/60 text-white/70 border-white/20'
                                 }`}
                                 title="IMAX Audio Profile Selector"
@@ -459,39 +455,39 @@ export const ImaxVideoPlayer = ({
                             </button>
 
                             {showAudioMenu && (
-                                <div className="absolute right-0 bottom-full mb-3 w-56 bg-neutral-950/95 border border-cyan-500/40 rounded-xl shadow-2xl p-2 z-50 backdrop-blur-2xl animate-fade-in text-xs">
-                                    <span className="text-[10px] uppercase font-bold tracking-wider text-cyan-400 block px-2 py-1 border-b border-white/10 mb-1">
+                                <div className="absolute right-0 bottom-full mb-3 w-56 bg-[#141414] border border-white/20 rounded-xl shadow-2xl p-2 z-50 backdrop-blur-2xl animate-fade-in text-xs">
+                                    <span className="text-[10px] uppercase font-bold tracking-wider text-red-500 block px-2 py-1 border-b border-white/10 mb-1">
                                         Sound Profile
                                     </span>
                                     <button
                                         onClick={() => { setActiveAudioMode('imax12'); setShowAudioMenu(false); }}
                                         className={`w-full text-left p-2 rounded-lg flex items-center justify-between cursor-pointer ${
-                                            activeAudioMode === 'imax12' ? 'bg-cyan-500/20 text-cyan-300 font-bold' : 'hover:bg-white/10 text-white/70'
+                                            activeAudioMode === 'imax12' ? 'bg-red-600/20 text-red-300 font-bold' : 'hover:bg-white/10 text-white/70'
                                         }`}
                                     >
                                         <div>
                                             <span className="block font-bold">IMAX 12.0 Immersive</span>
                                             <span className="text-[9px] text-white/40 block">Point-Source Enhanced Sub-bass</span>
                                         </div>
-                                        {activeAudioMode === 'imax12' && <span className="material-symbols-outlined text-sm text-[#00E5FF]">check</span>}
+                                        {activeAudioMode === 'imax12' && <span className="material-symbols-outlined text-sm text-red-500">check</span>}
                                     </button>
                                     <button
                                         onClick={() => { setActiveAudioMode('5.1'); setShowAudioMenu(false); }}
                                         className={`w-full text-left p-2 rounded-lg flex items-center justify-between cursor-pointer ${
-                                            activeAudioMode === '5.1' ? 'bg-cyan-500/20 text-cyan-300 font-bold' : 'hover:bg-white/10 text-white/70'
+                                            activeAudioMode === '5.1' ? 'bg-red-600/20 text-red-300 font-bold' : 'hover:bg-white/10 text-white/70'
                                         }`}
                                     >
                                         <span>5.1 Cinema Surround</span>
-                                        {activeAudioMode === '5.1' && <span className="material-symbols-outlined text-sm text-[#00E5FF]">check</span>}
+                                        {activeAudioMode === '5.1' && <span className="material-symbols-outlined text-sm text-red-500">check</span>}
                                     </button>
                                     <button
                                         onClick={() => { setActiveAudioMode('stereo'); setShowAudioMenu(false); }}
                                         className={`w-full text-left p-2 rounded-lg flex items-center justify-between cursor-pointer ${
-                                            activeAudioMode === 'stereo' ? 'bg-cyan-500/20 text-cyan-300 font-bold' : 'hover:bg-white/10 text-white/70'
+                                            activeAudioMode === 'stereo' ? 'bg-red-600/20 text-red-300 font-bold' : 'hover:bg-white/10 text-white/70'
                                         }`}
                                     >
                                         <span>Stereo 2.0</span>
-                                        {activeAudioMode === 'stereo' && <span className="material-symbols-outlined text-sm text-[#00E5FF]">check</span>}
+                                        {activeAudioMode === 'stereo' && <span className="material-symbols-outlined text-sm text-red-500">check</span>}
                                     </button>
                                 </div>
                             )}
@@ -500,7 +496,7 @@ export const ImaxVideoPlayer = ({
                         {/* ─── 3. FULLSCREEN TOGGLE ─── */}
                         <button
                             onClick={toggleFullscreen}
-                            className="bg-[#00E5FF] hover:bg-[#38eeff] text-black px-3.5 py-1.5 rounded-lg font-black italic text-xs flex items-center gap-1.5 shadow-[0_0_15px_rgba(0,229,255,0.4)] active:scale-95 transition-all cursor-pointer"
+                            className="bg-red-600 hover:bg-red-700 text-white px-3.5 py-1.5 rounded-lg font-black italic text-xs flex items-center gap-1.5 shadow-lg shadow-red-600/40 active:scale-95 transition-all cursor-pointer"
                             title={isFullscreen ? "Exit Fullscreen (F)" : "Enter Cinema Fullscreen (F)"}
                         >
                             <span className="material-symbols-outlined text-lg">

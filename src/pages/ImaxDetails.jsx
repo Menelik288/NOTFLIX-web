@@ -10,7 +10,7 @@ export const ImaxDetails = ({ id = 'the-odyssey' }) => {
 
     const movie = ImaxData.getById(id) || ImaxData.getFeatured();
     const [isPlaying, setIsPlaying] = useState(false);
-    const [selectedRendition, setSelectedRendition] = useState('vip4k');
+    const [selectedRendition, setSelectedRendition] = useState('expanded-143');
     const playerSectionRef = useRef(null);
 
     const isInWatchlist = watchlist?.some(item => item.id === movie?.id);
@@ -72,7 +72,7 @@ export const ImaxDetails = ({ id = 'the-odyssey' }) => {
         );
     }
 
-    const handleStartPlayback = (renditionId = 'vip4k') => {
+    const handleStartPlayback = (renditionId = 'expanded-143') => {
         setSelectedRendition(renditionId);
         setIsPlaying(true);
         setTimeout(() => {
@@ -81,7 +81,7 @@ export const ImaxDetails = ({ id = 'the-odyssey' }) => {
     };
 
     return (
-        <div className="imax-movie-detail-root min-h-screen bg-[#020204] text-[#e5e2e1] pb-24 selection:bg-[#00E5FF] selection:text-black">
+        <div className="imax-movie-detail-root min-h-screen bg-[#141414] text-white pb-24 selection:bg-red-600 selection:text-white">
             {/* ═══════════════════════════════════════════════════════════
                 SECTION 1: HERO / CINEMA PLAYER VIEWPORT
                 ═══════════════════════════════════════════════════════════ */}
@@ -98,7 +98,7 @@ export const ImaxDetails = ({ id = 'the-odyssey' }) => {
 
                         {/* Player Sub-Bar Note */}
                         <div className="mt-3 flex flex-wrap items-center justify-between text-xs font-mono text-white/50 px-2">
-                            <span className="flex items-center gap-1.5 text-cyan-400">
+                            <span className="flex items-center gap-1.5 text-red-500">
                                 <span className="material-symbols-outlined text-sm">info</span>
                                 <span>Press 'F' for Fullscreen • 'Space' for Play/Pause • 'T' for Telemetry HUD</span>
                             </span>
@@ -117,19 +117,19 @@ export const ImaxDetails = ({ id = 'the-odyssey' }) => {
                             <img
                                 src={movie.backdrop}
                                 alt={movie.title}
-                                className="w-full h-full object-cover object-center filter brightness-[0.8] contrast-[1.1] scale-100"
+                                className="w-full h-full object-cover object-center filter brightness-[0.78] contrast-[1.12] scale-100"
                             />
                             {/* Deep Vignette Gradients */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-[#020204] via-[#020204]/70 to-transparent"></div>
-                            <div className="absolute inset-0 bg-gradient-to-r from-[#020204] via-[#020204]/75 to-transparent"></div>
-                            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-[#020204]/40 to-[#020204]"></div>
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#141414] via-[#141414]/75 to-transparent"></div>
+                            <div className="absolute inset-0 bg-gradient-to-r from-[#141414] via-[#141414]/80 to-transparent"></div>
+                            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-[#141414]/40 to-[#141414]"></div>
                         </div>
 
                         {/* Return to Catalogue Breadcrumb */}
                         <div className="absolute top-6 left-4 md:left-edge-margin z-20">
                             <button
                                 onClick={() => navigateTo('/imax')}
-                                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/60 hover:bg-black/80 border border-white/20 text-white/80 hover:text-white text-xs font-mono backdrop-blur-md transition-all cursor-pointer"
+                                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/70 hover:bg-black/90 border border-white/20 hover:border-red-500/50 text-white/80 hover:text-white text-xs font-mono backdrop-blur-md transition-all cursor-pointer"
                             >
                                 <span className="material-symbols-outlined text-sm">arrow_back</span>
                                 <span>Back to IMAX Catalogue</span>
@@ -141,10 +141,10 @@ export const ImaxDetails = ({ id = 'the-odyssey' }) => {
                             <div className="max-w-3xl space-y-4">
                                 {/* Badges */}
                                 <div className="flex flex-wrap items-center gap-2">
-                                    <span className="bg-[#00E5FF] text-black font-black italic tracking-widest text-xs px-3 py-1 rounded shadow-[0_0_20px_rgba(0,229,255,0.5)]">
+                                    <span className="bg-red-600 text-white font-black italic tracking-widest text-xs px-3 py-1 rounded shadow-lg shadow-red-600/40">
                                         FILMED FOR IMAX
                                     </span>
-                                    <span className="bg-black/70 border border-cyan-400/50 text-cyan-300 font-mono text-[11px] font-bold px-2.5 py-0.5 rounded backdrop-blur-md">
+                                    <span className="bg-black/70 border border-white/20 text-white/90 font-mono text-[11px] font-bold px-2.5 py-0.5 rounded backdrop-blur-md">
                                         1.43:1 EXPANDED RATIO
                                     </span>
                                     <span className="bg-white/10 text-white/80 font-mono text-[11px] px-2.5 py-0.5 rounded border border-white/10">
@@ -152,7 +152,7 @@ export const ImaxDetails = ({ id = 'the-odyssey' }) => {
                                     </span>
                                 </div>
 
-                                <p className="text-cyan-400 font-mono tracking-[0.25em] text-xs uppercase font-bold">
+                                <p className="text-red-500 font-mono tracking-[0.25em] text-xs uppercase font-bold">
                                     Directed by Christopher Nolan
                                 </p>
 
@@ -165,7 +165,7 @@ export const ImaxDetails = ({ id = 'the-odyssey' }) => {
                                     <span>•</span>
                                     <span>{movie.duration}</span>
                                     <span>•</span>
-                                    <span className="text-cyan-300 font-bold">IMAX 12-Channel Audio</span>
+                                    <span className="text-white font-bold">IMAX 12-Channel Audio</span>
                                     <span>•</span>
                                     <span>{movie.genres.join(', ')}</span>
                                 </div>
@@ -174,34 +174,25 @@ export const ImaxDetails = ({ id = 'the-odyssey' }) => {
                                     {movie.overview}
                                 </p>
 
-                                {/* Play Buttons */}
+                                {/* Play Buttons (Preserving Exclusively IMAX Formats) */}
                                 <div className="flex flex-wrap items-center gap-3 pt-2">
                                     <button
-                                        onClick={() => handleStartPlayback('vip4k')}
-                                        className="group bg-[#00E5FF] hover:bg-[#38eeff] text-black px-7 py-3.5 rounded-xl font-black italic tracking-wider flex items-center gap-2.5 transition-all shadow-[0_0_30px_rgba(0,229,255,0.5)] hover:shadow-[0_0_45px_rgba(0,229,255,0.8)] active:scale-95 cursor-pointer text-sm sm:text-base"
+                                        onClick={() => handleStartPlayback('expanded-143')}
+                                        className="group bg-red-600 hover:bg-red-700 text-white px-7 py-3.5 rounded-xl font-black italic tracking-wider flex items-center gap-2.5 transition-all shadow-xl shadow-red-600/40 active:scale-95 cursor-pointer text-sm sm:text-base"
                                     >
                                         <span className="material-symbols-outlined text-2xl fill group-hover:scale-110 transition-transform" style={{ fontVariationSettings: "'FILL' 1" }}>
                                             play_arrow
                                         </span>
-                                        <span>WATCH IN VIP 4K (DEFAULT)</span>
+                                        <span>WATCH IN IMAX 1.43:1 (DEFAULT)</span>
                                     </button>
 
                                     <button
-                                        onClick={() => handleStartPlayback('vidbing')}
+                                        onClick={() => handleStartPlayback('digital-190')}
                                         className="bg-black/60 hover:bg-black/80 text-white/90 border border-white/20 hover:border-red-500/50 px-5 py-3.5 rounded-xl font-bold flex items-center gap-2 backdrop-blur-xl transition-all cursor-pointer text-xs sm:text-sm"
-                                        title="Stream with Vidbing Mirror"
+                                        title="Watch in IMAX 1.90:1 Digital Format"
                                     >
-                                        <span className="material-symbols-outlined text-lg text-red-500">play_circle</span>
-                                        <span>Vidbing Mirror</span>
-                                    </button>
-
-                                    <button
-                                        onClick={() => handleStartPlayback('expanded-143')}
-                                        className="bg-cyan-950/40 hover:bg-cyan-950/60 text-cyan-300 border border-cyan-400/40 px-4 py-3.5 rounded-xl font-bold flex items-center gap-1.5 backdrop-blur-xl transition-all cursor-pointer text-xs sm:text-sm"
-                                        title="Play 1.43:1 Native 70mm Sequence"
-                                    >
-                                        <span className="material-symbols-outlined text-lg">aspect_ratio</span>
-                                        <span>IMAX 1.43:1 Native</span>
+                                        <span className="material-symbols-outlined text-lg text-white">aspect_ratio</span>
+                                        <span>IMAX 1.90:1 Digital</span>
                                     </button>
 
                                     {/* Watchlist Toggle */}
@@ -214,7 +205,7 @@ export const ImaxDetails = ({ id = 'the-odyssey' }) => {
                                         className="w-12 h-12 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white flex items-center justify-center backdrop-blur-md transition-all cursor-pointer active:scale-95"
                                         title={isInWatchlist ? "Remove from Watchlist" : "Add to Watchlist"}
                                     >
-                                        <span className={`material-symbols-outlined text-2xl ${isInWatchlist ? 'text-cyan-400 fill' : ''}`}>
+                                        <span className={`material-symbols-outlined text-2xl ${isInWatchlist ? 'text-red-500 fill' : ''}`}>
                                             {isInWatchlist ? 'bookmark_added' : 'bookmark_add'}
                                         </span>
                                     </button>
@@ -230,10 +221,10 @@ export const ImaxDetails = ({ id = 'the-odyssey' }) => {
                 Honest, detailed technical disclosure meeting requirement #4
                 ═══════════════════════════════════════════════════════════ */}
             <section className="py-10 px-4 md:px-edge-margin max-w-container-max mx-auto">
-                <div className="bg-[#05050A] rounded-2xl border border-cyan-500/30 p-6 md:p-8 shadow-2xl relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-80 h-80 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none"></div>
+                <div className="bg-[#181818] rounded-2xl border border-white/10 p-6 md:p-8 shadow-2xl relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-80 h-80 bg-red-600/5 rounded-full blur-3xl pointer-events-none"></div>
 
-                    <div className="flex items-center gap-2.5 text-[#00E5FF] font-mono text-xs tracking-[0.2em] uppercase font-bold mb-3">
+                    <div className="flex items-center gap-2.5 text-red-500 font-mono text-xs tracking-[0.2em] uppercase font-bold mb-3">
                         <span className="material-symbols-outlined text-base">verified</span>
                         <span>IMAX TECHNICAL SOURCE CERTIFICATION & AUDIT</span>
                     </div>
@@ -243,23 +234,23 @@ export const ImaxDetails = ({ id = 'the-odyssey' }) => {
                     </h2>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-xs font-mono text-white/80">
-                        <div className="p-4 rounded-xl bg-black/50 border border-white/10 space-y-1">
+                        <div className="p-4 rounded-xl bg-black/60 border border-white/10 space-y-1">
                             <span className="text-white/40 block text-[10px] uppercase">Optical Negative Capture</span>
-                            <span className="text-cyan-300 font-bold text-sm block">15-Perf 70mm Horizontal</span>
+                            <span className="text-white font-bold text-sm block">15-Perf 70mm Horizontal</span>
                             <p className="text-[11px] text-white/60 font-sans leading-relaxed">
                                 Captured with custom IMAX MSM 9802 and MKIV reflex film cameras on KODAK 65mm motion picture negative stock.
                             </p>
                         </div>
 
-                        <div className="p-4 rounded-xl bg-black/50 border border-white/10 space-y-1">
+                        <div className="p-4 rounded-xl bg-black/60 border border-white/10 space-y-1">
                             <span className="text-white/40 block text-[10px] uppercase">Presentation Aspect Ratio</span>
-                            <span className="text-[#00E5FF] font-bold text-sm block">1.43:1 (Expanded) vs 1.90:1 (Digital)</span>
+                            <span className="text-red-400 font-bold text-sm block">1.43:1 (Expanded) vs 1.90:1 (Digital)</span>
                             <p className="text-[11px] text-white/60 font-sans leading-relaxed">
                                 Features the authentic 1.43:1 expanded film presentation. Player preserves native aspect ratio with zero artificial upscaling, stretching, or cropping.
                             </p>
                         </div>
 
-                        <div className="p-4 rounded-xl bg-black/50 border border-white/10 space-y-1">
+                        <div className="p-4 rounded-xl bg-black/60 border border-white/10 space-y-1">
                             <span className="text-white/40 block text-[10px] uppercase">Theoretical Optical Resolution</span>
                             <span className="text-emerald-400 font-bold text-sm block">18K Native / 4K UHD Master</span>
                             <p className="text-[11px] text-white/60 font-sans leading-relaxed">
@@ -269,10 +260,10 @@ export const ImaxDetails = ({ id = 'the-odyssey' }) => {
                     </div>
 
                     {/* Official Studio Schedule & Infrastructure Disclosure */}
-                    <div className="mt-6 p-4 rounded-xl bg-cyan-950/20 border border-cyan-500/20 flex items-start gap-3 text-xs text-white/70">
-                        <span className="material-symbols-outlined text-cyan-400 shrink-0 text-lg mt-0.5">announcement</span>
+                    <div className="mt-6 p-4 rounded-xl bg-red-950/20 border border-red-500/30 flex items-start gap-3 text-xs text-white/70">
+                        <span className="material-symbols-outlined text-red-400 shrink-0 text-lg mt-0.5">announcement</span>
                         <div>
-                            <span className="font-bold text-cyan-300 block mb-0.5">
+                            <span className="font-bold text-red-300 block mb-0.5">
                                 Theatrical Release Notice & Source Status
                             </span>
                             <p className="text-[11px] leading-relaxed text-white/70">
@@ -284,7 +275,7 @@ export const ImaxDetails = ({ id = 'the-odyssey' }) => {
             </section>
 
             {/* ═══════════════════════════════════════════════════════════
-                SECTION 3: CAST & CREW GALLERY
+                SECTION 3: CAST & CREW GALLERY (AUTHENTIC TMDB HEADSHOTS)
                 ═══════════════════════════════════════════════════════════ */}
             <section className="py-8 px-4 md:px-edge-margin max-w-container-max mx-auto">
                 <div className="flex items-center justify-between mb-6">
@@ -296,11 +287,11 @@ export const ImaxDetails = ({ id = 'the-odyssey' }) => {
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3 sm:gap-4">
                     {movie.cast.map((actor, i) => (
-                        <div key={i} className="flex flex-col items-center text-center p-3 rounded-xl bg-black/40 border border-white/5 hover:border-cyan-400/30 transition-all group">
+                        <div key={i} className="flex flex-col items-center text-center p-3 rounded-xl bg-[#181818] border border-white/5 hover:border-red-500/40 transition-all group">
                             <img
                                 src={actor.avatar}
                                 alt={actor.name}
-                                className="w-16 h-16 rounded-full object-cover mb-2 border border-white/10 group-hover:border-[#00E5FF] transition-all"
+                                className="w-16 h-16 rounded-full object-cover mb-2 border border-white/10 group-hover:border-red-500 transition-all shadow-md"
                             />
                             <span className="font-bold text-xs text-white truncate w-full">{actor.name}</span>
                             <span className="text-[10px] text-white/50 truncate w-full mt-0.5">{actor.character}</span>

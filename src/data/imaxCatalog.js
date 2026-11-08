@@ -48,82 +48,43 @@ export const imaxCatalog = [
             sourceStatus: "Post-Production Master. Full theatrical release July 17, 2026."
         },
 
-        // Detailed Cast & Roles
+        // Detailed Cast & Roles (Authentic TMDb Headshots)
         cast: [
-            { name: "Matt Damon", character: "Odysseus (King of Ithaca)", avatar: "https://i.pravatar.cc/100?img=53" },
-            { name: "Tom Holland", character: "Telemachus", avatar: "https://i.pravatar.cc/100?img=11" },
-            { name: "Anne Hathaway", character: "Penelope", avatar: "https://i.pravatar.cc/100?img=47" },
-            { name: "Zendaya", character: "Athena", avatar: "https://i.pravatar.cc/100?img=49" },
-            { name: "Robert Pattinson", character: "Antinous (Chief Suitor)", avatar: "https://i.pravatar.cc/100?img=60" },
-            { name: "Charlize Theron", character: "Calypso", avatar: "https://i.pravatar.cc/100?img=45" },
-            { name: "Lupita Nyong'o", character: "Circe", avatar: "https://i.pravatar.cc/100?img=35" },
-            { name: "Samantha Morton", character: "Scylla (Performance)", avatar: "https://i.pravatar.cc/100?img=32" }
+            { name: "Matt Damon", character: "Odysseus (King of Ithaca)", avatar: "https://image.tmdb.org/t/p/w500/rDYQP0X5XlDwxOeZdLYMbsIV7F1.jpg" },
+            { name: "Tom Holland", character: "Telemachus", avatar: "https://image.tmdb.org/t/p/w500/bBRlrpJm9XkNSg0YT5LCaxqoFMX.jpg" },
+            { name: "Anne Hathaway", character: "Penelope", avatar: "https://image.tmdb.org/t/p/w500/tLPOOggBUCSKxyuO2qVqWb7z8WJ.jpg" },
+            { name: "Zendaya", character: "Athena", avatar: "https://image.tmdb.org/t/p/w500/1qup8tSt95HLbcy2c2xrx4iJNxv.jpg" },
+            { name: "Robert Pattinson", character: "Antinous (Chief Suitor)", avatar: "https://image.tmdb.org/t/p/w500/3qZ09UE7lN6AtorfXFRYpEtSY93.jpg" },
+            { name: "Charlize Theron", character: "Calypso", avatar: "https://image.tmdb.org/t/p/w500/ge9hmyipAVZ8nLq3c5fX4c2l5L1.jpg" },
+            { name: "Lupita Nyong'o", character: "Circe", avatar: "https://image.tmdb.org/t/p/w500/y40Wu1T742kynOqtwXASc5Qgm49.jpg" },
+            { name: "Samantha Morton", character: "Scylla (Performance)", avatar: "https://image.tmdb.org/t/p/w500/v0rYnI52w1eKz5yFwG160t47N8W.jpg" }
         ],
 
-        // Available Playback Renditions
+        // Available Playback Renditions (Preserving exclusively dedicated IMAX formats)
         renditions: [
             {
-                id: "vip4k",
-                name: "VIP 4K Mode (Default)",
-                shortBadge: "VIP 4K",
-                badgeColor: "bg-amber-500/20 text-amber-300 border-amber-500/40",
-                targetRatio: 1.43,
-                type: "iframe",
-                embedUrl: "https://vidsrc.me/embed/movie?tmdb=1368337",
-                resolutionLabel: "VIP 4K Ultra Fast Stream",
-                description: "VIP 4K ultra fast streaming server for The Odyssey (TMDB: 1368337).",
-                isExpanded143: true,
-                isGenuineSource: true
-            },
-            {
-                id: "vidbing",
-                name: "Vidbing Stream",
-                shortBadge: "VIDBING",
-                badgeColor: "bg-red-500/20 text-red-300 border-red-500/40",
-                targetRatio: 1.43,
-                type: "iframe",
-                embedUrl: "https://moviesapi.to/movie/1368337",
-                resolutionLabel: "Vidbing Fast Stream (1080p/4K)",
-                description: "Primary Vidbing stream for The Odyssey (TMDB: 1368337).",
-                isExpanded143: true,
-                isGenuineSource: true
-            },
-            {
-                id: "vidsrc",
-                name: "VidSrc Mirror",
-                shortBadge: "VIDSRC",
-                badgeColor: "bg-blue-500/20 text-blue-300 border-blue-500/40",
-                targetRatio: 1.43,
-                type: "iframe",
-                embedUrl: "https://vidsrc-embed.ru/embed/movie/1368337",
-                resolutionLabel: "VidSrc Cinema Mirror",
-                description: "VidSrc streaming mirror for The Odyssey (TMDB: 1368337).",
-                isExpanded143: true,
-                isGenuineSource: true
-            },
-            {
                 id: "expanded-143",
-                name: "IMAX 1.43:1 Expanded 70mm Sequence",
-                shortBadge: "1.43:1 NATIVE",
-                badgeColor: "bg-cyan-500/20 text-cyan-300 border-cyan-400/40",
+                name: "IMAX 1.43:1 Expanded 70mm (Default)",
+                shortBadge: "1.43:1 EXPANDED",
+                badgeColor: "bg-red-600/20 text-red-400 border-red-500/40",
                 targetRatio: 1.43,
                 type: "iframe",
                 embedUrl: "https://vidsrc.me/embed/movie?tmdb=1368337",
-                resolutionLabel: "4K Expanded Master (1.43:1)",
-                description: "Authentic 1.43:1 tall frame presentation matching 15/70mm IMAX cinema screens. Preserves full vertical height without any cropping or horizontal stretch.",
+                resolutionLabel: "4K 70mm Master (1.43:1 Native Height)",
+                description: "Authentic 1.43:1 tall frame presentation matching 15/70mm IMAX cinema screens. Preserves 100% of the vertical picture with zero cropping.",
                 isExpanded143: true,
                 isGenuineSource: true
             },
             {
                 id: "digital-190",
-                name: "IMAX 1.90:1 Digital Large Format",
+                name: "IMAX 1.90:1 Digital Cinema",
                 shortBadge: "1.90:1 DIGITAL",
-                badgeColor: "bg-blue-500/20 text-blue-300 border-blue-400/40",
+                badgeColor: "bg-white/10 text-white/90 border-white/20",
                 targetRatio: 1.90,
                 type: "iframe",
                 embedUrl: "https://moviesapi.to/movie/1368337",
                 resolutionLabel: "4K Digital Large Format (1.90:1)",
-                description: "Digital IMAX 1.90:1 aspect ratio presentation optimized for commercial IMAX laser multiplexes.",
+                description: "Digital IMAX 1.90:1 presentation optimized for modern IMAX laser multiplex auditoriums.",
                 isExpanded143: false,
                 isGenuineSource: true
             }

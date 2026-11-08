@@ -7,7 +7,6 @@ import { VideoPlayer } from './components/VideoPlayer';
 import { AuthModal } from './components/AuthModal';
 import { DonationModal } from './components/DonationModal';
 import { StickyAdBanner } from './components/StickyAdBanner';
-import { CustomCursor } from './components/CustomCursor';
 import { AdService } from './services/adService';
 
 // Pages
@@ -156,7 +155,6 @@ const AppShell = () => {
 
     return (
         <div className="app-root min-h-screen bg-background text-white relative">
-            <CustomCursor />
             <Navbar />
             <main className="pb-24 md:pb-0">
                 <RouterView />

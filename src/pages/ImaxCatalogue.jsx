@@ -30,7 +30,7 @@ export const ImaxCatalogue = () => {
     if (!featuredMovie) return null;
 
     return (
-        <div className="imax-experience-page min-h-screen bg-[#030305] text-[#e5e2e1] selection:bg-[#00E5FF] selection:text-black">
+        <div className="imax-experience-page min-h-screen bg-[#141414] text-white selection:bg-red-600 selection:text-white">
             {/* ═══════════════════════════════════════════════════════════
                 SECTION 1: GRAND CINEMATIC HERO SECTION
                 ═══════════════════════════════════════════════════════════ */}
@@ -42,10 +42,10 @@ export const ImaxCatalogue = () => {
                         alt={featuredMovie.title}
                         className="w-full h-full object-cover object-center scale-105 animate-subtle-zoom brightness-[0.78] contrast-[1.12]"
                     />
-                    {/* Deep Cinematic Black Gradients & Atmospheric Cyan Underglow */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#030305] via-[#030305]/75 to-transparent"></div>
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#030305] via-[#030305]/80 to-transparent"></div>
-                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-cyan-900/25 via-transparent to-black/60"></div>
+                    {/* Deep Cinematic Black Gradients & Atmospheric Notflix Vignette */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#141414] via-[#141414]/75 to-transparent"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#141414] via-[#141414]/80 to-transparent"></div>
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-black/20 via-transparent to-black/70"></div>
                     {/* Subtle IMAX Film Perforations Border Accents */}
                     <div className="absolute left-0 top-0 bottom-0 w-2.5 opacity-20 pointer-events-none flex flex-col justify-between py-4">
                         {Array.from({ length: 30 }).map((_, i) => (
@@ -59,12 +59,12 @@ export const ImaxCatalogue = () => {
                     <div className="max-w-3xl space-y-5 animate-fade-in">
                         {/* Official Badges */}
                         <div className="flex flex-wrap items-center gap-2.5">
-                            <span className="inline-flex items-center gap-1.5 bg-[#00E5FF] text-black font-black italic tracking-[0.2em] text-xs px-3 py-1 rounded shadow-[0_0_20px_rgba(0,229,255,0.5)]">
+                            <span className="inline-flex items-center gap-1.5 bg-red-600 text-white font-black italic tracking-[0.2em] text-xs px-3 py-1 rounded shadow-lg shadow-red-600/40">
                                 <span className="material-symbols-outlined text-sm">camera_indoor</span>
                                 FILMED FOR IMAX
                             </span>
-                            <span className="inline-flex items-center gap-1 bg-black/60 border border-cyan-400/40 text-cyan-300 font-mono text-[11px] font-bold px-3 py-1 rounded backdrop-blur-md">
-                                <span className="w-1.5 h-1.5 rounded-full bg-[#00E5FF] animate-pulse"></span>
+                            <span className="inline-flex items-center gap-1 bg-black/70 border border-white/20 text-white/90 font-mono text-[11px] font-bold px-3 py-1 rounded backdrop-blur-md">
+                                <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse"></span>
                                 1.43:1 EXPANDED RATIO
                             </span>
                             <span className="inline-flex items-center gap-1 bg-white/10 text-white/80 font-mono text-[11px] px-2.5 py-1 rounded backdrop-blur-md border border-white/10">
@@ -73,7 +73,7 @@ export const ImaxCatalogue = () => {
                         </div>
 
                         {/* Director Credit Line */}
-                        <p className="text-cyan-400/90 font-mono tracking-[0.3em] uppercase text-xs font-bold drop-shadow">
+                        <p className="text-red-500 font-mono tracking-[0.3em] uppercase text-xs font-bold drop-shadow">
                             A Christopher Nolan Film
                         </p>
 
@@ -88,7 +88,7 @@ export const ImaxCatalogue = () => {
                             <span>•</span>
                             <span>{featuredMovie.duration}</span>
                             <span>•</span>
-                            <span className="text-cyan-300 font-bold">18K Capture Master</span>
+                            <span className="text-white font-bold">18K Capture Master</span>
                             <span>•</span>
                             <span>IMAX 12-Channel Audio</span>
                             <span>•</span>
@@ -106,7 +106,7 @@ export const ImaxCatalogue = () => {
                         <div className="flex flex-wrap items-center gap-3.5 pt-2">
                             <button
                                 onClick={() => navigateTo(`/imax/${featuredMovie.id}`)}
-                                className="group bg-[#00E5FF] hover:bg-[#38eeff] text-black px-7 py-3.5 rounded-xl font-black italic tracking-wider flex items-center gap-2.5 transition-all duration-300 shadow-[0_0_30px_rgba(0,229,255,0.4)] hover:shadow-[0_0_45px_rgba(0,229,255,0.7)] active:scale-95 cursor-pointer text-sm sm:text-base"
+                                className="group bg-red-600 hover:bg-red-700 text-white px-7 py-3.5 rounded-xl font-black italic tracking-wider flex items-center gap-2.5 transition-all duration-300 shadow-xl shadow-red-600/40 hover:shadow-red-600/60 active:scale-95 cursor-pointer text-sm sm:text-base"
                             >
                                 <span className="material-symbols-outlined text-2xl fill group-hover:scale-110 transition-transform" style={{ fontVariationSettings: "'FILL' 1" }}>
                                     play_arrow
@@ -116,9 +116,9 @@ export const ImaxCatalogue = () => {
 
                             <button
                                 onClick={() => navigateTo(`/imax/${featuredMovie.id}`)}
-                                className="bg-black/60 hover:bg-black/80 text-white border border-white/20 hover:border-cyan-400/50 px-6 py-3.5 rounded-xl font-bold flex items-center gap-2 transition-all backdrop-blur-xl active:scale-95 cursor-pointer text-sm sm:text-base"
+                                className="bg-black/60 hover:bg-black/80 text-white border border-white/20 hover:border-red-500/50 px-6 py-3.5 rounded-xl font-bold flex items-center gap-2 transition-all backdrop-blur-xl active:scale-95 cursor-pointer text-sm sm:text-base"
                             >
-                                <span className="material-symbols-outlined text-cyan-400 text-xl">info</span>
+                                <span className="material-symbols-outlined text-red-500 text-xl">info</span>
                                 <span>Movie Details & Specs</span>
                             </button>
                         </div>
@@ -134,7 +134,7 @@ export const ImaxCatalogue = () => {
             <section className="relative py-12 md:py-16 px-4 md:px-edge-margin max-w-container-max mx-auto border-t border-white/10">
                 <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
                     <div>
-                        <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs tracking-[0.25em] uppercase font-bold mb-1">
+                        <div className="flex items-center gap-2 text-red-500 font-mono text-xs tracking-[0.25em] uppercase font-bold mb-1">
                             <span className="material-symbols-outlined text-sm">movie</span>
                             <span>IMAX 70MM REPERTOIRE</span>
                         </div>
@@ -153,7 +153,7 @@ export const ImaxCatalogue = () => {
                         <div
                             key={movie.id}
                             onClick={() => navigateTo(`/imax/${movie.id}`)}
-                            className="group relative bg-[#08080E] rounded-2xl border border-white/10 hover:border-cyan-400/60 overflow-hidden shadow-2xl transition-all duration-400 hover:shadow-[0_0_35px_rgba(0,229,255,0.25)] hover:-translate-y-1 cursor-pointer flex flex-col"
+                            className="group relative bg-[#181818] rounded-2xl border border-white/10 hover:border-red-500/50 overflow-hidden shadow-2xl transition-all duration-300 hover:shadow-[0_0_35px_rgba(229,9,20,0.25)] hover:-translate-y-1 cursor-pointer flex flex-col"
                         >
                             {/* Card Media Preview */}
                             <div className="relative aspect-[16/10] overflow-hidden bg-black">
@@ -162,18 +162,18 @@ export const ImaxCatalogue = () => {
                                     alt={movie.title}
                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-90 group-hover:brightness-100"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#08080E] via-transparent to-transparent"></div>
+                                <div className="absolute inset-0 bg-gradient-to-t from-[#181818] via-transparent to-transparent"></div>
 
                                 {/* Aspect Ratio Pill */}
                                 <div className="absolute top-3 left-3 flex items-center gap-1.5">
-                                    <span className="bg-black/80 backdrop-blur-md border border-cyan-400/50 text-[#00E5FF] text-[10px] font-mono font-bold px-2.5 py-0.5 rounded shadow">
+                                    <span className="bg-black/80 backdrop-blur-md border border-white/20 text-white text-[10px] font-mono font-bold px-2.5 py-0.5 rounded shadow">
                                         1.43:1 EXPANDED
                                     </span>
                                 </div>
 
                                 {/* Hover Play Overlay */}
                                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 backdrop-blur-xs">
-                                    <div className="w-14 h-14 rounded-full bg-[#00E5FF] text-black flex items-center justify-center shadow-[0_0_25px_rgba(0,229,255,0.8)] transform group-hover:scale-105 transition-transform">
+                                    <div className="w-14 h-14 rounded-full bg-red-600 text-white flex items-center justify-center shadow-lg shadow-red-600/50 transform group-hover:scale-105 transition-transform">
                                         <span className="material-symbols-outlined text-3xl fill" style={{ fontVariationSettings: "'FILL' 1" }}>
                                             play_arrow
                                         </span>
@@ -186,9 +186,9 @@ export const ImaxCatalogue = () => {
                                 <div>
                                     <div className="flex items-center justify-between text-xs text-white/50 font-mono mb-1">
                                         <span>{movie.year}</span>
-                                        <span className="text-cyan-400 font-bold">{movie.duration}</span>
+                                        <span className="text-red-400 font-bold">{movie.duration}</span>
                                     </div>
-                                    <h3 className="text-xl font-bold text-white group-hover:text-[#00E5FF] transition-colors leading-snug">
+                                    <h3 className="text-xl font-bold text-white group-hover:text-red-400 transition-colors leading-snug">
                                         {movie.title}
                                     </h3>
                                     <p className="text-xs text-white/60 line-clamp-2 mt-1.5 font-normal leading-relaxed">
@@ -214,7 +214,7 @@ export const ImaxCatalogue = () => {
                 ═══════════════════════════════════════════════════════════ */}
             <section className="py-14 px-4 md:px-edge-margin max-w-container-max mx-auto border-t border-white/10">
                 <div className="text-center max-w-2xl mx-auto mb-8 space-y-2">
-                    <span className="text-[#00E5FF] font-mono text-xs tracking-[0.25em] uppercase font-bold block">
+                    <span className="text-red-500 font-mono text-xs tracking-[0.25em] uppercase font-bold block">
                         THE POWER OF EXPANDED GEOMETRY
                     </span>
                     <h2 className="text-2xl sm:text-4xl font-extrabold text-white uppercase tracking-tight">
@@ -228,9 +228,9 @@ export const ImaxCatalogue = () => {
                     <div className="inline-flex rounded-xl bg-black/60 border border-white/20 p-1 mt-4">
                         <button
                             onClick={() => setActiveRatioMode('1.43')}
-                            className={`px-4 py-2 rounded-lg text-xs font-bold font-mono transition-all flex items-center gap-2 ${
+                            className={`px-4 py-2 rounded-lg text-xs font-bold font-mono transition-all flex items-center gap-2 cursor-pointer ${
                                 activeRatioMode === '1.43'
-                                    ? 'bg-[#00E5FF] text-black shadow-[0_0_15px_rgba(0,229,255,0.4)]'
+                                    ? 'bg-red-600 text-white shadow-lg shadow-red-600/40'
                                     : 'text-white/70 hover:text-white'
                             }`}
                         >
@@ -239,7 +239,7 @@ export const ImaxCatalogue = () => {
                         </button>
                         <button
                             onClick={() => setActiveRatioMode('2.39')}
-                            className={`px-4 py-2 rounded-lg text-xs font-bold font-mono transition-all flex items-center gap-2 ${
+                            className={`px-4 py-2 rounded-lg text-xs font-bold font-mono transition-all flex items-center gap-2 cursor-pointer ${
                                 activeRatioMode === '2.39'
                                     ? 'bg-white/20 text-white shadow'
                                     : 'text-white/70 hover:text-white'
@@ -252,7 +252,7 @@ export const ImaxCatalogue = () => {
                 </div>
 
                 {/* Simulated Screen Comparison Frame */}
-                <div className="relative max-w-4xl mx-auto aspect-[16/10] sm:aspect-[1.43/1] max-h-[580px] bg-black rounded-2xl border border-cyan-500/30 overflow-hidden shadow-[0_0_50px_rgba(0,229,255,0.1)] flex items-center justify-center transition-all duration-500">
+                <div className="relative max-w-4xl mx-auto aspect-[16/10] sm:aspect-[1.43/1] max-h-[580px] bg-black rounded-2xl border border-white/20 overflow-hidden shadow-2xl flex items-center justify-center transition-all duration-500">
                     {/* Background Full 1.43 Image */}
                     <img
                         src={featuredMovie.backdrop}
@@ -278,9 +278,9 @@ export const ImaxCatalogue = () => {
                     </div>
 
                     {/* HUD Label Overlay */}
-                    <div className="absolute bottom-5 left-5 z-20 bg-black/80 backdrop-blur-md border border-cyan-500/40 px-3.5 py-2 rounded-xl text-xs font-mono">
-                        <div className="text-cyan-400 font-bold flex items-center gap-2">
-                            <span className="w-2 h-2 rounded-full bg-[#00E5FF] animate-ping"></span>
+                    <div className="absolute bottom-5 left-5 z-20 bg-black/85 backdrop-blur-md border border-white/20 px-3.5 py-2 rounded-xl text-xs font-mono shadow-xl">
+                        <div className="text-red-500 font-bold flex items-center gap-2">
+                            <span className="w-2 h-2 rounded-full bg-red-600 animate-ping"></span>
                             <span>CURRENT MODE: {activeRatioMode === '1.43' ? '1.43:1 (100% Full Height Frame)' : '2.39:1 (Standard Scope Crop)'}</span>
                         </div>
                         <span className="text-white/60 text-[10px]">
@@ -295,7 +295,7 @@ export const ImaxCatalogue = () => {
                 ═══════════════════════════════════════════════════════════ */}
             <section className="py-14 px-4 md:px-edge-margin max-w-container-max mx-auto border-t border-white/10">
                 <div className="mb-10 text-center max-w-xl mx-auto">
-                    <span className="text-cyan-400 font-mono text-xs tracking-[0.25em] uppercase font-bold">
+                    <span className="text-red-500 font-mono text-xs tracking-[0.25em] uppercase font-bold">
                         ENGINEERED FOR SUPREMACY
                     </span>
                     <h2 className="text-2xl sm:text-3xl font-black text-white uppercase tracking-tight mt-1">
@@ -304,8 +304,8 @@ export const ImaxCatalogue = () => {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div className="p-6 rounded-2xl bg-[#06060A] border border-white/10 hover:border-cyan-400/40 transition-all flex flex-col space-y-3">
-                        <div className="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-400/30 flex items-center justify-center text-[#00E5FF]">
+                    <div className="p-6 rounded-2xl bg-[#181818] border border-white/10 hover:border-red-500/40 transition-all flex flex-col space-y-3">
+                        <div className="w-12 h-12 rounded-xl bg-red-600/10 border border-red-500/30 flex items-center justify-center text-red-500">
                             <span className="material-symbols-outlined text-2xl">photo_camera</span>
                         </div>
                         <h3 className="text-lg font-bold text-white">15-Perf 70mm Cameras</h3>
@@ -314,8 +314,8 @@ export const ImaxCatalogue = () => {
                         </p>
                     </div>
 
-                    <div className="p-6 rounded-2xl bg-[#06060A] border border-white/10 hover:border-cyan-400/40 transition-all flex flex-col space-y-3">
-                        <div className="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-400/30 flex items-center justify-center text-[#00E5FF]">
+                    <div className="p-6 rounded-2xl bg-[#181818] border border-white/10 hover:border-red-500/40 transition-all flex flex-col space-y-3">
+                        <div className="w-12 h-12 rounded-xl bg-red-600/10 border border-red-500/30 flex items-center justify-center text-red-500">
                             <span className="material-symbols-outlined text-2xl">aspect_ratio</span>
                         </div>
                         <h3 className="text-lg font-bold text-white">1.43:1 Ceiling-to-Floor</h3>
@@ -324,8 +324,8 @@ export const ImaxCatalogue = () => {
                         </p>
                     </div>
 
-                    <div className="p-6 rounded-2xl bg-[#06060A] border border-white/10 hover:border-cyan-400/40 transition-all flex flex-col space-y-3">
-                        <div className="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-400/30 flex items-center justify-center text-[#00E5FF]">
+                    <div className="p-6 rounded-2xl bg-[#181818] border border-white/10 hover:border-red-500/40 transition-all flex flex-col space-y-3">
+                        <div className="w-12 h-12 rounded-xl bg-red-600/10 border border-red-500/30 flex items-center justify-center text-red-500">
                             <span className="material-symbols-outlined text-2xl">surround_sound</span>
                         </div>
                         <h3 className="text-lg font-bold text-white">12-Channel Laser Audio</h3>
@@ -334,8 +334,8 @@ export const ImaxCatalogue = () => {
                         </p>
                     </div>
 
-                    <div className="p-6 rounded-2xl bg-[#06060A] border border-white/10 hover:border-cyan-400/40 transition-all flex flex-col space-y-3">
-                        <div className="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-400/30 flex items-center justify-center text-[#00E5FF]">
+                    <div className="p-6 rounded-2xl bg-[#181818] border border-white/10 hover:border-red-500/40 transition-all flex flex-col space-y-3">
+                        <div className="w-12 h-12 rounded-xl bg-red-600/10 border border-red-500/30 flex items-center justify-center text-red-500">
                             <span className="material-symbols-outlined text-2xl">verified</span>
                         </div>
                         <h3 className="text-lg font-bold text-white">Zero Distortion / Zero Crop</h3>

@@ -190,8 +190,8 @@ export const Navbar = () => {
                             >
                                 <span className={`imax-brand-badge font-black italic tracking-[0.2em] px-2.5 py-0.5 rounded text-xs transition-all duration-300 ${
                                     isLinkActive('imax') 
-                                        ? 'bg-[#00E5FF]/20 text-[#00E5FF] border border-[#00E5FF]/60 shadow-[0_0_15px_rgba(0,229,255,0.4)]' 
-                                        : 'bg-white/[0.04] text-white/90 border border-white/10 hover:border-[#00E5FF]/40 hover:text-[#00E5FF] hover:bg-[#00E5FF]/10 hover:shadow-[0_0_12px_rgba(0,229,255,0.25)]'
+                                        ? 'bg-red-600 text-white border border-red-500 shadow-[0_0_15px_rgba(229,9,20,0.5)]' 
+                                        : 'bg-white/[0.05] text-white/90 border border-white/10 hover:border-red-500/40 hover:text-red-400 hover:bg-red-600/10'
                                 }`}>
                                     IMAX
                                 </span>
@@ -459,9 +459,9 @@ export const Navbar = () => {
                     </a>
                     {/* IMAX Mobile Tab */}
                     <a 
-                        href="/imax"
+                        href="/imax" 
                         onClick={(e) => { e.preventDefault(); navigateTo('/imax'); }} 
-                        className={`flex flex-col items-center justify-center transition-all text-xs min-w-[36px] mobile-nav-item ${isLinkActive('imax') ? 'text-[#00E5FF]' : 'text-on-surface-variant'}`}
+                        className={`flex flex-col items-center justify-center transition-all text-xs min-w-[36px] mobile-nav-item ${isLinkActive('imax') ? 'text-red-500' : 'text-on-surface-variant'}`}
                     >
                         <span className="material-symbols-outlined text-[19px]">camera_indoor</span>
                         <span className="nav-pixel-link font-black italic tracking-wider text-[8px] mt-0.5">IMAX</span>
