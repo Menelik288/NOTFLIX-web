@@ -36,9 +36,9 @@ export const TermsOfService = () => {
                 <section>
                     <h2 className="text-xl font-bold text-white mb-3 flex items-center gap-2">
                         <span className="material-symbols-outlined text-primary">movie</span>
-                        Content Disclaimer
+                        Content Disclaimer & DMCA
                     </h2>
-                    <p>NotFlix acts as a discovery tool and proxy interface. <strong>NotFlix does not host, upload, or own any movies, TV shows, or media files.</strong> All content, metadata, and streaming links are aggregated dynamically via third-party APIs (such as TMDB and embed providers).</p>
+                    <p>NotFlix acts as a discovery tool and proxy interface. <strong>NotFlix does not host, upload, or own any movies, TV shows, or media files.</strong> All content, metadata, and streaming links are aggregated dynamically via third-party APIs (such as TMDB and embed providers). To submit a copyright infringement notice, please review our <a href="#/settings/dmca" className="text-primary hover:underline font-semibold">DMCA Policy</a>.</p>
                 </section>
 
                 <section>

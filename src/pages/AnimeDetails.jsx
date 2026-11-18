@@ -226,7 +226,7 @@ export const AnimeDetails = ({ id }) => {
                 const data = await AnimeService.getDetails(animeId);
                 setAnime(data);
                 const aTitle = data?.title || 'Anime';
-                const fullTitle = `Watch ${aTitle} Free in HD Online | NotFlix Anime`;
+                const fullTitle = `${aTitle} – Episodes, Synopsis & Details | NotFlix Anime`;
                 document.title = fullTitle;
 
                 // Dynamic Canonical and Social Meta tags for Anime

@@ -25,6 +25,7 @@ import Settings from './pages/Settings';
 import About from './pages/settings/About';
 import PrivacyPolicy from './pages/settings/PrivacyPolicy';
 import TermsOfService from './pages/settings/TermsOfService';
+import DmcaPolicy from './pages/settings/DmcaPolicy';
 import ViewingHistory from './pages/settings/ViewingHistory';
 
 // Route parser: matches /path/:param and #/path/:param patterns
@@ -62,6 +63,8 @@ const ROUTES = [
     { pattern: '/settings/about', Component: About },
     { pattern: '/settings/privacy', Component: PrivacyPolicy },
     { pattern: '/settings/terms', Component: TermsOfService },
+    { pattern: '/settings/dmca', Component: DmcaPolicy },
+    { pattern: '/dmca', Component: DmcaPolicy },
     { pattern: '/settings/history', Component: ViewingHistory },
     { pattern: '/details/:id', Component: Details },
     { pattern: '/movie/:id',   Component: Details },
@@ -96,16 +99,18 @@ const AppShell = () => {
     // Dynamic SEO Title & Canonical URL Manager
     useEffect(() => {
         const cleanRoute = (currentRoute || '/').replace(/^#/, '').split('?')[0];
-        let pageTitle = "NotFlix – Watch Free Movies, TV Shows & Anime in HD";
+        let pageTitle = "NotFlix – Discover Movies, TV Shows & Anime in HD";
         
         if (cleanRoute === '' || cleanRoute === '/') {
-            pageTitle = "NotFlix – Watch Free Movies, TV Shows & Anime in HD";
+            pageTitle = "NotFlix – Discover Movies, TV Shows & Anime in HD";
         } else if (cleanRoute.startsWith('/movies')) {
-            pageTitle = "Free Movies Online – Watch Trending & Popular Movies | NotFlix";
+            pageTitle = "Movies – Discover Trending, Top Rated & New Releases | NotFlix";
         } else if (cleanRoute.startsWith('/tv') && !cleanRoute.includes('/tv/')) {
-            pageTitle = "TV Series & Shows – Stream Full Seasons Free | NotFlix";
+            pageTitle = "TV Series – Explore Popular Shows & Episodes | NotFlix";
         } else if (cleanRoute.startsWith('/anime') && !cleanRoute.includes('/anime/')) {
-            pageTitle = "Watch Anime Online Free in HD – Sub & Dub | NotFlix Anime";
+            pageTitle = "Anime – Discover Trending Anime Series & Movies | NotFlix";
+        } else if (cleanRoute.startsWith('/settings/dmca') || cleanRoute === '/dmca') {
+            pageTitle = "DMCA & Copyright Compliance Policy | NotFlix";
         } else if (cleanRoute === '/imax' || cleanRoute === '/imax/') {
             pageTitle = "NotFlix IMAX – Dedicated Large-Format Cinema Experience";
         } else if (cleanRoute.startsWith('/imax/')) {

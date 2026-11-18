@@ -465,6 +465,13 @@ export const Settings = () => {
                                 label={t.settings.terms}
                                 onClick={() => navigateTo('#/settings/terms')}
                             />
+                            <Divider />
+                            <SettingsRow
+                                icon="gavel"
+                                label="DMCA & Copyright Policy"
+                                subtitle="Notice & takedown compliance"
+                                onClick={() => navigateTo('#/settings/dmca')}
+                            />
                         </GlassCard>
                     </div>
 

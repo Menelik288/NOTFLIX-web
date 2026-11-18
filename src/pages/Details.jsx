@@ -9,6 +9,7 @@ import { DisplayAdBanner } from '../components/DisplayAdBanner';
 import { AdService } from '../services/adService';
 import { ShareModal } from '../components/ShareModal';
 import { DetailsPageSkeleton, EpisodeListSkeleton, ActorCreditsSkeleton } from '../components/Skeleton';
+import { isMediaBlocked, getBlockedMediaNotice } from '../services/dmcaBlocklist';
 
 export const Details = ({ id }) => {
     const {
@@ -142,6 +143,19 @@ export const Details = ({ id }) => {
     // ─── Fetch main details ───
     useEffect(() => {
         const loadData = async () => {
+            if (isMediaBlocked(type, mediaId)) {
+                setLoading(false);
+                document.title = "Content Unavailable – DMCA Compliance | NotFlix";
+                let robotsTag = document.querySelector('meta[name="robots"]');
+                if (!robotsTag) {
+                    robotsTag = document.createElement('meta');
+                    robotsTag.setAttribute('name', 'robots');
+                    document.head.appendChild(robotsTag);
+                }
+                robotsTag.setAttribute('content', 'noindex, nofollow');
+                return;
+            }
+
             setLoading(true);
             setIsPlaying(false);
             setCurrentServer('vidbing');
@@ -161,7 +175,7 @@ export const Details = ({ id }) => {
                 setMedia(detailsData);
                 const titleStr = detailsData.title || detailsData.name || 'Movie';
                 const yearStr = detailsData.year ? ` (${detailsData.year})` : '';
-                const fullTitle = `Watch ${titleStr}${yearStr} Free in HD | NotFlix`;
+                const fullTitle = `${titleStr}${yearStr} – Synopsis, Cast & Details | NotFlix`;
                 document.title = fullTitle;
 
                 // Dynamic Canonical and Social Meta tags for this title
@@ -423,6 +437,33 @@ export const Details = ({ id }) => {
             setLoadingActorCredits(false);
         }
     };
+
+    // ─── DMCA Blocked Notice ───
+    if (isMediaBlocked(type, mediaId)) {
+        const notice = getBlockedMediaNotice(type, mediaId);
+        return (
+            <div className="flex flex-col items-center justify-center min-h-[70vh] text-center px-4 max-w-xl mx-auto text-white animate-fade-in pt-20">
+                <div className="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mb-6">
+                    <span className="material-symbols-outlined text-4xl text-amber-500">gavel</span>
+                </div>
+                <h1 className="text-2xl md:text-3xl font-black mb-3">{notice.title}</h1>
+                <p className="text-white/70 text-sm md:text-base leading-relaxed mb-6">{notice.message}</p>
+                <div className="glass-surface p-4 rounded-xl border border-white/10 text-xs text-white/50 mb-8 space-y-1.5 w-full text-left">
+                    <div><strong className="text-white/80">Reference ID:</strong> {notice.referenceId}</div>
+                    <div><strong className="text-white/80">Status:</strong> Disabled pursuant to 17 U.S.C. § 512 / Copyright Takedown</div>
+                    <div><strong className="text-white/80">Contact:</strong> <a href={`mailto:${notice.supportEmail}`} className="text-primary hover:underline">{notice.supportEmail}</a></div>
+                </div>
+                <div className="flex flex-wrap items-center justify-center gap-4">
+                    <button onClick={() => window.history.back()} className="px-5 py-2.5 rounded-xl glass-surface hover:bg-white/10 text-white font-medium text-sm transition-colors">
+                        Go Back
+                    </button>
+                    <button onClick={() => navigateTo('/settings/dmca')} className="px-5 py-2.5 rounded-xl btn-primary text-white font-medium text-sm transition-colors">
+                        View DMCA Policy
+                    </button>
+                </div>
+            </div>
+        );
+    }
 
     // ─── Loading ───
     if (loading) {
