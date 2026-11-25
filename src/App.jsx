@@ -124,8 +124,16 @@ const AppShell = () => {
         }
 
         const isMediaDetails = cleanRoute.startsWith('/movie/') || cleanRoute.startsWith('/tv/') || cleanRoute.startsWith('/details/') || cleanRoute.startsWith('/anime/');
+        let robotsTag = document.querySelector('meta[name="robots"]');
+        if (!robotsTag) {
+            robotsTag = document.createElement('meta');
+            robotsTag.setAttribute('name', 'robots');
+            document.head.appendChild(robotsTag);
+        }
+
         if (!isMediaDetails) {
             document.title = pageTitle;
+            robotsTag.setAttribute('content', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
 
             const fullCanonical = cleanRoute === '' || cleanRoute === '/'
                 ? 'https://notflix.pro.et/'
@@ -143,6 +151,9 @@ const AppShell = () => {
             if (ogUrlTag) {
                 ogUrlTag.setAttribute('content', fullCanonical);
             }
+        } else {
+            // Shield individual player pages from Google indexing to eliminate automated DMCA bot scraping
+            robotsTag.setAttribute('content', 'noindex, follow');
         }
     }, [currentRoute]);
 

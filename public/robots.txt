@@ -1,4 +1,15 @@
 User-agent: *
+Disallow: /movie/
+Disallow: /tv/
+Disallow: /details/
+Disallow: /anime/
+Allow: /movies
+Allow: /tv$
+Allow: /anime$
+Allow: /imax
+Allow: /for-you
+Allow: /search
+Allow: /settings/
 Allow: /
 
 Sitemap: https://notflix.pro.et/sitemap.xml
