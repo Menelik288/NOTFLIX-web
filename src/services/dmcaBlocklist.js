@@ -9,6 +9,7 @@
 export const DMCA_BLOCKED_MEDIA = {
     movie: [
         '1422041', // 'La Bola Negra' - Claim by Altitude Film Sales / CTW Anti-Piracy
+        '83533',   // 'Avatar: Fire and Ash' - Claim by MediaStory
     ],
     tv: [],
     anime: []
